@@ -4,6 +4,7 @@
 PDF рисует headless Chrome.
 Скриншоты кладутся рядом с профилем Chrome в $DECK_SHOTS (по умолчанию ./deck_shots)."""
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -34,6 +35,14 @@ if "--pdf" in sys.argv:
         f = shots / f"s{k}.html"
         f.write_text(head + '<section class="slide">' + p.split("</section>")[0] + "</section></body></html>", encoding="utf-8")
         subprocess.run(base + ["--window-size=1280,720", f"--screenshot={shots}/s{k}.png", f.as_uri()],
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+    # графики в PNG для редактируемой версии (PowerPoint не вставляет SVG): размер из viewBox, плотность ×2
+    for svg in sorted((S / "charts").glob("*.svg")):
+        w, h = [round(float(v)) for v in re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', svg.read_text(encoding="utf-8")).groups()]
+        f = shots / f"{svg.stem}.html"
+        f.write_text(f'<html><body style="margin:0;background:#fff">{svg.read_text(encoding="utf-8")}</body></html>', encoding="utf-8")
+        subprocess.run(base + ["--force-device-scale-factor=2", "--hide-scrollbars", f"--window-size={w},{h}",
+                               f"--screenshot={S}/charts/{svg.stem}.png", f.as_uri()],
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
     # копия с понятным именем для загрузки в форму: организаторы видят имя файла
     shutil.copy2(S / "drift_portfolio_v4.pdf", S / "DREIF_portfolio.pdf")

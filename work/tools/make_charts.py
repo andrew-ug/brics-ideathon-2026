@@ -1,6 +1,6 @@
 """Два графика для слайдов ДРЕЙФ (статичный PDF, поэтому без наведения, числа продублированы в подписях).
 1) цена срочности: ксенон на сдвиг узла −15° с СОО 550 км по сроку (work/calc/strategy_map.out)
-2) разнос плоскостей OneWeb: модель против факта (work/kaggle/oneweb_drift/out_v4/oneweb_drift_check.csv)
+2) разнос плоскостей OneWeb: модель против факта (work/kaggle/oneweb_drift/out_v5/oneweb_drift_check.csv)
 Цвета — слоты 1 и 2 эталонной палитры dataviz (#2a78d6, #eb6834), проверены validate_palette.js.
 Запуск: python3 -I work/tools/make_charts.py → out/slides/charts/*.svg"""
 import csv
@@ -30,7 +30,7 @@ def price_chart():
         cx = L + slot * (k + 0.5)
         if v is None:
             s.append(f'<text x="{cx:.1f}" y="{y(0)-10:.1f}" font-size="18" fill="{NA}" text-anchor="middle">×</text>')
-            s.append(f'<text x="{cx:.1f}" y="{y(0)-30:.1f}" font-size="12" fill="{MUTED}" text-anchor="middle">невыполнимо</text>')
+            s.append(f'<text x="{cx:.1f}" y="{y(0)-30:.1f}" font-size="12" fill="{MUTED}" text-anchor="middle">не найдено</text>')
         else:
             top, base, r = y(v), y(0), 4
             s.append(f'<path d="M{cx-bw/2:.1f},{base:.1f} V{top+r:.1f} Q{cx-bw/2:.1f},{top:.1f} {cx-bw/2+r:.1f},{top:.1f} H{cx+bw/2-r:.1f} Q{cx+bw/2:.1f},{top:.1f} {cx+bw/2:.1f},{top+r:.1f} V{base:.1f} Z" fill="{S1}"/>')
@@ -42,7 +42,7 @@ def price_chart():
     (OUT / "price_of_urgency.svg").write_text("\n".join(s), encoding="utf-8")
 
 def oneweb_chart():
-    rows = list(csv.DictReader(open(ROOT / "work/kaggle/oneweb_drift/out_v4/oneweb_drift_check.csv", encoding="utf-8")))
+    rows = list(csv.DictReader(open(ROOT / "work/kaggle/oneweb_drift/out_v5/oneweb_drift_check.csv", encoding="utf-8")))
     rows = [r for r in rows if float(r["max_gap"]) < 10]
     series = {}
     for r in rows:

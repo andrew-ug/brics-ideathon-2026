@@ -11,10 +11,10 @@
 <text x="38" y="22.0" font-size="12" fill="#5b6370" text-anchor="end">8</text>
 <text x="12" y="133.0" font-size="12" fill="#5b6370" transform="rotate(-90 12 133.0)" text-anchor="middle">ксенон, кг</text>
 <text x="91.8" y="238.0" font-size="18" fill="#9aa3ad" text-anchor="middle">×</text>
-<text x="91.8" y="218.0" font-size="12" fill="#5b6370" text-anchor="middle">невыполнимо</text>
+<text x="91.8" y="218.0" font-size="12" fill="#5b6370" text-anchor="middle">не найдено</text>
 <text x="91.8" y="268.0" font-size="13" fill="#14171c" text-anchor="middle">30</text>
 <text x="183.4" y="238.0" font-size="18" fill="#9aa3ad" text-anchor="middle">×</text>
-<text x="183.4" y="218.0" font-size="12" fill="#5b6370" text-anchor="middle">невыполнимо</text>
+<text x="183.4" y="218.0" font-size="12" fill="#5b6370" text-anchor="middle">не найдено</text>
 <text x="183.4" y="268.0" font-size="13" fill="#14171c" text-anchor="middle">60</text>
 <path d="M263.0,248.0 V59.4 Q263.0,55.4 267.0,55.4 H283.0 Q287.0,55.4 287.0,59.4 V248.0 Z" fill="#2a78d6"/>
 <text x="275.0" y="47.4" font-size="14" font-weight="700" fill="#14171c" text-anchor="middle">6,7 кг</text>

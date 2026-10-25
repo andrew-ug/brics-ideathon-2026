@@ -19,6 +19,7 @@ MU, RE, J2, G0 = 398600.4418e9, 6378137.0, 1.08262668e-3, 9.80665
 T, ISP, CDA, M0 = 0.055, 1500.0, 2.2, 200.0
 W_SUN = 2 * math.pi / (365.2422 * 86400)
 DT = 30.0
+SUN0 = 0.0                                                   # начальный угол Солнца от линии узлов: 0 — полдень-полночь, π/2 — рассвет-закат
 
 def acc(s, m, t, thrust):
     x, y, z, vx, vy, vz = s
@@ -30,7 +31,7 @@ def acc(s, m, t, thrust):
     ax -= d*vx/v; ay -= d*vy/v; az -= d*vz/v
     lit = True
     if thrust:
-        cx, cy = math.cos(W_SUN*t), math.sin(W_SUN*t)          # направление на Солнце в плоскости экватора
+        cx, cy = math.cos(W_SUN*t + SUN0), math.sin(W_SUN*t + SUN0)          # направление на Солнце в плоскости экватора
         p = x*cx + y*cy
         lit = not (p < 0 and r2 - p*p < RE*RE)
         if lit:
