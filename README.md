@@ -116,6 +116,7 @@
 python3 work/calc/scout_first_calc.py   # стратегии развоза и бюджет буксира
 python3 -I work/calc/numeric_check.py   # численная сверка подъёма орбиты, около 1 с
 python3 -I work/calc/strategy_map.py    # карта стратегий: сколько ксенона стоит каждый срок
+python3 -I work/calc/price_numeric_check.py   # численная проверка чисел слайда 2, около 30 с
 python3 -I work/tools/make_charts.py    # графики для слайдов
 python3 -I work/tools/build_deck.py     # сборка слайдов в HTML, с --pdf ещё и PDF через Chrome
 ```
