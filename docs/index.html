@@ -94,6 +94,13 @@ h2{font-size:clamp(26px,3vw,40px);line-height:1.08;letter-spacing:-.03em;margin:
 .eq math{font-family:"STIX Two Math","Latin Modern Math","Cambria Math",math;font-size:30px;color:var(--ink);margin:2px 0 14px}
 .eq p{margin:0;color:var(--ink2);font-size:14.5px}
 .eq b{color:var(--ink)}
+sub{line-height:0}
+.eq h3{margin:0 0 10px;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.sym{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line);display:grid;gap:7px;font-size:13.5px;line-height:1.4}
+.sym div{display:grid;grid-template-columns:4.2em minmax(0,1fr);gap:10px;align-items:baseline}
+.sym dt{font-family:"STIX Two Math","Latin Modern Math","Cambria Math",serif;font-size:17px;color:var(--ink);font-style:italic}
+.sym dt.up{font-style:normal}
+.sym dd{margin:0;color:var(--ink2)}
 @media (max-width:620px){.eqs{grid-template-columns:1fr}.eq math{font-size:24px}}
 .formula{font-family:var(--mono);font-size:14px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:26px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .formula span{color:var(--muted)}
@@ -176,7 +183,7 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
 <section id="why"><div class="wrap">
   <div class="sec-head"><div class="idx">02</div><div>
     <h2>Почему это работает: Земля сплюснута</h2>
-    <p class="lede">Из-за утолщения на экваторе плоскость любой орбиты медленно поворачивается. Чем выше орбита, тем медленнее. Буксир поднимается, плоскость клиента уходит вперёд, разница набегает сама.</p>
+    <p class="lede">Земля не идеальный шар: на экваторе она толще, чем у полюсов, на 21 км. Этот лишний «пояс» массы притягивает орбиту, и её плоскость медленно поворачивается. В формулах сплюснутость обозначают J<sub>2</sub>. Чем выше орбита, тем слабее эффект. Буксир поднимается, плоскость клиента уходит вперёд, разница набегает сама.</p>
   </div></div>
   <div class="body">
     <div class="facts">
@@ -185,10 +192,27 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
       <div><span class="num" id="f-d"></span><p>набегает разница: 15° примерно за <span id="f-t"></span> суток, и топливо на это не тратится</p></div>
     </div>
     <div class="eqs">
-      <div class="eq"><math display="block"><mfrac><mrow><mi>d</mi><mi mathvariant="normal">Ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mi>n</mi><msub><mi>J</mi><mn>2</mn></msub><msup><mrow><mo>(</mo><mfrac><mi>R</mi><mi>a</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mi>cos</mi><mspace width="0.22em"/><mi>i</mi></math>
-        <p><b>Бесплатно.</b> Скорость, с которой плоскость поворачивается сама. Зависит от высоты через радиус орбиты <i>a</i>.</p></div>
-      <div class="eq"><math display="block"><mi mathvariant="normal">Δ</mi><mi>v</mi><mo>=</mo><mfrac><mi>π</mi><mn>2</mn></mfrac><mi>v</mi><mi>sin</mi><mspace width="0.22em"/><mi>i</mi><mo>·</mo><mi mathvariant="normal">Δ</mi><mi mathvariant="normal">Ω</mi></math>
-        <p><b>Дорого.</b> Сколько скорости нужно, чтобы повернуть плоскость двигателем. На 15° это 3,1 км/с, а у буксира на всё 2,0–2,8 км/с.</p></div>
+      <div class="eq"><h3>Бесплатно: плоскость поворачивается сама</h3>
+        <math display="block"><mfrac><mrow><mi>d</mi><mi mathvariant="normal">Ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mi>n</mi><msub><mi>J</mi><mn>2</mn></msub><msup><mrow><mo>(</mo><mfrac><mi>R</mi><mi>a</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mi>cos</mi><mspace width="0.22em"/><mi>i</mi></math>
+        <p>На сколько градусов в сутки плоскость поворачивается без всякого топлива. Чем выше орбита, тем больше <i>a</i> и тем медленнее поворот. На этой разнице буксир и экономит.</p>
+        <dl class="sym">
+          <div><dt class="up">Ω</dt><dd>где стоит плоскость орбиты: долгота точки, в которой спутник пересекает экватор с юга на север</dd></div>
+          <div><dt>dΩ/dt</dt><dd>скорость её поворота, градусов в сутки</dd></div>
+          <div><dt>n</dt><dd>как быстро спутник обегает Землю: около 15 оборотов в сутки</dd></div>
+          <div><dt>J<sub>2</sub></dt><dd>сплюснутость Земли, 0,00108</dd></div>
+          <div><dt>R</dt><dd>радиус Земли, 6378 км</dd></div>
+          <div><dt>a</dt><dd>радиус орбиты: R плюс высота</dd></div>
+          <div><dt>i</dt><dd>наклон орбиты к экватору, у нас 97,6°</dd></div>
+        </dl></div>
+      <div class="eq"><h3>Дорого: повернуть плоскость двигателем</h3>
+        <math display="block"><mi mathvariant="normal">Δ</mi><mi>v</mi><mo>=</mo><mfrac><mi>π</mi><mn>2</mn></mfrac><mi>v</mi><mspace width="0.18em"/><mi>sin</mi><mspace width="0.22em"/><mi>i</mi><mo>·</mo><mi mathvariant="normal">Δ</mi><mi mathvariant="normal">Ω</mi></math>
+        <p>Сколько скорости должен набрать двигатель, чтобы развернуть плоскость силой. Для поворота на 15° это 3,1 км/с. А весь запас ксенона даёт буксиру только 2,0 км/с с грузом 50 кг и 2,8 км/с пустым. Топлива не хватит даже на один такой поворот, поэтому буксир ждёт, пока его сделает Земля.</p>
+        <dl class="sym">
+          <div><dt class="up">Δ<i>v</i></dt><dd>сколько скорости набрать двигателем. Это главная мера топлива в космосе</dd></div>
+          <div><dt>v</dt><dd>скорость спутника на орбите, 7,6 км/с</dd></div>
+          <div><dt>i</dt><dd>наклон орбиты к экватору, 97,6°</dd></div>
+          <div><dt class="up">ΔΩ</dt><dd>на сколько повернуть плоскость, в радианах: 15° — это 0,26</dd></div>
+        </dl></div>
     </div>
     <div class="rows" style="margin-top:22px">
       <div><h3>Перебор планов</h3><p>Высота ожидания от 350 до 1550 км, доля угла, которую берём двигателем, от 0 до 100 %. Учтены тень (тяга только на свету), сопротивление атмосферы и расход массы. Берём план с наименьшим ксеноном, который успевает.</p></div>
