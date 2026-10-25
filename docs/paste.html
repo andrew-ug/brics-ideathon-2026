@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тексты слайдов 4 и 5</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--coral:#f8604a;--ink:#111;--ink2:#4a4f57;--muted:#8a919b;--soft:#f6f7f8;--line:#eceef1}
+*{box-sizing:border-box}
+body{margin:0;background:#eef0f2;color:var(--ink);font:15px/1.45 Inter,-apple-system,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 80px}
+h1{font-size:22px;margin:0 0 4px} .hint{color:var(--ink2);margin:0 0 22px}
+.slide{background:#fff;border-radius:16px;padding:22px 24px;margin-bottom:22px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.slide>h2{font-size:15px;color:var(--muted);font-weight:600;margin:0 0 14px;display:flex;justify-content:space-between;align-items:center}
+.blk{display:grid;grid-template-columns:150px 1fr auto;gap:14px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.lbl{font-size:12.5px;color:var(--muted);padding-top:3px}
+.txt{white-space:pre-wrap}
+.txt.pill{display:inline-block;background:var(--coral);color:#fff;border-radius:999px;padding:3px 11px;font-size:14px;justify-self:start}
+.txt.h{font-size:24px;font-weight:600;letter-spacing:-.01em}
+.txt.sub{color:var(--coral);font-weight:500}
+.txt.date{display:inline-block;justify-self:start;background:var(--coral);color:#fff;border-radius:8px;padding:4px 10px;font-weight:500}
+.txt.who{color:var(--coral)}
+button{font:500 13px Inter,sans-serif;border:1px solid var(--line);background:var(--soft);border-radius:8px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+button:hover{border-color:var(--ink2)} button.ok{background:var(--ink);color:#fff;border-color:var(--ink)}
+.all{background:var(--coral);color:#fff;border-color:var(--coral)}
+@media (max-width:640px){.blk{grid-template-columns:1fr auto}.lbl{grid-column:1/-1}}
+</style></head><body><div class="wrap">
+<h1>Тексты для слайдов 4 и 5</h1>
+<p class="hint">В Фигме дважды кликни по нужному текстовому блоку, выдели текст (⌘A) и вставь (⌘V): стиль макета сохранится. Кнопка «Копировать» берёт ровно один блок.</p>
+<div id="app"></div>
+</div>
+<script>
+const S = [
+ { name: "Слайд 4 · Результат к защите", blocks: [
+  ["Ярлык", "pill", "Результат к защите"],
+  ["Заголовок", "h", "MVP к 8 ноября"],
+  ["Абзац под заголовком", "", "Модель на основе J2 уже работает и проверена на 72 реальных спутниках. К защите превратим её в поиск и расчёт траекторий буксира: на входе заявка клиента, на выходе траектория по суткам, расход ксенона и точность."],
+  ["Подзаголовок", "sub", "Что покажем:"],
+  ["Текст", "", "Оператор вводит заявку и сокращает срок 180 → 90 → 60 суток. Планировщик ищет траекторию заново, показывает ксенон и честно говорит, когда решения нет."],
+  ["Подзаголовок", "sub", "Результат"],
+  ["Текст", "", "Планировщик: заявка → выполнимо или нет, траектория по суткам, ксенон, точность\nЦена срочности для трёх эталонных миссий\nПроверка на реальных данных: OneWeb и Starlink"],
+  ["Подзаголовок (новый блок)", "sub", "Дальше: соседние задачи на той же модели"],
+  ["Текст (новый блок)", "", "Развоз нескольких клиентов одним буксиром: порядок и высоты ожидания\nУвод отработавших спутников к сроку, под требование ISRO «без мусора к 2030»\nЭкономия не топливом, а выбором орбиты: без тени 60 суток уже выполнимы"],
+  ["Таймлайн 1 · дата", "date", "26–28 октября"],
+  ["Таймлайн 1 · текст", "", "Поиск траекторий: подъём и поворот одновременно, а не по очереди"],
+  ["Таймлайн 1 · кто", "who", "Андрей Полевой, Андрей Углов"],
+  ["Таймлайн 2 · дата", "date", "29 октября – 1 ноября"],
+  ["Таймлайн 2 · текст", "", "Сверка 20+ сценариев численным полётом и на данных OneWeb и Starlink"],
+  ["Таймлайн 2 · кто", "who", "Андрей Полевой, Лев Шиянов"],
+  ["Таймлайн 3 · дата", "date", "2–6 ноября"],
+  ["Таймлайн 3 · текст", "", "Интерфейс заявки и отчёт для оператора, цена срочности"],
+  ["Таймлайн 3 · кто", "who", "Андрей Углов, Антон Винидиктов"],
+  ["Таймлайн 4 · дата", "date", "7–8 ноября"],
+  ["Таймлайн 4 · текст", "", "Проверка демонстрации"],
+  ["Таймлайн 4 · кто", "who", "Команда"]
+ ]},
+ { name: "Слайд 5 · Применение в БРИКС", blocks: [
+  ["Ярлык", "pill", "Применение в БРИКС"],
+  ["Заголовок", "h", "Применение в БРИКС"],
+  ["Абзац под заголовком", "", "У БРИКС с 2021 года общая группировка спутников дистанционного зондирования, в 2026 году в неё готовятся принять агентства новых членов. Для съёмочного спутника плоскость орбиты задаёт время пролёта: сдвиг на 15° — это час. Попутный запуск это время не выбирает, его доводит буксир."],
+  ["Подзаголовок таблицы", "", "Сценарии в странах БРИКС"],
+  ["Строка 1 · страна", "", "Россия"],
+  ["Строка 1 · сценарий", "", "А-РОКЕТС, «СКАУТ»: план перелёта для клиентов попутного запуска и цена срочности для прайса"],
+  ["Строка 2 · страна", "", "Индия"],
+  ["Строка 2 · сценарий", "", "Председатель БРИКС-2026. ISRO откладывает учёт поворота плоскости для электрических миссий на будущее, мы считаем его сейчас. Увод аппаратов к 2030 году"],
+  ["Строка 3 · страна", "", "Китай"],
+  ["Строка 3 · сценарий", "", "CAS Space продаёт попутные запуски иностранным клиентам, каждому нужна своя плоскость"],
+  ["Строка 4 · страна", "", "Иран, ОАЭ"],
+  ["Строка 4 · сценарий", "", "Новые члены летают попутно: Kowsar и Hodhod на «Союзе» в 2024 году, PHI-1 на Falcon 9"],
+  ["Строка 5 · страна", "", "Бразилия, ЮАР"],
+  ["Строка 5 · сценарий", "", "Участники общей группировки с 2021 года: открытый расчёт доставки своих аппаратов в нужное время съёмки"]
+ ]}
+];
+async function copy(text, btn) {
+  try { await navigator.clipboard.writeText(text); }
+  catch (e) { const t = document.createElement("textarea"); t.value = text; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove(); }
+  const old = btn.textContent; btn.textContent = "Скопировано"; btn.classList.add("ok");
+  setTimeout(() => { btn.textContent = old; btn.classList.remove("ok"); }, 1200);
+}
+const app = document.getElementById("app");
+for (const s of S) {
+  const box = document.createElement("section"); box.className = "slide";
+  const h = document.createElement("h2"); h.textContent = s.name;
+  const all = document.createElement("button"); all.className = "all"; all.textContent = "Копировать весь слайд";
+  all.onclick = () => copy(s.blocks.map(b => b[2]).join("\n\n"), all);
+  h.appendChild(all); box.appendChild(h);
+  for (const [lbl, cls, text] of s.blocks) {
+    const row = document.createElement("div"); row.className = "blk";
+    const l = document.createElement("div"); l.className = "lbl"; l.textContent = lbl;
+    const t = document.createElement("div"); t.className = "txt " + cls; t.textContent = text;
+    const b = document.createElement("button"); b.textContent = "Копировать"; b.onclick = () => copy(text, b);
+    row.append(l, t, b); box.appendChild(row);
+  }
+  app.appendChild(box);
+}
+</script></body></html>
