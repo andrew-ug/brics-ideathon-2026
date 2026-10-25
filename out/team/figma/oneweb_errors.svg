@@ -1,91 +1,84 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="380" viewBox="0 0 640 380" font-family="Inter, Helvetica Neue, Arial, sans-serif">
-<rect width="640" height="380" fill="#ffffff"/>
-<line x1="56" x2="624" y1="330.0" y2="330.0" stroke="#e4e2de" stroke-width="1"/>
-<text x="46" y="334.0" font-size="13" fill="#6a7280" text-anchor="end">0°</text>
-<line x1="56" x2="624" y1="251.7" y2="251.7" stroke="#e4e2de" stroke-width="1"/>
-<text x="46" y="255.7" font-size="13" fill="#6a7280" text-anchor="end">0,1°</text>
-<line x1="56" x2="624" y1="173.4" y2="173.4" stroke="#e4e2de" stroke-width="1"/>
-<text x="46" y="177.4" font-size="13" fill="#6a7280" text-anchor="end">0,2°</text>
-<line x1="56" x2="624" y1="95.1" y2="95.1" stroke="#e4e2de" stroke-width="1"/>
-<text x="46" y="99.1" font-size="13" fill="#6a7280" text-anchor="end">0,3°</text>
-<line x1="56" x2="624" y1="95.1" y2="95.1" stroke="#14171c" stroke-width="1.2" stroke-dasharray="6 5"/>
-<text x="64" y="87.1" font-size="13" font-weight="600" fill="#14171c">0,3°: ни один из 72 спутников не выше</text>
-<circle cx="64.0" cy="235.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="71.8" cy="234.5" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="79.5" cy="234.5" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="87.3" cy="234.4" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="95.1" cy="234.0" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="102.9" cy="233.5" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="110.6" cy="233.3" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="118.4" cy="232.5" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="126.2" cy="231.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="134.0" cy="231.0" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="141.7" cy="228.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="149.5" cy="228.1" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="157.3" cy="227.4" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="165.1" cy="224.8" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="172.8" cy="224.8" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="180.6" cy="224.1" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="188.4" cy="223.8" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="196.2" cy="223.7" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="203.9" cy="223.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="211.7" cy="222.8" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="219.5" cy="221.9" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="227.3" cy="220.7" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="235.0" cy="220.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="242.8" cy="203.9" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="250.6" cy="203.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="258.4" cy="202.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="266.1" cy="201.8" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="273.9" cy="201.8" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="281.7" cy="201.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="289.5" cy="201.0" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="297.2" cy="200.9" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="305.0" cy="200.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="312.8" cy="199.5" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="320.6" cy="199.1" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="328.3" cy="198.9" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="336.1" cy="198.6" r="5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
-<circle cx="343.9" cy="183.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="351.7" cy="183.6" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="359.4" cy="183.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="367.2" cy="183.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="375.0" cy="183.1" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="382.8" cy="182.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="390.5" cy="182.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="398.3" cy="182.7" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="406.1" cy="182.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="413.9" cy="182.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="421.6" cy="182.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="429.4" cy="181.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="437.2" cy="181.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="445.0" cy="181.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="452.7" cy="181.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="460.5" cy="181.7" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="468.3" cy="181.6" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="476.1" cy="181.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="483.8" cy="181.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="491.6" cy="181.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="499.4" cy="181.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="507.2" cy="181.1" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="514.9" cy="181.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="522.7" cy="181.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="530.5" cy="180.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="538.3" cy="180.5" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="546.0" cy="180.1" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="553.8" cy="180.1" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="561.6" cy="179.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="569.4" cy="159.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="577.1" cy="109.2" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="584.9" cy="108.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="592.7" cy="108.1" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="600.5" cy="107.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="608.2" cy="105.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="616.0" cy="103.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
-<circle cx="62" cy="22" r="6" fill="#2a78d6"/>
-<text x="74" y="27" font-size="13" fill="#14171c">LVM3-M2, 23.10.2022, 36 спутников</text>
-<circle cx="352" cy="22" r="6" fill="#eb6834"/>
-<text x="364" y="27" font-size="13" fill="#14171c">LVM3-M3, 26.03.2023, 36 спутников</text>
-<line x1="56" x2="624" y1="330.0" y2="330.0" stroke="#14171c" stroke-width="1"/>
-<text x="340.0" y="366" font-size="13" fill="#6a7280" text-anchor="middle">72 спутника OneWeb по возрастанию ошибки · плоскости ушли на 64–123° за 9–14 месяцев</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="260" viewBox="0 0 880 260" font-family="Inter, -apple-system, Helvetica Neue, Arial, sans-serif">
+<line x1="46" x2="864" y1="226.0" y2="226.0" stroke="#eceef1" stroke-width="1.5"/>
+<text x="36" y="231.0" font-size="14" fill="#9097a1" text-anchor="end">0,0°</text>
+<line x1="46" x2="864" y1="164.8" y2="164.8" stroke="#eceef1" stroke-width="1.5"/>
+<text x="36" y="169.8" font-size="14" fill="#9097a1" text-anchor="end">0,1°</text>
+<line x1="46" x2="864" y1="103.6" y2="103.6" stroke="#eceef1" stroke-width="1.5"/>
+<text x="36" y="108.6" font-size="14" fill="#9097a1" text-anchor="end">0,2°</text>
+<line x1="46" x2="864" y1="42.4" y2="42.4" stroke="#eceef1" stroke-width="1.5" stroke-dasharray="6 6"/>
+<text x="36" y="47.4" font-size="14" fill="#9097a1" text-anchor="end">0,3°</text>
+<text x="864" y="32.4" font-size="14" font-weight="600" fill="#111111" text-anchor="end">порог 0,3° — ни один спутник не выше</text>
+<circle cx="56.0" cy="152.2" r="5.5" fill="#f8604a"/>
+<circle cx="67.2" cy="151.4" r="5.5" fill="#f8604a"/>
+<circle cx="78.5" cy="151.3" r="5.5" fill="#f8604a"/>
+<circle cx="89.7" cy="151.3" r="5.5" fill="#f8604a"/>
+<circle cx="101.0" cy="150.9" r="5.5" fill="#f8604a"/>
+<circle cx="112.2" cy="150.6" r="5.5" fill="#f8604a"/>
+<circle cx="123.4" cy="150.4" r="5.5" fill="#f8604a"/>
+<circle cx="134.7" cy="149.7" r="5.5" fill="#f8604a"/>
+<circle cx="145.9" cy="149.1" r="5.5" fill="#f8604a"/>
+<circle cx="157.2" cy="148.6" r="5.5" fill="#f8604a"/>
+<circle cx="168.4" cy="146.7" r="5.5" fill="#f8604a"/>
+<circle cx="179.6" cy="146.3" r="5.5" fill="#f8604a"/>
+<circle cx="190.9" cy="145.8" r="5.5" fill="#f8604a"/>
+<circle cx="202.1" cy="143.8" r="5.5" fill="#f8604a"/>
+<circle cx="213.4" cy="143.7" r="5.5" fill="#f8604a"/>
+<circle cx="224.6" cy="143.2" r="5.5" fill="#f8604a"/>
+<circle cx="235.8" cy="143.0" r="5.5" fill="#f8604a"/>
+<circle cx="247.1" cy="142.9" r="5.5" fill="#f8604a"/>
+<circle cx="258.3" cy="142.8" r="5.5" fill="#f8604a"/>
+<circle cx="269.5" cy="142.2" r="5.5" fill="#f8604a"/>
+<circle cx="280.8" cy="141.5" r="5.5" fill="#f8604a"/>
+<circle cx="292.0" cy="140.6" r="5.5" fill="#f8604a"/>
+<circle cx="303.3" cy="140.4" r="5.5" fill="#f8604a"/>
+<circle cx="314.5" cy="127.4" r="5.5" fill="#f8604a"/>
+<circle cx="325.7" cy="127.2" r="5.5" fill="#f8604a"/>
+<circle cx="337.0" cy="126.4" r="5.5" fill="#f8604a"/>
+<circle cx="348.2" cy="125.8" r="5.5" fill="#f8604a"/>
+<circle cx="359.5" cy="125.7" r="5.5" fill="#f8604a"/>
+<circle cx="370.7" cy="125.6" r="5.5" fill="#f8604a"/>
+<circle cx="381.9" cy="125.2" r="5.5" fill="#f8604a"/>
+<circle cx="393.2" cy="125.1" r="5.5" fill="#f8604a"/>
+<circle cx="404.4" cy="124.8" r="5.5" fill="#f8604a"/>
+<circle cx="415.7" cy="124.0" r="5.5" fill="#f8604a"/>
+<circle cx="426.9" cy="123.7" r="5.5" fill="#f8604a"/>
+<circle cx="438.1" cy="123.5" r="5.5" fill="#f8604a"/>
+<circle cx="449.4" cy="123.3" r="5.5" fill="#f8604a"/>
+<circle cx="460.6" cy="111.7" r="5.5" fill="#f8604a"/>
+<circle cx="471.9" cy="111.5" r="5.5" fill="#f8604a"/>
+<circle cx="483.1" cy="111.3" r="5.5" fill="#f8604a"/>
+<circle cx="494.3" cy="111.3" r="5.5" fill="#f8604a"/>
+<circle cx="505.6" cy="111.1" r="5.5" fill="#f8604a"/>
+<circle cx="516.8" cy="111.0" r="5.5" fill="#f8604a"/>
+<circle cx="528.1" cy="110.9" r="5.5" fill="#f8604a"/>
+<circle cx="539.3" cy="110.8" r="5.5" fill="#f8604a"/>
+<circle cx="550.5" cy="110.6" r="5.5" fill="#f8604a"/>
+<circle cx="561.8" cy="110.5" r="5.5" fill="#f8604a"/>
+<circle cx="573.0" cy="110.3" r="5.5" fill="#f8604a"/>
+<circle cx="584.3" cy="110.2" r="5.5" fill="#f8604a"/>
+<circle cx="595.5" cy="110.2" r="5.5" fill="#f8604a"/>
+<circle cx="606.7" cy="110.2" r="5.5" fill="#f8604a"/>
+<circle cx="618.0" cy="110.1" r="5.5" fill="#f8604a"/>
+<circle cx="629.2" cy="110.0" r="5.5" fill="#f8604a"/>
+<circle cx="640.5" cy="110.0" r="5.5" fill="#f8604a"/>
+<circle cx="651.7" cy="109.8" r="5.5" fill="#f8604a"/>
+<circle cx="662.9" cy="109.8" r="5.5" fill="#f8604a"/>
+<circle cx="674.2" cy="109.8" r="5.5" fill="#f8604a"/>
+<circle cx="685.4" cy="109.7" r="5.5" fill="#f8604a"/>
+<circle cx="696.6" cy="109.6" r="5.5" fill="#f8604a"/>
+<circle cx="707.9" cy="109.5" r="5.5" fill="#f8604a"/>
+<circle cx="719.1" cy="109.5" r="5.5" fill="#f8604a"/>
+<circle cx="730.4" cy="109.3" r="5.5" fill="#f8604a"/>
+<circle cx="741.6" cy="109.1" r="5.5" fill="#f8604a"/>
+<circle cx="752.8" cy="108.8" r="5.5" fill="#f8604a"/>
+<circle cx="764.1" cy="108.8" r="5.5" fill="#f8604a"/>
+<circle cx="775.3" cy="108.7" r="5.5" fill="#f8604a"/>
+<circle cx="786.6" cy="92.6" r="5.5" fill="#f8604a"/>
+<circle cx="797.8" cy="53.4" r="5.5" fill="#f8604a"/>
+<circle cx="809.0" cy="53.1" r="5.5" fill="#f8604a"/>
+<circle cx="820.3" cy="52.5" r="5.5" fill="#f8604a"/>
+<circle cx="831.5" cy="52.3" r="5.5" fill="#f8604a"/>
+<circle cx="842.8" cy="50.4" r="5.5" fill="#f8604a"/>
+<circle cx="854.0" cy="48.7" r="5.5" fill="#f8604a"/>
+<text x="56" y="252" font-size="14" fill="#9097a1">каждая точка — один из 72 спутников OneWeb, по возрастанию ошибки</text>
 </svg>

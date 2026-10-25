@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<title>ДРЕЙФ — пробная колода в стиле макета</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+@page{size:1280px 720px;margin:0}
+*{box-sizing:border-box}
+body{margin:0;background:#e9eaec;font-family:Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;color:#111;-webkit-font-smoothing:antialiased}
+.s{width:1280px;height:720px;background:#fff;position:relative;overflow:hidden;margin:0 auto 24px;padding:56px 64px;page-break-after:always}
+@media print{body{background:#fff}.s{margin:0}}
+.top{font-size:17px;color:#9097a1;font-weight:600;display:flex;gap:6px;align-items:center}
+.pills{display:flex;gap:10px;margin-bottom:18px}
+.pill{background:#f8604a;color:#fff;font-size:15px;font-weight:500;padding:5px 13px;border-radius:999px;line-height:1.2}
+.pill.k{background:#111}
+h1{font-size:44px;line-height:1.1;font-weight:700;letter-spacing:-.02em;margin:0 0 18px}
+h2{font-size:36px;line-height:1.12;font-weight:700;letter-spacing:-.02em;margin:0 0 18px}
+p{margin:0;font-size:19px;line-height:1.42;color:#2b2f36}
+.muted{color:#8a919b}
+.coral{color:#f8604a}
+.card{background:#f6f7f8;border-radius:14px;padding:16px 18px}
+.card h4{margin:0 0 8px;font-size:17px;font-weight:600;line-height:1.25}
+.card p{font-size:15px;line-height:1.38;color:#5b616b}
+.num{position:absolute;right:40px;bottom:28px;font-size:14px;color:#9097a1}
+.src{position:absolute;left:64px;right:120px;bottom:26px;font-size:12px;color:#9ba1aa;line-height:1.35}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.big{font-size:64px;font-weight:700;color:#f8604a;letter-spacing:-.03em;line-height:1}
+.team{display:grid;grid-template-columns:1fr 1fr;gap:20px 28px;margin-top:30px}
+.who{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start}
+.av{width:52px;height:52px;border-radius:50%;background:#f6f7f8;display:grid;place-items:center;font-weight:700;color:#f8604a;font-size:17px}
+.who b{font-size:17px;font-weight:600} .who b span{color:#f8604a;font-weight:500}
+.who small{display:block;font-size:13.5px;color:#6b717b;line-height:1.35;margin-top:4px}
+.ask{border-left:4px solid #f8604a;background:#fff5f3;border-radius:0 12px 12px 0;padding:14px 18px;font-size:19px;font-weight:600;line-height:1.35;margin-top:22px}
+.steps{display:grid;grid-template-columns:1fr 18px 1fr 18px 1fr;align-items:stretch;gap:6px;margin-top:26px}
+.arrow{color:#f8604a;display:grid;place-items:center;font-size:18px}
+.formula{font-family:"SF Mono",Menlo,monospace;font-size:14.5px;color:#4a4f57;margin-top:18px}
+.tl{position:relative;padding-left:0}
+.tl .line{position:absolute;left:150px;top:6px;bottom:6px;width:2px;background:#fbb3a5}
+.tl .row{display:grid;grid-template-columns:136px 1fr;gap:34px;align-items:start;margin-bottom:22px;position:relative}
+.tl .date{background:#f8604a;color:#fff;font-size:14.5px;font-weight:600;border-radius:10px;padding:8px 10px;text-align:center}
+.tl .what{font-size:16.5px;line-height:1.35}
+.tl .what span{display:block;color:#f8604a;font-size:14px;margin-top:3px}
+.link{display:inline-block;margin-top:12px;font-size:19px;font-weight:600;color:#111;border-bottom:2px solid #f8604a}
+.b3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+.b3 .card{padding:20px}
+.b3 .card h4{font-size:18.5px}
+.b3 .card p{font-size:15.5px}
+</style></head><body>
+
+<!-- 1. Название и команда -->
+<section class="s">
+  <div class="top">DevCore <span style="font-weight:400">/ Специально для Космического идеатона БРИКС</span></div>
+  <div style="display:grid;grid-template-columns:1.08fr .92fr;gap:40px;margin-top:40px">
+    <div>
+      <div class="pills"><span class="pill">Космический идеатон БРИКС 2026</span><span class="pill k">Кейс 3</span></div>
+      <h1>Дрейф. Расчёт манёвров<br>электрического буксира</h1>
+      <p>Буксир переводит спутник с орбиты попутного запуска на целевую при ограниченном запасе топлива. ДРЕЙФ считает план манёвра по сроку и расходу ксенона на примере «СКАУТ» компании А-РОКЕТС.</p>
+      <div class="team">
+        <div class="who"><div class="av">АУ</div><div><b>Андрей Углов · <span>руководитель, инженерия</span></b><small>Победитель Весенней научной сессии СНО НИЯУ МИФИ 2026, призёр XI конференции «Инженеры будущего»</small></div></div>
+        <div class="who"><div class="av">АП</div><div><b>Андрей Полевой · <span>физика</span></b><small>Призёр заключительного этапа ВсОШ по информатике (профиль «ИИ»), дважды участник заключительного этапа ВсОШ по физике</small></div></div>
+        <div class="who"><div class="av">ЛШ</div><div><b>Лев Шиянов · <span>данные и ML</span></b><small>Победитель олимпиады «Высшая проба» по промышленной разработке, финалист ДАНО</small></div></div>
+        <div class="who"><div class="av">АВ</div><div><b>Антон Винидиктов · <span>экономика</span></b><small>1-е место на хакатоне ВШЭ и МТС, ментор Сколково по цифровизации и ИИ</small></div></div>
+      </div>
+    </div>
+    <svg viewBox="0 0 520 560" style="width:100%;height:560px;border-radius:22px;background:linear-gradient(160deg,#0d2547,#123a6b 55%,#1d5a9a)">
+      <defs><radialGradient id="e" cx="35%" cy="30%"><stop offset="0" stop-color="#6fa8e6"/><stop offset=".6" stop-color="#21528f"/><stop offset="1" stop-color="#0c2344"/></radialGradient></defs>
+      <circle cx="300" cy="360" r="210" fill="url(#e)"/>
+      <ellipse cx="300" cy="360" rx="270" ry="70" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="2" stroke-dasharray="7 8" transform="rotate(-24 300 360)"/>
+      <ellipse cx="300" cy="360" rx="300" ry="82" fill="none" stroke="#f8604a" stroke-width="3" transform="rotate(-8 300 360)"/>
+      <circle cx="31" cy="400" r="8" fill="#fff"/><circle cx="31" cy="400" r="15" fill="none" stroke="#f8604a" stroke-width="3"/>
+      <text x="36" y="60" fill="#fff" fill-opacity=".85" font-size="20" font-weight="600" font-family="Inter">плоскость клиента</text>
+      <text x="36" y="88" fill="#f8604a" font-size="20" font-weight="600" font-family="Inter">буксир «СКАУТ»</text>
+    </svg>
+  </div>
+  <div class="num">1</div>
+</section>
+
+<!-- 2. Задача -->
+<section class="s">
+  <div class="pills"><span class="pill">Задача кейса</span></div>
+  <div style="display:grid;grid-template-columns:.92fr 1.08fr;gap:44px">
+    <div>
+      <h2>Спутник выпускают<br>не в ту плоскость орбиты</h2>
+      <p>Попутный запуск везёт десятки аппаратов и выпускает их в одну плоскость. Каждому клиенту нужна своя. Повернуть плоскость двигателем «СКАУТ» не может: на 15° нужно <b>3,1 км/с</b>, а у буксира на всю жизнь <b>2,0–2,8 км/с</b>.</p>
+      <div class="ask">Вопрос клиента: когда мой спутник будет на месте и сколько ксенона это стоит?</div>
+      <p class="muted" style="font-size:15px;margin-top:22px">Вход: массы, орбита попутного запуска, плоскость клиента, срок. Выход: выполнимо ли, каким планом, за сколько суток и ксенона.</p>
+    </div>
+    <div>
+      <h4 style="margin:6px 0 4px;font-size:19px;font-weight:600">Наш расчёт: цена срочности</h4>
+      <p class="muted" style="font-size:15px">сдвиг плоскости на 15° с орбиты 550 км, ксенон на манёвр</p>
+      <img src="../../team/figma/price_of_urgency.svg" style="width:100%;margin-top:6px" alt="">
+      <p style="font-size:15px;color:#4a4f57;margin-top:4px">90 суток вместо 180 стоят в 2,4 раза больше ксенона. На борту 25,8 кг. Буксир 150 кг и груз 50 кг, тяга только на свету. Прямой численный полёт подтвердил ксенон с точностью до 6 %.</p>
+    </div>
+  </div>
+  <div class="src">Буксир: a-rockets.com (тяга 55 мН, удельный импульс 1500 с, суммарный импульс 380 кН·с) · расчёт: github.com/andrew-ug/brics-ideathon-2026, work/calc/strategy_map.py</div>
+  <div class="num">2</div>
+</section>
+
+<!-- 3. Идея и принцип -->
+<section class="s">
+  <div class="pills"><span class="pill">Идея и принцип работы</span></div>
+  <div style="display:grid;grid-template-columns:.9fr 1.1fr;gap:44px">
+    <div>
+      <h2>Используем естественный<br>поворот орбиты</h2>
+      <p>Из-за сплюснутости Земли плоскость орбиты поворачивается сама: на 550 км на 0,99° в сутки, на 740 км на 0,90°. Буксир поднимается, ждёт, пока разница наберёт нужный угол, и спускается уже в плоскости клиента. Топливо идёт только на подъём и спуск.</p>
+      <div class="steps">
+        <div class="card"><h4>Поиск стратегии</h4><p>Прямой манёвр, дрейф и их сочетание</p></div><div class="arrow">→</div>
+        <div class="card"><h4>Численный пересчёт</h4><p>Форма Земли, тень, атмосфера, расход массы</p></div><div class="arrow">→</div>
+        <div class="card"><h4>Сравнение вариантов</h4><p>Срок, ксенон и допущения</p></div>
+      </div>
+      <div class="formula">dΩ/dt = −3/2 · n · J₂ · (R/a)² · cos i</div>
+    </div>
+    <div>
+      <h4 style="margin:6px 0 4px;font-size:19px;font-weight:600">Проверка на 72 реальных спутниках OneWeb</h4>
+      <p class="muted" style="font-size:15px">два запуска индийской LVM3, плоскости ушли на 64–123° за 9–14 месяцев</p>
+      <div class="card" style="margin-top:10px;padding:14px 10px 6px"><img src="../../team/figma/oneweb_errors.svg" style="width:100%;display:block" alt=""></div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;margin-top:18px">
+        <div class="big">0,290°</div>
+        <p style="font-size:16px">максимальное расхождение угла узла в конце наблюдений</p>
+      </div>
+    </div>
+  </div>
+  <div class="src">Использована известная история высоты и наклонения орбит: это проверка эффекта, а не прогноз миссии. Данные: каталог Space-Track, выгрузка juliensimon/space-track-tle-history (Hugging Face, CC BY 4.0).</div>
+  <div class="num">3</div>
+</section>
+
+<!-- 4. Результат к защите -->
+<section class="s">
+  <div class="pills"><span class="pill">Результат к 8 ноября</span></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
+    <div>
+      <h2>Модель уже работает.<br>К защите — планировщик</h2>
+      <p>Живой калькулятор: выберите сдвиг плоскости и срок, и он покажет план полёта, сутки и ксенон.</p>
+      <a class="link">andrew-ug.github.io/brics-ideathon-2026</a>
+      <h4 style="margin:26px 0 6px;font-size:18px;font-weight:600">Что покажем на защите</h4>
+      <p style="font-size:17px">Оператор меняет срок 180 → 90 → 60 суток. Планировщик пересчитывает стратегию и ксенон и честно говорит, когда решения нет.</p>
+      <p style="font-size:15.5px;margin-top:16px"><b class="coral">Риск:</b> масса и режимы «СКАУТ» не опубликованы. Показываем диапазон результатов при заданных допущениях.</p>
+      <p style="font-size:15.5px;margin-top:6px"><b class="coral">Резерв:</b> расчётный скрипт, три готовых сценария и статический отчёт уже есть.</p>
+    </div>
+    <div class="tl" style="margin-top:34px">
+      <div class="line"></div>
+      <div class="row"><div class="date">26–28 октября</div><div class="what">Параметры миссии, чувствительность к массе и режиму тяги<span>Андрей Полевой, Антон Винидиктов</span></div></div>
+      <div class="row"><div class="date">29 окт. – 1 нояб.</div><div class="what">Сверка 20 сценариев численным полётом, где модель ошибается больше 10 %<span>Андрей Полевой, Лев Шиянов</span></div></div>
+      <div class="row"><div class="date">2–6 ноября</div><div class="what">Интерфейс оператора и экспорт отчёта<span>Андрей Углов, вся команда</span></div></div>
+      <div class="row"><div class="date">7–8 ноября</div><div class="what">Репетиция защиты за 3 минуты<span>Команда</span></div></div>
+    </div>
+  </div>
+  <div class="num">4</div>
+</section>
+
+<!-- 5. БРИКС -->
+<section class="s">
+  <div class="pills"><span class="pill">Применение в БРИКС</span></div>
+  <h2>Российский буксир для задачи,<br>которую открыто называет Индия</h2>
+  <div class="b3">
+    <div class="card"><h4>Индия — председатель БРИКС в 2026 году</h4><p>Инженеры ISRO пишут, что для электрических миссий учёт поворота орбиты «is also crucial», и откладывают его на будущее. Мы считаем ровно это. К 2030 году ISRO требует уводить отработавшие аппараты с успехом больше 99 %.</p></div>
+    <div class="card"><h4>Попутные запуски внутри БРИКС уже продаются</h4><p>Индия (NSIL) и Китай (CAS Space) продают места на своих ракетах. Довезти аппарат от общей орбиты до своей — работа буксира. ОАЭ свой кубсат PHI-1 запускали американской ракетой.</p></div>
+    <div class="card"><h4>Реальный случай</h4><p>«Союз» 5.11.2024 вывел 53 аппарата, среди них иранские Kowsar и Hodhod. Иран в БРИКС с 2024 года. Один запуск, и каждому аппарату нужна своя орбита.</p></div>
+  </div>
+  <p style="margin-top:26px;font-size:18px">Начнём с проверки расчёта у разработчика буксира. Код открыт: агентства и университеты стран БРИКС могут проверить модель на данных своих спутников.</p>
+  <div class="src">arxiv.org/abs/2511.23014 · isro.gov.in/Debris_Free_Space_Missions.html · nsilindia.co.in · en.cas-space.com · mbrsc.ae · interfax.ru/russia/1037987</div>
+  <div class="num">5</div>
+</section>
+</body></html>
