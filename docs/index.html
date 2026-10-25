@@ -89,6 +89,12 @@ h2{font-size:clamp(26px,3vw,40px);line-height:1.08;letter-spacing:-.03em;margin:
 .facts div+div{padding-left:22px;border-left:1px solid var(--line)}
 .facts .num{font-size:clamp(30px,3.4vw,44px);font-weight:600;letter-spacing:-.03em;display:block}
 .facts p{color:var(--ink2);margin:6px 0 0;font-size:14.5px}
+.eqs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+.eq{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.eq math{font-family:"STIX Two Math","Latin Modern Math","Cambria Math",math;font-size:30px;color:var(--ink);margin:2px 0 14px}
+.eq p{margin:0;color:var(--ink2);font-size:14.5px}
+.eq b{color:var(--ink)}
+@media (max-width:620px){.eqs{grid-template-columns:1fr}.eq math{font-size:24px}}
 .formula{font-family:var(--mono);font-size:14px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:26px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .formula span{color:var(--muted)}
 .proof{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr);gap:36px;margin-top:30px;align-items:start}
@@ -125,7 +131,7 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
 <header><div class="wrap">
   <a class="logo" href="#">ДРЕЙФ<i></i></a>
   <span class="tag">планировщик миссий буксира «СКАУТ» · кейс 3, Космический идеатон БРИКС</span>
-  <nav><a href="#price">Цена срочности</a><a href="#why">Почему работает</a><a href="#proof">Проверка</a><a href="#brics">БРИКС</a><a id="ln-repo" href="#">Код ↗</a></nav>
+  <nav><a href="#price">Цена срочности</a><a href="#why">Почему работает</a><a href="#proof">Проверка</a><a href="#brics">БРИКС</a></nav>
 </div></header>
 
 <div class="hero"><div class="wrap">
@@ -178,10 +184,15 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
       <div><span class="num" id="f-r1"></span><p>в сутки на 740 км, куда буксир поднимается ждать</p></div>
       <div><span class="num" id="f-d"></span><p>набегает разница: 15° примерно за <span id="f-t"></span> суток, и топливо на это не тратится</p></div>
     </div>
-    <div class="formula"><div>dΩ/dt = −3/2 · n · J2 · (R/a)² · cos i</div><span>поворот двигателем: Δv = π/2 · v · sin i · ΔΩ, на 15° это 3,1 км/с</span></div>
+    <div class="eqs">
+      <div class="eq"><math display="block"><mfrac><mrow><mi>d</mi><mi mathvariant="normal">Ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mi>n</mi><msub><mi>J</mi><mn>2</mn></msub><msup><mrow><mo>(</mo><mfrac><mi>R</mi><mi>a</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mi>cos</mi><mspace width="0.22em"/><mi>i</mi></math>
+        <p><b>Бесплатно.</b> Скорость, с которой плоскость поворачивается сама. Зависит от высоты через радиус орбиты <i>a</i>.</p></div>
+      <div class="eq"><math display="block"><mi mathvariant="normal">Δ</mi><mi>v</mi><mo>=</mo><mfrac><mi>π</mi><mn>2</mn></mfrac><mi>v</mi><mi>sin</mi><mspace width="0.22em"/><mi>i</mi><mo>·</mo><mi mathvariant="normal">Δ</mi><mi mathvariant="normal">Ω</mi></math>
+        <p><b>Дорого.</b> Сколько скорости нужно, чтобы повернуть плоскость двигателем. На 15° это 3,1 км/с, а у буксира на всё 2,0–2,8 км/с.</p></div>
+    </div>
     <div class="rows" style="margin-top:22px">
-      <div><h3>Перебор планов</h3><p>Высота ожидания от 350 до 1550 км, доля угла, которую берём двигателем, от 0 до 100 %. Учтены тень (тяга только на свету), сопротивление атмосферы и расход массы. Берём план с наименьшим ксеноном, который успевает.<small><a id="ln-map" href="#">work/calc/strategy_map.py</a></small></p></div>
-      <div><h3>Сверка численным полётом</h3><p>Три плана прогнали прямым интегрированием орбиты: J2, тень, атмосфера, шаг 30 секунд. Ксенон совпал с моделью с точностью до 6 %.<small><a id="ln-num" href="#">work/calc/price_numeric_check.py</a></small></p></div>
+      <div><h3>Перебор планов</h3><p>Высота ожидания от 350 до 1550 км, доля угла, которую берём двигателем, от 0 до 100 %. Учтены тень (тяга только на свету), сопротивление атмосферы и расход массы. Берём план с наименьшим ксеноном, который успевает.</p></div>
+      <div><h3>Сверка численным полётом</h3><p>Три плана прогнали прямым интегрированием орбиты: J2, тень, атмосфера, шаг 30 секунд. Ксенон совпал с моделью с точностью до 6 %.</p></div>
       <div><h3>Допущения</h3><p>Масса буксира не опубликована, взяли 150 кг и груз 50 кг. Доля света 0,62 — среднее: на орбите «рассвет — закат» тени почти нет, и там 60 суток на 15° выполнимы. Подъём и поворот по очереди, совместить дешевле, поэтому числа — оценка сверху.</p></div>
     </div>
   </div>
@@ -201,37 +212,33 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
       <div class="keys"><span><i style="background:var(--blue)"></i>LVM3-M2, 23.10.2022 · 36</span><span><i style="background:var(--accent)"></i>LVM3-M3, 26.03.2023 · 36</span></div>
       <div class="chart" id="ch-oneweb" style="margin-top:8px"></div>
       <details><summary>Таблица: все 72 спутника</summary><div class="tbl" id="tbl-ow"></div></details>
-      <p style="color:var(--muted);font-size:12.5px">История орбит каталога Space-Track, выгрузка juliensimon/space-track-tle-history на Hugging Face (CC BY 4.0) · <a id="ln-ow" href="#">work/kaggle/oneweb_drift/</a></p>
     </div>
   </div></div>
 </div></section>
 
 <section id="brics"><div class="wrap">
   <div class="sec-head"><div class="idx">04</div><div>
-    <h2>Российский буксир для задачи, которую открыто называет Индия</h2>
+    <h2>Плоскость орбиты — это время съёмки. Каждой стране БРИКС нужно своё</h2>
+    <p class="lede">У БРИКС с 2021 года общая группировка спутников дистанционного зондирования. В 2026 году в Нью-Дели лидеры двинулись к тому, чтобы принять в неё агентства новых членов. Для съёмочного спутника плоскость задаёт время пролёта над Землёй.</p>
   </div></div>
-  <div class="body"><div class="rows">
-    <div><h3>Индия — председатель БРИКС в 2026 году</h3><p>Инженеры ISRO пишут, что для электрических миссий учёт поворота орбиты «is also crucial», и откладывают его на будущее. Мы считаем ровно это.<small>arxiv.org/abs/2511.23014</small></p></div>
-    <div><h3>Попутные запуски уже продаются</h3><p>Индия (NSIL) и Китай (CAS Space) продают места на своих ракетах. Довезти аппарат от общей орбиты до своей — работа буксира.<small>nsilindia.co.in · en.cas-space.com</small></p></div>
-    <div><h3>Реальный случай</h3><p>«Союз» 5.11.2024 вывел 53 аппарата, среди них иранские Kowsar и Hodhod. Иран в БРИКС с 2024 года. Один запуск, и каждому нужна своя орбита.<small>interfax.ru/russia/1037987</small></p></div>
-  </div></div>
+  <div class="body">
+    <div class="facts">
+      <div><span class="num">15° = 1 час</span><p>сдвиг плоскости на 15° переносит время съёмки на час местного времени</p></div>
+      <div><span class="num">2021</span><p>агентства Бразилии, России, Индии, Китая и ЮАР подписали соглашение об общей группировке</p></div>
+      <div><span class="num">2026</span><p>Индия, председатель БРИКС, ведёт к приёму в группировку агентств новых членов</p></div>
+    </div>
+    <div class="rows">
+      <div><h3>Новые члены летают попутно</h3><p>Иранские Kowsar и Hodhod вышли на «Союзе» 5.11.2024 в числе 53 аппаратов. Кубсат ОАЭ PHI-1 запускали на американском Falcon 9. Попутный запуск не выбирает время съёмки за клиента, его доводит буксир.</p></div>
+      <div><h3>Председатель 2026 года называет эту задачу</h3><p>Инженеры ISRO пишут, что для электрических миссий учёт поворота плоскости «is also crucial», и откладывают его на будущее. Главы космических агентств БРИКС в июне 2026 года в Бенгалуру обсуждали миссии без мусора.</p></div>
+      <div><h3>Что даём мы</h3><p>Открытый проверяемый расчёт. Агентство задаёт время съёмки и срок, ДРЕЙФ отвечает, сколько ждать и сколько ксенона. Начинаем со «СКАУТ» А-РОКЕТС, модель проверяется на данных спутников любой страны.</p></div>
+    </div>
+  </div>
 </div></section>
 
-<footer><div class="wrap">
-  <div style="color:var(--ink);font-weight:600">Команда DevCore</div>
-  <div class="team">
-    <div>Андрей Углов<span>руководитель, инженерия</span></div>
-    <div>Андрей Полевой<span>физика</span></div>
-    <div>Лев Шиянов<span>данные и ML</span></div>
-    <div>Антон Винидиктов<span>экономика</span></div>
-  </div>
-  Буксир «СКАУТ», А-РОКЕТС: тяга 55 мН, удельный импульс 1500 с, суммарный импульс 380 кН·с (a-rockets.com). Все числа на странице посчитаны заранее той же моделью, что лежит в репозитории, анимация только иллюстрирует план. <a id="ln-repo2" href="#">Код и данные</a>
-</div></footer>
 
 <script src="data.js"></script>
 <script>
 (() => {
-const REPO = "https://github.com/andrew-ug/brics-ideathon-2026";
 const D = window.DRIFT, S = D.start, NS = "http://www.w3.org/2000/svg";
 const $ = s => document.querySelector(s);
 const num = (x, d = 1) => Number(x).toLocaleString("ru-RU", { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -240,7 +247,6 @@ const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).
 const get = (dO, dl) => D.grid[String(dO)][D.deadlines.indexOf(dl)];
 const st = { dO: -15, dl: 180, t: 0, playing: false, hold: 0 };
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-for (const [id, p] of [["#ln-repo", ""], ["#ln-repo2", ""], ["#ln-map", "/blob/main/work/calc/strategy_map.py"], ["#ln-num", "/blob/main/work/calc/price_numeric_check.py"], ["#ln-ow", "/tree/main/work/kaggle/oneweb_drift"]]) $(id).href = REPO + p;
 
 // ---------- план миссии во времени ----------
 let P = null;          // текущий план из модели
