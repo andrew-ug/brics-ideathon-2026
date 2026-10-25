@@ -13,8 +13,10 @@ for year in (2022, 2023):
     t = pq.read_table(path, columns=["norad_id", "epoch", "inclination", "raan", "eccentricity", "mean_motion", "intl_designator", "altitude_km"])
     df = t.to_pandas()
     print(year, "строк всего", len(df), "пример обозначений", df["intl_designator"].dropna().unique()[:5].tolist())
-    m = df["inclination"].between(87.2, 88.2)      # наклонение OneWeb 87.4–87.9
-    frames.append(df[m]); print("  кандидатов по наклонению", int(m.sum()))
+    # v4: отбор по международному обозначению запуска, а не по наклонению. В v3 фильтр 87,2–88,2° выкидывал точки,
+    # где наклонение на подъёме опускалось ниже 87,2°, и это выглядело как «дыры в данных» у 29 спутников
+    m = df["intl_designator"].fillna("").str[:5].isin(["22138", "23043"])
+    frames.append(df[m]); print("  строк двух запусков LVM3", int(m.sum()), "наклонение мин/макс", df.loc[m, "inclination"].min(), df.loc[m, "inclination"].max())
     del df, t
 d = pd.concat(frames).sort_values(["norad_id", "epoch"]).drop_duplicates(["norad_id", "epoch"])
 first = d.groupby("norad_id")["epoch"].min()
@@ -24,6 +26,7 @@ for name, day in LAUNCHES.items():
     ids = first[(first >= t0) & (first <= t0 + pd.Timedelta(days=4))].index
     for i in ids:
         pick[i] = name
+print("выбрано по дате первого TLE:", len(pick))
 d = d[d["norad_id"].isin(pick)].copy()
 d["launch"] = d["norad_id"].map(pick)
 print("обозначения выбранных:", sorted(d["intl_designator"].dropna().str[:8].unique().tolist())[:12])
