@@ -1,0 +1,13 @@
+{
+  "id": "twtw1jlol/brics-gpu-check",
+  "title": "brics-gpu-check",
+  "code_file": "check.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": false,
+  "dataset_sources": ["qingch/speedplus"],
+  "competition_sources": [],
+  "kernel_sources": []
+}

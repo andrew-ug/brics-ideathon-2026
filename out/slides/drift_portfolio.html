@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>ДРЕЙФ — портфолио проекта</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root { --ink:#14171c; --muted:#5b6370; --accent:#c4501b; --line:#e3e5e8; --soft:#f6f4f1; --ok:#2f6f4f; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#fff; color:var(--ink);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .slide { width:1280px; height:720px; padding:56px 72px 44px; position:relative; overflow:hidden;
+    page-break-after: always; break-after: page; display:flex; flex-direction:column; }
+  .slide:last-child { page-break-after:auto; break-after:auto; }
+  .kicker { font-size:15px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:10px; }
+  h1 { font-size:44px; line-height:1.08; margin:0 0 14px; letter-spacing:-.01em; }
+  h2 { font-size:34px; line-height:1.12; margin:0 0 18px; letter-spacing:-.01em; }
+  p, li { font-size:19px; line-height:1.42; margin:0; }
+  .muted { color:var(--muted); }
+  .foot { position:absolute; left:72px; right:72px; bottom:22px; font-size:12.5px; color:var(--muted);
+    display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:8px; }
+  .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:28px; }
+  .grid3 { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:20px; }
+  .card { background:var(--soft); border-radius:10px; padding:18px 20px; }
+  .card h3 { font-size:19px; margin:0 0 8px; }
+  .card p, .card li { font-size:16.5px; line-height:1.4; }
+  ul { margin:0; padding-left:20px; } li { margin:4px 0; }
+  .big { font-size:23px; line-height:1.38; }
+  .tag { display:inline-block; font-size:14px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:4px; padding:3px 9px; margin-right:8px; vertical-align:2px; }
+  table { border-collapse:collapse; width:100%; }
+  td, th { font-size:16.5px; padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  th { color:var(--muted); font-weight:600; font-size:14px; text-transform:uppercase; letter-spacing:.06em; }
+  .bars { margin-top:6px; }
+  .bar-row { display:grid; grid-template-columns: 1fr 112px; grid-template-rows:auto auto; column-gap:12px; margin:10px 0; }
+  .bar-row .lbl { font-size:15.5px; grid-column: 1 / 3; margin-bottom:3px; }
+  .bar-row .val { grid-column: 2; grid-row: 2; align-self:center; }
+  .bar { height:20px; border-radius:4px; background:var(--accent); grid-column:1; grid-row:2; min-width:6px; }
+  .bar.budget { background:#9aa3ad; }
+  .bar.j2 { background:var(--ok); }
+  .bar-row .val { font-size:16px; font-weight:700; }
+  .fill { color:#b00020; background:#fff2f2; padding:0 4px; border-radius:3px; }
+  .flow { display:grid; grid-template-columns: repeat(4, 1fr); gap:14px; margin-top:6px; }
+  .step { border:1.5px solid var(--line); border-radius:10px; padding:14px 16px; position:relative; }
+  .step .n { font-size:13px; font-weight:700; color:var(--accent); letter-spacing:.08em; }
+  .step h3 { font-size:18px; margin:4px 0 6px; }
+  .step p { font-size:15px; line-height:1.38; }
+  .note { font-size:14px; color:var(--muted); line-height:1.35; }
+</style>
+</head>
+<body>
+
+<!-- 1. Название, команда, роли (критерий «компетенции команды») -->
+<section class="slide">
+  <div class="kicker">Кейс 3 · Моделирование полёта и расчёт траекторий для космических миссий</div>
+  <h1>ДРЕЙФ — планировщик миссий<br>электрореактивного буксира</h1>
+  <p class="big muted" style="max-width:1040px;margin-bottom:26px">Считаем, как развезти малые спутники из одного попутного запуска по их рабочим орбитам: сколько суток, ксенона и денег займёт каждая стратегия и с какой погрешностью.</p>
+  <div class="grid2" style="gap:22px">
+    <div class="card">
+      <h3>Андрей Углов <span class="muted" style="font-weight:400">· руководитель, модели и проверка</span></h3>
+      <p>Архитектура планировщика, быстрая модель-заменитель и методика проверки на реальных данных. Опыт: проект FRS (распределённая система допуска, перенос модели между доменами, внешняя проверка на 488 062 кадрах WFAS), победитель Весенней научной сессии СНО НИЯУ МИФИ 2026, ЛШАД ФКН ВШЭ 2026.</p>
+    </div>
+    <div class="card">
+      <h3>Лев <span class="fill">[фамилия]</span> <span class="muted" style="font-weight:400">· численный движок</span></h3>
+      <p>Интегратор траектории с возмущениями, законы управления тягой, скорость и надёжность расчёта. <span class="fill">[1 строка: стек и достижения]</span></p>
+    </div>
+    <div class="card">
+      <h3><span class="fill">[Имя Фамилия]</span> <span class="muted" style="font-weight:400">· данные и экономика</span></h3>
+      <p>Открытые орбитальные данные реальных аппаратов, метрики точности, расчёт стоимости миссии и рынка. <span class="fill">[1 строка: опыт анализа данных]</span></p>
+    </div>
+    <div class="card" style="background:#fff;border:1.5px dashed var(--line)">
+      <h3><span class="fill">[если подтвердятся]</span> <span class="muted" style="font-weight:400">· баллистика · ML</span></h3>
+      <p>Физик/астроном — проверка физических моделей и законов управления. Всеволод Овчинников — модель-заменитель и её обучение.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Космический идеатон БРИКС · 2026</span><span>Команда «<span class="fill">[название]</span>»</span></div>
+</section>
+
+<!-- 2. Задача в рамках кейса (критерий «соответствие кейсу и чёткость задачи») -->
+<section class="slide">
+  <div class="kicker">Задача</div>
+  <h2>У буксира на плазменном двигателе каждая орбита стоит недели, а неверная стратегия — весь запас топлива</h2>
+  <div class="grid2" style="grid-template-columns: 1.05fr 1fr; gap:34px">
+    <div>
+      <p style="margin-bottom:12px">Буксир «СКАУТ 1» компании А-РОКЕТС: тяга 55 мН, полезная нагрузка 50 кг, суммарный импульс 380 кН·с. Заказчик спрашивает одно: <b>когда мой спутник будет на рабочей орбите и сколько это стоит.</b></p>
+      <p style="margin-bottom:12px">Ответ зависит от стратегии. Повернуть плоскость орбиты двигателем дорого. Дать Земле самой развернуть её за счёт сжатия у полюсов (дрейф от J2) дёшево по топливу, но долго. Оптимум лежит между ними и зависит от тени, мощности, торможения атмосферы и прохода радиационных поясов.</p>
+      <p><b>Постановка:</b> по заявке (массы, орбита попутного запуска, целевые орбиты и плоскости, срок) за минуту ответить, выполнима ли она одним буксиром, кластером или никак, какой стратегией и за сколько суток и ксенона. С чувствительностью к неизвестным параметрам и с погрешностью, сверенной с независимым численным расчётом и реальными перелётами.</p>
+    </div>
+    <div class="card" style="background:#fff;border:1.5px solid var(--line)">
+      <h3>Наш первый расчёт: развести спутники по плоскостям на 15° с орбиты 550 км</h3>
+      <div class="bars">
+        <div class="bar-row"><span class="lbl">Повернуть плоскость двигателем</span><div class="bar" style="width:100%"></div><span class="val">≈3,1 км/с</span></div>
+        <div class="bar-row"><span class="lbl">Весь запас буксира с ПН 50 кг</span><div class="bar budget" style="width:78%"></div><span class="val">2,0–2,8 км/с</span></div>
+        <div class="bar-row"><span class="lbl">Дрейф от J2 (уход на 200 км по высоте и возврат)</span><div class="bar j2" style="width:7%"></div><span class="val">≈0,2 км/с</span></div>
+      </div>
+      <p style="font-size:16px;margin-top:10px">Прямой поворот невозможен. Дрейф обходится в 2–3 кг ксенона, но занимает около 170 суток, а направление разноса задаёт знак: выше цели плоскость отстаёт, ниже обгоняет. Компромисс для конкретного заказчика и считает ДРЕЙФ.</p>
+      <p class="note" style="margin-top:8px">Модель Эдельбаума и вековой дрейф узла от J2. Масса буксира не опубликована, взята вилка 100–150 кг. Тяга только на освещённой части витка (62 %). Наша численная сверка подъёма 550 → 1000 км с J2 и тенью расходится с аналитикой меньше чем на 1 %. Но реальный OneWeb 450 → 1200 км летел ≈100 суток против 68–84 по модели: разницу дают режимы эксплуатации, их и моделируем.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Данные буксира: a-rockets.com, ПМЭФ-2026</span><span>2 / 5</span></div>
+</section>
+
+<!-- 3. Идея и принцип работы (критерий «техническая идея») -->
+<section class="slide">
+  <div class="kicker">Идея и принцип работы</div>
+  <h2>Четыре слоя: от перебора стратегий до проверки на реальных полётах</h2>
+  <div class="flow">
+    <div class="step"><div class="n">СЛОЙ 1</div><h3>Перебор стратегий</h3><p>Аналитика малой тяги (Эдельбаум, дрейф узла от J2 со знаком и эпохой) за секунды перебирает варианты: прямой манёвр, уход вверх или вниз для дрейфа, их сочетания, порядок развоза.</p></div>
+    <div class="step"><div class="n">СЛОЙ 2</div><h3>Независимая сверка</h3><p>Лучшие варианты пересчитываются численно в открытом движке (Orekit или Tudat): J2, атмосфера, тень, мощность 1 кВт. Время в радиационных поясах и в загруженных оболочках выводим как предупреждения.</p></div>
+    <div class="step"><div class="n">СЛОЙ 3</div><h3>Сверка с реальностью</h3><p>Сравниваем прогноз сроков с опубликованными перелётами на холловских двигателях (OneWeb, Starlink) и с открытой историей их орбит: высота и дрейф плоскости, а не расход ксенона.</p></div>
+    <div class="step"><div class="n">СЛОЙ 4</div><h3>Ускоритель с отказом</h3><p>После готового ядра: нейросеть на точных расчётах для мгновенного ответа. Главная метрика — доля ошибочных «выполнимо». Вне области обучения отказ и передача точному слою, приём из нашей работы по биометрии.</p></div>
+  </div>
+  <div class="grid2" style="margin-top:20px;gap:24px">
+    <div class="card"><h3>Что получает пользователь</h3><p>Ответ «выполнимо одним буксиром / кластером из 2–4 / не найдено решения» с причиной, стратегии в осях «сутки — ксенон», график высоты и плоскости по дням, чувствительность к массе и мощности.</p></div>
+    <div class="card"><h3>Чем отличаемся</h3><p>Такой класс софта существует (Exotrail ExoOPS, лицензии CNES и Thales Alenia Space), это подтверждает спрос. Наш вклад — открытый проверяемый расчёт под конкретный буксир, явная погрешность и честное «не знаю» вне области применимости.</p></div>
+  </div>
+  <div class="foot"><span>ДРЕЙФ · кейс 3</span><span>3 / 5</span></div>
+</section>
+
+<!-- 4. Что покажем на защите и план (критерий «реалистичность плана») -->
+<section class="slide">
+  <div class="kicker">Результат на защите и план</div>
+  <h2>8 ноября: работающий планировщик и отчёт о его точности</h2>
+  <div class="grid2" style="grid-template-columns: 1fr 1.1fr; gap:30px">
+    <div>
+      <p style="margin-bottom:10px"><b>Живая демонстрация.</b> Вводим заявку «четыре малых спутника из одного попутного запуска на 550 км → три плоскости» с двумя разными сроками и видим, как меняется стратегия или появляется обоснованное «не найдено решения».</p>
+      <p style="margin-bottom:6px"><b>Метрики, которые покажем:</b></p>
+      <ul>
+        <li>расхождение слоя 1 с численным расчётом, % по суткам и ксенону</li>
+        <li>ошибка прогноза сроков на опубликованных перелётах, сутки</li>
+        <li>экономия ксенона и суток против прямой стратегии</li>
+        <li>для ускорителя: доля ошибочных «выполнимо» и доля отказов</li>
+      </ul>
+    </div>
+    <table>
+      <tr><th>Срок</th><th>Что готово</th></tr>
+      <tr><td>26–27 окт.</td><td>Слой 1 для одного сценария с верным знаком дрейфа и эпохами, описание входов</td></tr>
+      <tr><td>28–30 окт.</td><td>Слой 2: независимая численная сверка и предельные случаи</td></tr>
+      <tr><td>31 окт. – 3 нояб.</td><td>Перебор стратегий, тень, чувствительность. Слой 3: сверка с опубликованными перелётами</td></tr>
+      <tr><td>2–6 нояб.</td><td>Интенсив: уточняем у менторов А-РОКЕТС массу и режимы буксира. Сценарий БРИКС, интерфейс, отчёт. Слой 4, если ядро готово</td></tr>
+      <tr><td>7–8 нояб.</td><td>Репетиция 3 минут, доработка с менторами, защита</td></tr>
+    </table>
+  </div>
+  <p class="note" style="margin-top:14px">Минимальный результат, который не зависит от рисков: слои 1–2 и расчёт для трёх эталонных миссий. Он уже является инженерным расчётом и моделью по п. 9.4 Положения. Если численная сверка не сходится к 30 октября, сужаем область до круговых орбит и одной массы, а не обещаем больше.</p>
+  <div class="foot"><span>ДРЕЙФ · кейс 3</span><span>4 / 5</span></div>
+</section>
+
+<!-- 5. Применение в странах БРИКС (критерий «применимость для БРИКС») + заказчик -->
+<section class="slide">
+  <div class="kicker">Применение в странах БРИКС</div>
+  <h2>Один попутный запуск — своя орбита для каждой страны</h2>
+  <div class="grid3">
+    <div class="card"><h3>Цепочка</h3><p>Попутные запуски продают Индия (NSIL: «dedicated launch or rideshare launch») и Китай (CAS Space). Ракета оставляет все аппараты на одной орбите. Российский буксир доводит каждый до своей, а ДРЕЙФ отвечает, выполнима ли заявка и за сколько.</p></div>
+    <div class="card"><h3>Кому нужно</h3><p>Странам, которые запускают малые спутники попутно, без своего носителя. Эфиопский ETRSS-1 ушёл в 2019 году одним из девяти аппаратов на одной китайской ракете. ОАЭ строят спутники класса PHI-1 (до 20 кг), это груз одного буксира.</p></div>
+    <div class="card"><h3>Кто платит</h3><p>Первый пользователь — А-РОКЕТС: ответ клиенту о сроках и выполнимости заявки (гипотеза, проверяем на интенсиве). Затем операторы малых спутников: расчёт миссии как услуга. Спрос на такой софт подтверждён продажами Exotrail агентству CNES.</p></div>
+  </div>
+  <div class="card" style="margin-top:20px;background:#fff;border:1.5px solid var(--line)">
+    <h3>Формы кооперации</h3>
+    <p>Открытая проверяемая модель расчёта, которую операторы стран БРИКС могут перепроверить сами. Совместное планирование развоза по заявкам нескольких стран в одном попутном запуске. Агентства БРИКС уже обсуждают организацию Космического совета (AEB, июнь 2026). Развитие проекта в стажировке А-РОКЕТС к пилотному полёту буксира (2028).</p>
+  </div>
+  <div class="foot"><span>Источники: a-rockets.com, ПМЭФ-2026, nsilindia.co.in, cas-space.com, cnsa.gov.cn, mbrsc.ae, gov.br/aeb</span><span>5 / 5</span></div>
+</section>
+
+</body>
+</html>

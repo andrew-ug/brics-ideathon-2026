@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>ДРЕЙФ — портфолио проекта</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root { --ink:#14171c; --muted:#5b6370; --accent:#c4501b; --line:#e3e5e8; --soft:#f6f4f1; --blue:#2a78d6; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#fff; color:var(--ink);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .slide { width:1280px; height:720px; padding:52px 72px 44px; position:relative; overflow:hidden;
+    page-break-after: always; break-after: page; display:flex; flex-direction:column; }
+  .slide:last-child { page-break-after:auto; break-after:auto; }
+  .kicker { font-size:15px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:10px; }
+  h1 { font-size:46px; line-height:1.08; margin:0 0 14px; letter-spacing:-.01em; }
+  h2 { font-size:32px; line-height:1.14; margin:0 0 18px; letter-spacing:-.01em; }
+  p, li { font-size:18px; line-height:1.42; margin:0; }
+  .muted { color:var(--muted); }
+  .foot { position:absolute; left:72px; right:72px; bottom:20px; font-size:12px; color:var(--muted);
+    display:flex; justify-content:space-between; gap:24px; border-top:1px solid var(--line); padding-top:8px; }
+  .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:24px; }
+  .grid3 { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:18px; }
+  .card { background:var(--soft); border-radius:10px; padding:16px 20px; }
+  .card h3 { font-size:18px; margin:0 0 7px; }
+  .card p { font-size:15.5px; line-height:1.4; }
+  .big { font-size:22px; line-height:1.38; }
+  table { border-collapse:collapse; width:100%; }
+  td, th { font-size:15px; padding:7px 9px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  th { color:var(--muted); font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:.06em; }
+  .fill { color:#b00020; background:#fff2f2; padding:0 4px; border-radius:3px; }
+  .flow { display:grid; grid-template-columns: repeat(4, 1fr); gap:14px; }
+  .step { border:1.5px solid var(--line); border-radius:10px; padding:13px 15px; }
+  .step .n { font-size:12.5px; font-weight:700; color:var(--accent); letter-spacing:.08em; }
+  .step h3 { font-size:17px; margin:4px 0 6px; }
+  .step p { font-size:14.2px; line-height:1.36; }
+  .step.hl { border-color:var(--blue); }
+  .note { font-size:13.5px; color:var(--muted); line-height:1.35; }
+  .chart { margin-top:4px; }
+  .chart svg { display:block; max-width:100%; height:auto; }
+  .plan td:first-child { white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<!-- 1. Название, команда, роли -->
+<section class="slide">
+  <div class="kicker">Кейс 3 · Моделирование полёта и расчёт траекторий для космических миссий</div>
+  <h1>ДРЕЙФ — планировщик миссий<br>электрического буксира</h1>
+  <p class="big muted" style="max-width:1080px;margin-bottom:24px">Отвечаем клиенту буксира «СКАУТ» компании А-РОКЕТС: выполнима ли доставка его спутника на нужную орбиту, за сколько суток, сколько ксенона и насколько мы в этом уверены.</p>
+  <div class="grid2" style="gap:18px">
+    <div class="card">
+      <h3>Андрей Углов <span class="muted" style="font-weight:400">· руководитель, архитектура, проверка модели</span></h3>
+      <p>Проект FRS: контроль доступа по лицу, проверка переноса модели с синтетики на реальные атаки. Победитель Весенней научной сессии СНО НИЯУ МИФИ 2026, призёр конференции «Инженеры будущего», 2-е место команды на ЛШАД ФКН ВШЭ (трек МТС).</p>
+    </div>
+    <div class="card">
+      <h3>Андрей <span class="fill">[Фамилия]</span> <span class="muted" style="font-weight:400">· физика модели</span></h3>
+      <p>Возмущения орбиты, тень, проверка численного расчёта, физические вопросы жюри. Призёр заключительного этапа ВсОШ по искусственному интеллекту, дважды участник заключительного этапа ВсОШ по физике, победитель Турнира городов.</p>
+    </div>
+    <div class="card">
+      <h3>Лев <span class="fill">[Фамилия]</span> <span class="muted" style="font-weight:400">· данные реальных полётов и ML</span></h3>
+      <p>История орбит OneWeb и Starlink, сверка модели с фактом, быстрая модель-заменитель с отказом. Победитель «Высшей пробы» по промышленной разработке и Московской предпрофессиональной олимпиады, финалист олимпиады ДАНО, полгода ML-разработчиком в компании.</p>
+    </div>
+    <div class="card">
+      <h3>Антон Винидиктов <span class="muted" style="font-weight:400">· заказчики и экономика</span></h3>
+      <p>Цена срочности для клиента, рынок попутных запусков, бизнес-модель. 1-е место на хакатоне ВШЭ и МТС, ведёт коммерческие проекты, ментор образовательных программ Сколково по цифровизации и ИИ.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Космический идеатон БРИКС · 2026</span><span>Команда «<span class="fill">[название]</span>» · 1 / 5</span></div>
+</section>
+
+<!-- 2. Задача -->
+<section class="slide">
+  <div class="kicker">Задача</div>
+  <h2>С тягой 55 мН клиент платит за срочность ксеноном,<br>а некоторые сроки невыполнимы в принципе</h2>
+  <div class="grid2" style="grid-template-columns: 1fr 540px; gap:30px">
+    <div>
+      <p style="margin-bottom:12px">Буксир «СКАУТ»: тяга 55 мН, удельный импульс 1500 с, суммарный импульс 380 кН·с, то есть около 26 кг ксенона на всю жизнь. Клиент спрашивает одно: <b>когда мой спутник будет на рабочей орбите и сколько это стоит.</b></p>
+      <p style="margin-bottom:12px">Дороже всего сдвинуть плоскость орбиты. Двигателем это быстро, но на 15° не хватит всего запаса. Можно дать Земле повернуть плоскость самой: из-за сплюснутости у полюсов (эффект J2) плоскость дрейфует, и скорость дрейфа зависит от высоты. Это почти бесплатно, но долго.</p>
+      <p><b>Постановка:</b> по заявке (массы, орбита попутного запуска, целевые орбиты, срок) ответить, выполнима ли она, какой стратегией, за сколько суток и ксенона, с погрешностью, проверенной на реальных спутниках.</p>
+    </div>
+    <div>
+      <p style="font-size:15.5px;font-weight:700;margin-bottom:2px">Цена срочности: сдвиг плоскости на −15° с солнечно-синхронной орбиты 550 км</p>
+      <div class="chart"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 300" width="520" height="300" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<line x1="46" x2="504" y1="248.0" y2="248.0" stroke="#e3e5e8" stroke-width="1"/>
+<text x="38" y="252.0" font-size="12" fill="#5b6370" text-anchor="end">0</text>
+<line x1="46" x2="504" y1="190.5" y2="190.5" stroke="#e3e5e8" stroke-width="1"/>
+<text x="38" y="194.5" font-size="12" fill="#5b6370" text-anchor="end">2</text>
+<line x1="46" x2="504" y1="133.0" y2="133.0" stroke="#e3e5e8" stroke-width="1"/>
+<text x="38" y="137.0" font-size="12" fill="#5b6370" text-anchor="end">4</text>
+<line x1="46" x2="504" y1="75.5" y2="75.5" stroke="#e3e5e8" stroke-width="1"/>
+<text x="38" y="79.5" font-size="12" fill="#5b6370" text-anchor="end">6</text>
+<line x1="46" x2="504" y1="18.0" y2="18.0" stroke="#e3e5e8" stroke-width="1"/>
+<text x="38" y="22.0" font-size="12" fill="#5b6370" text-anchor="end">8</text>
+<text x="12" y="133.0" font-size="12" fill="#5b6370" transform="rotate(-90 12 133.0)" text-anchor="middle">ксенон, кг</text>
+<text x="91.8" y="238.0" font-size="18" fill="#9aa3ad" text-anchor="middle">×</text>
+<text x="91.8" y="218.0" font-size="12" fill="#5b6370" text-anchor="middle">невыполнимо</text>
+<text x="91.8" y="268.0" font-size="13" fill="#14171c" text-anchor="middle">30</text>
+<text x="183.4" y="238.0" font-size="18" fill="#9aa3ad" text-anchor="middle">×</text>
+<text x="183.4" y="218.0" font-size="12" fill="#5b6370" text-anchor="middle">невыполнимо</text>
+<text x="183.4" y="268.0" font-size="13" fill="#14171c" text-anchor="middle">60</text>
+<path d="M263.0,248.0 V59.4 Q263.0,55.4 267.0,55.4 H283.0 Q287.0,55.4 287.0,59.4 V248.0 Z" fill="#2a78d6"/>
+<text x="275.0" y="47.4" font-size="14" font-weight="700" fill="#14171c" text-anchor="middle">6,7 кг</text>
+<text x="275.0" y="268.0" font-size="13" fill="#14171c" text-anchor="middle">90</text>
+<path d="M354.6,248.0 V171.5 Q354.6,167.5 358.6,167.5 H374.6 Q378.6,167.5 378.6,171.5 V248.0 Z" fill="#2a78d6"/>
+<text x="366.6" y="159.5" font-size="14" font-weight="700" fill="#14171c" text-anchor="middle">2,8 кг</text>
+<text x="366.6" y="268.0" font-size="13" fill="#14171c" text-anchor="middle">180</text>
+<path d="M446.2,248.0 V214.6 Q446.2,210.6 450.2,210.6 H466.2 Q470.2,210.6 470.2,214.6 V248.0 Z" fill="#2a78d6"/>
+<text x="458.2" y="202.6" font-size="14" font-weight="700" fill="#14171c" text-anchor="middle">1,3 кг</text>
+<text x="458.2" y="268.0" font-size="13" fill="#14171c" text-anchor="middle">365</text>
+<line x1="46" x2="504" y1="248.0" y2="248.0" stroke="#5b6370" stroke-width="1"/>
+<text x="275.0" y="292" font-size="12" fill="#5b6370" text-anchor="middle">срок доставки, суток</text>
+</svg></div>
+      <p class="note">Наш расчёт: буксир 150 кг + груз 50 кг, на борту 25,8 кг ксенона, тяга только на свету (62 % витка), атмосфера учтена. Обогнать плоскость с 500 км дороже, чем отстать: +15° за 180 суток стоит 10,3 кг против 2,8 кг, потому что ниже 350 км опускаться нельзя.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Данные буксира: a-rockets.com · расчёт: work/calc/strategy_map.py</span><span>2 / 5</span></div>
+</section>
+
+<!-- 3. Идея и принцип работы -->
+<section class="slide">
+  <div class="kicker">Идея и принцип работы</div>
+  <h2>Перебор стратегий, сверка и проверка на реальных спутниках</h2>
+  <div class="grid2" style="grid-template-columns: 1fr 420px; gap:26px">
+    <div>
+      <div class="flow" style="grid-template-columns: 1fr 1fr">
+        <div class="step"><div class="n">ШАГ 1</div><h3>Перебор стратегий</h3><p>Прямой поворот, дрейф выше или ниже цели, их сочетание, порядок развоза. Тень, расход массы, атмосфера.</p></div>
+        <div class="step"><div class="n">ШАГ 2</div><h3>Независимая сверка</h3><p>Лучшие варианты пересчитываются прямым численным интегрированием. Для подъёма 550 → 1000 км расхождение с формулой меньше 1 %.</p></div>
+        <div class="step hl"><div class="n">ШАГ 3</div><h3>Проверка на реальных спутниках</h3><p>OneWeb с двух запусков индийской LVM3 сами разводят плоскости дрейфом J2. Модель предсказала уход плоскости за 9–14 месяцев на 45 спутниках с ошибкой не больше 0,5°.</p></div>
+        <div class="step"><div class="n">ШАГ 4</div><h3>Ускоритель с отказом</h3><p>Нейросеть на точных расчётах отвечает мгновенно, вне области обучения отказывается. Метрика — доля ошибочных «выполнимо».</p></div>
+      </div>
+      <div class="grid2" style="margin-top:12px;gap:14px">
+        <div class="card"><h3>На чём стоим</h3><p>Метод дрейфовых орбит для нескольких клиентов уже опубликован (Apa и др., март 2026), коммерческий аналог — ExoOPS. Новизну метода не заявляем.</p></div>
+        <div class="card"><h3>Наш вклад</h3><p>Открытый расчёт под конкретный «СКАУТ», погрешность, измеренная на реальных спутниках, и честное «не найдено решения».</p></div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:15px;font-weight:700;margin-bottom:0">Разнос плоскостей OneWeb внутри запуска: модель против факта</p>
+      <div class="chart"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 330" width="420" height="330" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+<line x1="65.4" x2="65.4" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="272.8" y2="272.8" stroke="#e3e5e8" stroke-width="1"/>
+<text x="65.4" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">-50°</text>
+<text x="46" y="276.8" font-size="11" fill="#5b6370" text-anchor="end">-50°</text>
+<line x1="97.9" x2="97.9" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="250.4" y2="250.4" stroke="#e3e5e8" stroke-width="1"/>
+<text x="97.9" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">-40°</text>
+<text x="46" y="254.4" font-size="11" fill="#5b6370" text-anchor="end">-40°</text>
+<line x1="130.4" x2="130.4" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="228.1" y2="228.1" stroke="#e3e5e8" stroke-width="1"/>
+<text x="130.4" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">-30°</text>
+<text x="46" y="232.1" font-size="11" fill="#5b6370" text-anchor="end">-30°</text>
+<line x1="163.0" x2="163.0" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="205.7" y2="205.7" stroke="#e3e5e8" stroke-width="1"/>
+<text x="163.0" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">-20°</text>
+<text x="46" y="209.7" font-size="11" fill="#5b6370" text-anchor="end">-20°</text>
+<line x1="195.5" x2="195.5" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="183.4" y2="183.4" stroke="#e3e5e8" stroke-width="1"/>
+<text x="195.5" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">-10°</text>
+<text x="46" y="187.4" font-size="11" fill="#5b6370" text-anchor="end">-10°</text>
+<line x1="228.0" x2="228.0" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="161.0" y2="161.0" stroke="#e3e5e8" stroke-width="1"/>
+<text x="228.0" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">+0°</text>
+<text x="46" y="165.0" font-size="11" fill="#5b6370" text-anchor="end">+0°</text>
+<line x1="260.5" x2="260.5" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="138.6" y2="138.6" stroke="#e3e5e8" stroke-width="1"/>
+<text x="260.5" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">+10°</text>
+<text x="46" y="142.6" font-size="11" fill="#5b6370" text-anchor="end">+10°</text>
+<line x1="293.0" x2="293.0" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="116.3" y2="116.3" stroke="#e3e5e8" stroke-width="1"/>
+<text x="293.0" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">+20°</text>
+<text x="46" y="120.3" font-size="11" fill="#5b6370" text-anchor="end">+20°</text>
+<line x1="325.6" x2="325.6" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="93.9" y2="93.9" stroke="#e3e5e8" stroke-width="1"/>
+<text x="325.6" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">+30°</text>
+<text x="46" y="97.9" font-size="11" fill="#5b6370" text-anchor="end">+30°</text>
+<line x1="358.1" x2="358.1" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="71.6" y2="71.6" stroke="#e3e5e8" stroke-width="1"/>
+<text x="358.1" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">+40°</text>
+<text x="46" y="75.6" font-size="11" fill="#5b6370" text-anchor="end">+40°</text>
+<line x1="390.6" x2="390.6" y1="40" y2="282" stroke="#e3e5e8" stroke-width="1"/>
+<line x1="52" x2="404" y1="49.2" y2="49.2" stroke="#e3e5e8" stroke-width="1"/>
+<text x="390.6" y="298.0" font-size="11" fill="#5b6370" text-anchor="middle">+50°</text>
+<text x="46" y="53.2" font-size="11" fill="#5b6370" text-anchor="end">+50°</text>
+<line x1="52.0" y1="282.0" x2="404.0" y2="40.0" stroke="#5b6370" stroke-width="1"/>
+<text x="324.8" y="86.4" font-size="11" fill="#5b6370" text-anchor="end">модель = факт</text>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.4" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.4" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.4" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.4" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.4" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.4" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.4" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.4" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.4" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.4" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.4" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.4" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.4" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="233.3" cy="157.3" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="68.0" cy="270.8" r="4.5" fill="#2a78d6" stroke="#ffffff" stroke-width="2"/>
+<circle cx="58" cy="20" r="5" fill="#2a78d6"/>
+<text x="68" y="24" font-size="12" fill="#14171c">запуск 23.10.2022 · 31 спутн.</text>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.6" cy="155.1" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.6" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.6" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.5" cy="155.2" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="236.4" cy="155.3" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="117.5" cy="236.3" r="4.5" fill="#eb6834" stroke="#ffffff" stroke-width="2"/>
+<circle cx="248" cy="20" r="5" fill="#eb6834"/>
+<text x="258" y="24" font-size="12" fill="#14171c">запуск 26.03.2023 · 14 спутн.</text>
+<text x="228.0" y="324" font-size="12" fill="#5b6370" text-anchor="middle">сдвиг плоскости по модели, относительно среднего запуска</text>
+<text x="14" y="161.0" font-size="12" fill="#5b6370" transform="rotate(-90 14 161.0)" text-anchor="middle">по данным TLE</text>
+</svg></div>
+      <p class="note">Каждая точка — спутник с непрерывной историей орбиты, спутники одной группы ушли в одну плоскость, и их точки совпали. Медиана ошибки 0,12–0,19°, максимум 0,47° при уходе плоскости 64–92°. Реальный подъём 450 → 1190 км занял медиану 188 суток против 68–84 суток чистого подъёма по модели: разницу дают паузы и ожидания.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Данные: история TLE Space-Track (huggingface.co/datasets/juliensimon/space-track-tle-history, CC BY 4.0)</span><span>3 / 5</span></div>
+</section>
+
+<!-- 4. Результат на защите и план -->
+<section class="slide">
+  <div class="kicker">Результат на защите и план</div>
+  <h2>8 ноября: работающий планировщик и отчёт о его точности на реальных спутниках</h2>
+  <div class="grid2" style="grid-template-columns: 0.72fr 1.28fr; gap:28px">
+    <div>
+      <p style="margin-bottom:10px"><b>Живая демонстрация.</b> Заявка «два спутника с одного попутного запуска — в разные плоскости, срок 120 суток», и как меняется ответ, если срок сократить до 60.</p>
+      <p style="margin-bottom:6px"><b>Метрики, которые покажем:</b></p>
+      <ul style="margin:0;padding-left:20px">
+        <li>расхождение с численным расчётом, % по суткам и ксенону</li>
+        <li>ошибка дрейфа плоскости на реальных OneWeb, градусы</li>
+        <li>ошибка сроков подъёма орбиты, сутки</li>
+        <li>доля ошибочных «выполнимо» у ускорителя</li>
+      </ul>
+    </div>
+    <table class="plan">
+      <tr><th>Срок</th><th>Что</th><th>Кто</th><th>Готово, если</th></tr>
+      <tr><td>26–28.10</td><td>Ядро: стратегии, знак дрейфа, тень, атмосфера</td><td>Андрей&nbsp;У., Андрей <span class="fill">[Ф.]</span></td><td>уход вверх на 300 км даёт отставание плоскости</td></tr>
+      <tr><td>29.10–1.11</td><td>Численная сверка 20+ сценариев</td><td>Андрей <span class="fill">[Ф.]</span></td><td>расхождение посчитано по каждому сценарию</td></tr>
+      <tr><td>29.10–1.11</td><td>История орбит OneWeb и Starlink: сроки подъёма и дрейф</td><td>Лев</td><td>ошибка в сутках и градусах на каждом спутнике</td></tr>
+      <tr><td>29.10–6.11</td><td>Цена срочности: прайс для трёх эталонных заявок</td><td>Антон</td><td>на слайде цены, а не «большой рынок»</td></tr>
+      <tr><td>2–3, 5–6.11</td><td>Интенсив: масса и режимы «СКАУТ» у менторов, сценарий БРИКС, интерфейс</td><td>все</td><td>параметры буксира обновлены в расчёте</td></tr>
+      <tr><td>4–6.11</td><td>Ускоритель, только если ядро готово</td><td>Лев, Андрей&nbsp;У.</td><td>ошибочных «выполнимо» меньше, чем у интерполяции</td></tr>
+      <tr><td>7–8.11</td><td>Репетиция, доработка с менторами, защита</td><td>все</td><td>укладываемся в 3:00</td></tr>
+    </table>
+  </div>
+  <p class="note" style="margin-top:16px">Минимальный результат при любом сбое — ядро и численная сверка на трёх эталонных миссиях. Это уже инженерный расчёт и модель по п. 9.4 Положения.</p>
+  <div class="foot"><span>ДРЕЙФ · кейс 3</span><span>4 / 5</span></div>
+</section>
+
+<!-- 5. Применение в странах БРИКС -->
+<section class="slide">
+  <div class="kicker">Применение в странах БРИКС</div>
+  <h2>Один попутный запуск — свою орбиту получает каждая страна</h2>
+  <div class="grid3">
+    <div class="card"><h3>Реальный клиент</h3><p>5 ноября 2024 года «Союз-2.1б» с Восточного вывел 53 малых аппарата, среди них иранские Kowsar и Hodhod на высоте около 500 км. Иран в БРИКС с 2024 года. Попутные спутники оказываются там, куда летит основной груз. Буксир доводит каждый до своей орбиты, ДРЕЙФ считает, выполнимо ли это и за сколько.</p></div>
+    <div class="card"><h3>Повестка Индии, председателя БРИКС-2026</h3><p>ISRO к 2030 году требует уводить с орбиты больше 99 % отработавших аппаратов (Debris Free Space Missions). В июне 2026 года главы космических агентств БРИКС в Бенгалуру обсуждали «debris-free mission management». «СКАУТ» продаётся и для увода, ДРЕЙФ считает и эту миссию.</p></div>
+    <div class="card"><h3>Общая научная задача</h3><p>Инженеры ISRO, разрабатывающие управление для полностью электрической миссии, пишут, что для низких орбит учёт узла «is also crucial», и оставляют его на будущую работу. Это ровно наша задача. И OneWeb, на которых мы проверяем модель, выводила индийская ракета LVM3.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px;background:#fff;border:1.5px solid var(--line)">
+    <h3>Формы кооперации</h3>
+    <p>Открытая модель, которую операторы стран БРИКС перепроверяют сами. Совместный расчёт развоза по заявкам нескольких стран с одного запуска. Совместная проверка на данных своих спутников. Развитие в стажировке А-РОКЕТС к пилотному полёту буксира в 2028 году.</p>
+  </div>
+  <div class="foot"><span>interfax.ru/russia/1037987 · isro.gov.in/Debris_Free_Space_Missions.html · newsonair.gov.in, 24.06.2026 · arxiv.org/abs/2511.23014 · a-rockets.com</span><span>5 / 5</span></div>
+</section>
+
+</body>
+</html>

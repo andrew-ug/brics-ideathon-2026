@@ -1,0 +1,65 @@
+[{"stream_name":"stderr","time":3.969897843,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":14.948723033,"data":"2022 строк всего 17139087 пример обозначений ['92044A', '00045B', '00041B', '00045A', '83020D']\n"}
+,{"stream_name":"stdout","time":15.071277213,"data":"  кандидатов по наклонению 438118\n"}
+,{"stream_name":"stdout","time":23.901910607,"data":"2023 строк всего 15740029 пример обозначений ['15019C', '92044A', '69046F', '83020D', '76023C']\n"}
+,{"stream_name":"stdout","time":24.008592884,"data":"  кандидатов по наклонению 458443\n"}
+,{"stream_name":"stdout","time":24.705348672,"data":"обозначения выбранных: ['22138A', '22138AA', '22138AB', '22138AC', '22138AD', '22138AE', '22138AF', '22138AG', '22138AH', '22138AJ', '22138AK', '22138AL']\n"}
+,{"stream_name":"stdout","time":24.713440355,"data":"launch\n"}
+,{"stream_name":"stdout","time":24.713463798,"data":"LVM3-M2 23.10.2022    37\n"}
+,{"stream_name":"stdout","time":24.713467443,"data":"LVM3-M3 26.03.2023    37\n"}
+,{"stream_name":"stdout","time":24.713470157,"data":"Name: norad_id, dtype: int64\n"}
+,{"stream_name":"stdout","time":24.903497788,"data":"\n"}
+,{"stream_name":"stdout","time":24.903526293,"data":"Спутников с достаточной историей: 74\n"}
+,{"stream_name":"stdout","time":24.906692852,"data":"\n"}
+,{"stream_name":"stdout","time":24.906715012,"data":"== LVM3-M2 23.10.2022: 37 спутников, наклонение 87.82°, начальная высота медиана 596 км, конечная 1186 км\n"}
+,{"stream_name":"stdout","time":24.906722059,"data":"  окно наблюдения медиана 432 сут\n"}
+,{"stream_name":"stdout","time":24.906854401,"data":"  наблюдаемый уход узла за окно: медиана -92.2°, разброс между спутниками -142.9..-92.2°\n"}
+,{"stream_name":"stdout","time":24.907791989,"data":"  ошибка модели J2 в конце окна: медиана |ошибки| 0.19°, 90-й процентиль 6.77°, макс по траектории медиана 0.19°\n"}
+,{"stream_name":"stdout","time":24.909625424,"data":"  разнос плоскостей внутри запуска: наблюдаемый размах 50.7°, предсказанный 50.8°, корреляция 0.9905\n"}
+,{"stream_name":"stdout","time":24.910944019,"data":"  подъём до 1190 км: 3 спутников, медиана 78 сут (10–90 %: 75–78), ожидание на низкой орбите медиана 20 сут\n"}
+,{"stream_name":"stdout","time":24.911248436,"data":"\n"}
+,{"stream_name":"stdout","time":24.911255697,"data":"== LVM3-M3 26.03.2023: 37 спутников, наклонение 87.73°, начальная высота медиана 448 км, конечная 1198 км\n"}
+,{"stream_name":"stdout","time":24.911338055999998,"data":"  окно наблюдения медиана 278 сут\n"}
+,{"stream_name":"stdout","time":24.911498074,"data":"  наблюдаемый уход узла за окно: медиана -78.9°, разброс между спутниками -99.9..-63.6°\n"}
+,{"stream_name":"stdout","time":24.912286002,"data":"  ошибка модели J2 в конце окна: медиана |ошибки| 2.15°, 90-й процентиль 6.71°, макс по траектории медиана 2.20°\n"}
+,{"stream_name":"stdout","time":24.912955212,"data":"  разнос плоскостей внутри запуска: наблюдаемый размах 36.3°, предсказанный 36.6°, корреляция 0.9918\n"}
+,{"stream_name":"stdout","time":24.914191449,"data":"  подъём до 1190 км: 26 спутников, медиана 188 сут (10–90 %: 118–246), ожидание на низкой орбите медиана 19 сут\n"}
+,{"stream_name":"stdout","time":24.914203954,"data":"\n"}
+,{"stream_name":"stdout","time":24.914207848,"data":"диагностика выбросов (|ошибка| \u003e 3°) против остальных:\n"}
+,{"stream_name":"stdout","time":24.926349812,"data":"                          n_drop  max_gap  inc_change  err_jump  t_err_jump       h0     h_end\n"}
+,{"stream_name":"stdout","time":24.926373298,"data":"launch             bad                                                                        \n"}
+,{"stream_name":"stdout","time":24.92637666,"data":"LVM3-M2 23.10.2022 False     0.0    3.336       0.489     0.005     271.649  597.144  1185.768\n"}
+,{"stream_name":"stdout","time":24.92637982,"data":"                   True      0.0  180.375       0.490     6.910     201.917  593.101  1181.774\n"}
+,{"stream_name":"stdout","time":24.926383664,"data":"LVM3-M3 26.03.2023 False     0.0    3.427       0.478     0.010     119.917  446.980  1201.763\n"}
+,{"stream_name":"stdout","time":24.926387672,"data":"                   True      0.0  170.000       0.479     6.712     194.917  450.017  1197.746\n"}
+,{"stream_name":"stdout","time":39.608950300000004,"data":"\n"}
+,{"stream_name":"stdout","time":39.608994465,"data":"объектов на почти круговых орбитах по высоте (последний TLE 2026):\n"}
+,{"stream_name":"stdout","time":39.609006204,"data":"   300– 350 км: 177\n"}
+,{"stream_name":"stdout","time":39.60901005,"data":"   350– 400 км: 873\n"}
+,{"stream_name":"stdout","time":39.609013303,"data":"   400– 450 км: 585\n"}
+,{"stream_name":"stdout","time":39.609016279,"data":"   450– 500 км: 9947\n"}
+,{"stream_name":"stdout","time":39.60901953,"data":"   500– 550 км: 989\n"}
+,{"stream_name":"stdout","time":39.609023191,"data":"   550– 600 км: 983\n"}
+,{"stream_name":"stdout","time":39.609026186,"data":"   600– 650 км: 1145\n"}
+,{"stream_name":"stdout","time":39.609029109,"data":"   650– 700 км: 827\n"}
+,{"stream_name":"stdout","time":39.609032024,"data":"   700– 750 км: 996\n"}
+,{"stream_name":"stdout","time":39.609034863,"data":"   750– 800 км: 1480\n"}
+,{"stream_name":"stdout","time":39.60903786,"data":"   800– 850 км: 1379\n"}
+,{"stream_name":"stdout","time":39.609040708,"data":"   850– 900 км: 1098\n"}
+,{"stream_name":"stdout","time":39.609043788,"data":"   900– 950 км: 657\n"}
+,{"stream_name":"stdout","time":39.609046678,"data":"   950–1000 км: 816\n"}
+,{"stream_name":"stdout","time":39.609049514,"data":"  1000–1050 км: 250\n"}
+,{"stream_name":"stdout","time":39.609052362,"data":"  1050–1100 км: 427\n"}
+,{"stream_name":"stdout","time":39.609055268,"data":"  1100–1150 км: 260\n"}
+,{"stream_name":"stdout","time":39.609058105,"data":"  1150–1200 км: 498\n"}
+,{"stream_name":"stdout","time":39.609061085,"data":"  1200–1250 км: 387\n"}
+,{"stream_name":"stdout","time":39.609063922,"data":"  1250–1300 км: 220\n"}
+,{"stream_name":"stdout","time":39.609073047,"data":"  1300–1350 км: 51\n"}
+,{"stream_name":"stdout","time":39.609077184,"data":"  1350–1400 км: 99\n"}
+,{"stream_name":"stderr","time":42.267368679,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":42.267399459,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":42.583833702,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":42.583858024,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":44.173332795,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":45.294227945,"data":"[NbConvertApp] Writing 314797 bytes to __results__.html\n"}
+]

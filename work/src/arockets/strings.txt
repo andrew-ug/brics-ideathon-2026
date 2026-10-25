@@ -1,0 +1,271 @@
+){f=w.call(h,f,p);break e}f=w;break e;case 3:w.flags=w.flags&-65537|128;case 0:if(w=m.payload,p=typeof w==
+,description:'Частная космическая компания ООО 
+. УСТКС «СКАУТ 1» — универсальная скалируемая транспортная космическая система.'},en:{title:
+Преимущества
+nav.satellite
+Образовательный набор
+Educational kit
+Космические буксиры на плазменных двигателях
+Космическая логистика
+УСТКС «СКАУТ 1» — универсальная скалируемая транспортная космическая система на электроракетных двигателях
+USTKS «SCOUT 1» — a universal scalable transport space system powered by electric propulsion engines
+Узнать больше
+УСТКС «СКАУТ 1»
+Универсальная скалируемая транспортная космическая система. Максимальная полезная нагрузка одного буксира — 50 кг. Масштабирование путём объединения буксиров (1, 2, 4).
+Universal scalable transport space system. Maximum payload per tug — 50 kg. Scaling through tug clustering (1, 2, 4).
+Ключевые характеристики
+Удельный импульс
+product.spec.thrust
+Мощность ЭРДУ
+Суммарный импульс
+Рабочее тело
+ПН (1 буксир)
+Payload (1 tug)
+ПН (4 буксира)
+Payload (4 tugs)
+Назначение системы
+Основной функционал космического буксира УСТКС «СКАУТ 1»
+Core capabilities of the USTKS «SCOUT 1» space tug
+Орбитальное маневрирование
+Перевод МКА на целевые орбиты с различными наклонениями и высотами
+Коррекция орбиты
+Orbit correction
+Компенсация атмосферного торможения, фотонного давления и гравитационных возмущений
+Создание группировок
+Развертывание спутниковых созвездий на различных орбитальных плоскостях
+Deploying satellite constellations across various orbital planes
+Увод с орбиты
+Контролируемое сведение отработавших МКА и космического мусора
+Плазменные двигательные технологии
+Plasma propulsion technologies
+Электроракетная двигательная установка на базе стационарного плазменного двигателя, обеспечивающая оптимальный баланс тяги и эффективности.
+Electric propulsion system based on a stationary plasma thruster, providing an optimal balance of thrust and efficiency.
+Модульная архитектура
+Гибкое масштабирование от 50 кг (1 буксир) до 200 кг (4 буксира) без замены оборудования
+Flexible scaling from 50 kg (1 tug) to 200 kg (4 tugs) without equipment replacement
+Экологичность
+Отказ от токсичных компонентов в ДУ. Контролируемый сход с орбиты после завершения миссии
+Elimination of toxic components in propulsion. Controlled deorbiting after mission completion
+Универсальность миссий
+Mission versatility
+Разведение спутников, уборка космического мусора, продление срока службы аппаратов на орбите
+Satellite deployment, space debris removal, extending spacecraft service life in orbit
+Патент № 2801019 — способ работы ЖРД (2022). Серебряная медаль XXVI Московского международного салона изобретений.
+Патент № 2801019
+Сравнение с конкурентами
+УСТКС «СКАУТ 1» превосходит аналоги по тяге и времени орбитального маневра
+USTKS «SCOUT 1» outperforms competitors in thrust and orbital maneuver time
+comparison.thrust
+Время маневра, дн
+Масса ПН, кг
+Payload mass, kg
+$/kg payload
+Полная стоимость определяется по запросу в зависимости от пакета услуг
+Payload up to 50 kg
+Гарантия 2 года
+Пакет 10 буксиров
+10-tug package
+Скидка 12–15%
+ПН до 200 кг (кластер)
+Payload up to 200 kg (cluster)
+Расширенная гарантия до 5 лет
+Интеграция с МКА
+Под конфигурацию заказчика
+Техническая поддержка
+Наша команда
+Никита Востров
+К.ф.-м.н., 13+ лет в НИОКР и аддитивном производстве
+Давид Губанов
+Главный инженер, эксперт по двигательным системам
+Chief engineer, propulsion systems expert
+Иван Захарчев
+10+ лет в аддитивных технологиях, 5+ лет в маркетинге
+Александр Синютин
+К.э.н., партнер TeDo (Россия) и Insignis (MEA)
+Свяжитесь с нами
+Заинтересованы в решениях для космической логистики или инвестиционных возможностях? Свяжитесь с нами.
+Частная космическая компания. Разработка универсальных масштабируемых транспортных космических систем на электроракетных двигателях.
+Private space company. Development of universal scalable transport space systems powered by electric propulsion engines.
+footer.navigation
+А-РОКЕТС. Все права защищены.
+1000–1050 Вт
+D-Orbit ION LEO 2
+,this.allowedMetadataKeys=[],this.allowedMetadataKeys=e??[]}encode(e,r){if(e.event===this.BROADCAST_EVENT&&!(e.payload instanceof ArrayBuffer)&&typeof e.payload.event==
+,c=e.payload.event,u=this.allowedMetadataKeys?this._pick(e.payload,this.allowedMetadataKeys):{},f=Object.keys(u).length===0?
+,e.href};class pu{constructor(e,r,n={},s=Bd){this.channel=e,this.event=r,this.payload=n,this.timeout=s,this.sent=!1,this.timeoutTimer=void 0,this.ref=
+,payload:e},r.timeout||this.timeout)}async untrack(e={}){return await this.send({type:
+,headers:i,body:JSON.stringify({messages:[{topic:this.subTopic,event:e,payload:r,private:this.private}]})},a=await this._fetchWithTimeout(this.broadcastEndpointURL,o,(s=n.timeout)!==null&&s!==void 0?s:this.timeout);if(a.status===202)return{success:!0};let l=a.statusText;try{const c=await a.json();l=c.error||c.message||l}catch{}return Promise.reject(new Error(l))}async send(e,r={}){var n,s;if(!this._canPush()&&e.type===
+);const{event:i,payload:o}=e,a={apikey:this.socket.apiKey?this.socket.apiKey:
+,headers:a,body:JSON.stringify({messages:[{topic:this.subTopic,event:i,payload:o,private:this.private}]})};try{const c=await this._fetchWithTimeout(this.broadcastEndpointURL,l,(n=r.timeout)!==null&&n!==void 0?n:this.timeout);return await((s=c.body)===null||s===void 0?void 0:s.cancel()),c.ok?
+,`discarded push due to buffer overflow: ${r.event}`,r.payload))}}_onMessage(e,r,n){return r}_isMember(e){return this.topic===e}_joinRef(){return this.joinPush.ref}_trigger(e,r,n){var s,i;const o=e.toLocaleLowerCase(),{close:a,error:l,leave:c,join:u}=Kt;if(n&&[a,l,c,u].indexOf(o)>=0&&n!==this._joinRef())return;let p=this._onMessage(o,r,n);if(r&&!p)throw
+,payload:{},ref:this.pendingHeartbeatRef});try{this.heartbeatCallback(
+&&r.ref&&r.ref===this.pendingHeartbeatRef){const c=this._heartbeatSentAt?Date.now()-this._heartbeatSentAt:void 0;try{this.heartbeatCallback(r.payload.status===
+Выберите тип организации
+Укажите ФИО и должность
+Укажите email или телефон
+Введите корректный email или телефон
+Укажите количество команд или комплектов
+Не более 150 символов
+Не более 100 символов
+Комментарий не должен превышать 1000 символов
+Кванториум / IT-куб
+Технопарк / ЦМИТ
+ФИО и должность
+Email или телефон
+Количество команд / комплектов
+Заявка отправлена
+Менеджер свяжется с вами в течение одного рабочего дня.
+Не удалось отправить заявку
+Попробуйте ещё раз через минуту или напишите нам на contact@a-rockets.com.
+Заявка принята
+Спасибо! Менеджер свяжется с вами в течение одного рабочего дня.
+Отправляя форму, вы соглашаетесь с обработкой персональных данных
+Запросить КП
+Government customer
+Все права защищены.
+ООО «А-РОКЕТС».
+Образовательный наноспутник · CubeSat 1U
+Полноценная космическая миссия
+в стенах вашего класса
+Готовый аппаратно-программный комплекс для школ, кванториумов и вузов: бортовой компьютер на ESP32, радиоканал 433 МГц, наземная станция, методики на три уровня подготовки.
+4 подсистемы
+Готовый комплекс формата CubeSat 1U, повторяющий архитектуру реальных космических аппаратов: бортовой компьютер, набор сенсоров, радиотракт на 433 МГц, система энергопитания и корпус, наземная станция приёма телеметрии и методические материалы для проведения 24+ миссий.
+Бортовой компьютер
+Миссий в каталоге
+Команда из 3–6 человек проходит полный инженерный цикл: сборка, наземные испытания, калибровка, передача телеметрии, анализ данных и, при подходящих условиях, реальный запуск на метеозонде.
+Четыре подсистемы
+Архитектура реального спутника. Каждая подсистема — самостоятельный учебный модуль.
+Ядро на ESP32: управление подсистемами, исполнение полётного задания, формирование пакетов телеметрии, обработка команд с земли.
+Температура, давление, влажность, освещённость, магнитное поле, акселерометр, гироскоп. Калибровка и фильтрация данных.
+Двусторонний канал 433 МГц между спутником и наземной станцией. Формат пакетов, обработка потерь, протокол «борт — земля».
+Энергетика и корпус
+Система питания, распределение нагрузки, энергобюджет и несущая конструкция формата 1U.
+Три образовательных сценария
+Каждый сценарий ведёт команду через полный цикл миссии: постановка задачи, конфигурация подсистем, запуск, приём телеметрии, анализ данных.
+Тестирование систем спутника
+Наземные испытания бортового компьютера, питания, сенсорики и радиоканала. Предстартовые проверки, регистрация отказов, журнал испытаний и допуск аппарата к миссии.
+Мониторинг атмосферы
+Спутник как измерительная платформа: температура, давление, влажность, освещённость, магнитное поле. Профиль среды по высоте и времени, обработка рядов данных.
+Ориентация и связь
+Работа с инерциальными датчиками и радиоканалом: определение ориентации, отслеживание траектории, командная радиолиния и приём телеметрии на наземной станции.
+Преподаватель собирает учебный трек под формат занятий: от короткого интенсива до полного учебного года. Каждая миссия — с методической картой, шаблоном кода, чек-листом испытаний и формой отчёта.
+При подходящих метеоусловиях и согласованной площадке собранный командой аппарат поднимается на метеозонде на высоту до 700 м, выполняет полётное задание и передаёт телеметрию на наземную станцию. После приземления команда обрабатывает данные и оформляет итоговый отчёт о миссии.
+согласование сценария и площадки
+предполётные испытания и допуск аппарата
+запуск на метеозонде с приёмом телеметрии
+массив полётных данных и сертификат миссии
+Три уровня подготовки
+Платформа скалируется по возрасту и подготовке команды. Один и тот же аппарат проходит с учениками путь длиной в несколько лет.
+1–4 и 5–6 классы
+Сборка и эксплуатация
+Сборка аппарата, базовая логика подсистем, настройка готовых скриптов, выбор параметров датчиков и первые миссии по тестированию систем.
+7–9 и 10–11 классы
+Программирование и интеграция
+Схемотехника, интеграция дополнительных датчиков, разработка кода миссий с нуля, формирование собственных пакетов телеметрии, наземные испытания.
+Бакалавриат и специалитет
+Системная инженерия
+Проектирование и доработка подсистем, разработка ПО наземной станции, подготовка миссии к реальному запуску.
+Кому подходит
+Решение для образовательных и государственных заказчиков с измеримой инженерной составляющей.
+Физико-математические и инженерные классы, НТО, выпускные проекты
+Кванториумы и IT-кубы
+Флагманский продукт для Hi-Tech, Космо и Промробо квантумов
+Технопарки и ЦМИТы
+Длинные проектные циклы на семестр и учебный год
+Дифференцирующий продукт для аудитории 11–16 лет
+Лабораторная база для курсов по бортовым системам, радиосвязи и обработке данных, НИРС
+Корпоративные и государственные заказчики
+Профориентация, кадровый резерв отрасли, поставки партиями
+Что входит в поставку
+Готовый комплекс «под ключ»: аппаратура, программная платформа, методики и техническое сопровождение.
+Аппаратная часть
+Спутник CubeSat 1U (в сборе или комплект)
+Бортовой компьютер на ESP32
+Набор сенсоров под 3 сценария
+Радиомодуль 433 МГц
+Система питания и корпус 1U
+Наземная станция приёма телеметрии
+Программная часть
+Прошивка бортового компьютера
+ПО наземной станции
+Визуализация телеметрии
+Открытая платформа и исходные коды миссий
+Методика и сопровождение
+Каталог 24+ миссий с методическими картами
+Программы для уровней А, Б, В
+Чек-листы наземных испытаний
+Обучение педагога-наставника
+Техническая поддержка и обновления ПО
+Документы для закупки 44-ФЗ / 223-ФЗ
+СТОИМОСТЬ ОДНОГО КОНСТРУКТОРА
+Указана цена за один конструктор для сборки наноспутника. Коммерческое предложение на образовательную программу обучения предоставляется по запросу.
+Чем платформа отличается от учебных конструкторов
+Платформа спроектирована как инженерная образовательная система, а не набор для одноразовой демонстрации. Ученик не повторяет инструкцию — он ведёт миссию.
+Повторяет компоновку реального CubeSat 1U: четыре подсистемы, как в боевых аппаратах
+Глубина программы
+24+ миссий и 3 уровня подготовки на горизонт нескольких лет обучения
+Полноценный двусторонний канал 433 МГц «борт — наземная станция»
+Реальные пакеты телеметрии, наземная станция, журнал миссии
+Программная платформа
+Открытая, на ESP32, с возможностью разработки собственных миссий и доработки ПО
+Возможность реального запуска на метеозонде, а не настольная демонстрация
+Образовательная встраиваемость
+Готовые методики, обучение педагога, документы для закупки 44/223-ФЗ
+Инженерная роль ученика
+Команда отвечает за миссию целиком — от сборки до анализа полётных данных
+КОМАНДА A-ROCKETS
+Программу ведут те,
+кто строит космос
+A-ROCKETS — команда инженеров с практическим опытом разработки ракетной и космической техники. Мы переносим в образовательную программу те же принципы, по которым проектируются реальные малые аппараты: подсистемная архитектура, наземные испытания, протоколы телеметрии, регламент предстартовой подготовки.
+Методики, прошивка, протоколы и сценарии миссий разработаны действующими инженерами и проходят обкатку на реальных запусках. Преподаватели получают доступ к программе обучения и постоянной технической поддержке.
+ракетная и космическая техника
+проектирование малых аппаратов
+школа обучения педагогов
+сопровождение миссий на всём цикле
+Вопросы заказчиков
+Самое важное о платформе, поставке и сопровождении.
+С какого возраста рассчитан комплекс?
+Базовый порог — 1–4 классы (уровень А). Полная вертикаль А → Б → В охватывает школьную программу до 10–11 класса и продолжается в бакалавриате и специалитете в рамках вузовских курсов и НИРС.
+Нужны ли преподавателю специальные знания?
+Нет. В поставку входит обучение педагога-наставника, методические карты, шаблоны кода и чек-листы испытаний. Техническая поддержка инженеров A-ROCKETS — на всём цикле программы.
+Требуется ли лицензия на радиоканал 433 МГц?
+Используется нелицензируемый диапазон ISM 433 МГц в режимах, соответствующих требованиям к маломощным устройствам. Дополнительных разрешений для учебной эксплуатации не требуется.
+Что значит «реальный полёт на метеозонде»?
+Запуск собранного командой аппарата на метеозонде на высоту до 700 м с приёмом телеметрии. Проводится при подходящих метеоусловиях и согласовании площадки. Регламент согласуется отдельно.
+Можно ли встроить программу в учебный план?
+Да. Программа модульная: из 24+ миссий и трёх уровней собирается курс под формат занятий — от интенсива на 2–3 недели до полной программы на учебный год.
+Можно ли разрабатывать собственные миссии и дорабатывать ПО?
+Да. Программная платформа открытая, бортовой компьютер на ESP32, протокол телеметрии задокументирован. Уровень В и вузовские программы прямо предполагают разработку собственных миссий.
+Какая поддержка предоставляется после поставки?
+Обучение педагога, доступ к обновлениям прошивки и ПО, техническая поддержка по подсистемам и миссиям, консультации по проведению наземных испытаний.
+Обсудим внедрение в вашей организации
+Расскажите о площадке и задаче — подготовим конфигурацию комплекса, программу под ваш формат занятий и коммерческое предложение.
+Хлебные крошки
+Вернуться на главную страницу
+A complete space mission
+Real-satellite architecture. Each subsystem is a self-contained learning module.
+ESP32 core: subsystem control, mission execution, telemetry packet generation, command handling from the ground.
+Two-way 433 MHz link between the satellite and the ground station. Packet format, loss handling, board-to-ground protocol.
+Each scenario takes the team through the full mission cycle: objective definition, subsystem configuration, launch, telemetry downlink, data analysis.
+Satellite system testing
+Ground testing of the on-board computer, power, sensors and radio. Pre-launch checks, fault logging, test journal and mission clearance.
+The satellite as a measurement platform: temperature, pressure, humidity, light, magnetic field. Environmental profile vs altitude and time, time-series processing.
+The teacher composes a course to fit the schedule — from a short intensive to a full academic year. Each mission ships with a teaching guide, code template, test checklist and report form.
+Under suitable weather conditions and at an approved site, the satellite assembled by the team is lifted on a weather balloon to up to 700 m, executes the mission and downlinks telemetry to the ground station. After landing, the team processes the data and produces the final mission report.
+pre-flight testing and mission clearance
+flight data archive and mission certificate
+The platform scales with the team's age and experience. The same satellite carries students through several years of learning.
+Satellite assembly, basic subsystem logic, configuring stock scripts, choosing sensor parameters and first system-testing missions.
+Circuit work, integrating extra sensors, writing mission code from scratch, defining custom telemetry packets, ground testing.
+Designing and extending subsystems, developing ground-station software, preparing a mission for a real launch.
+CubeSat 1U satellite (assembled or as a kit)
+Open platform and mission source code
+PRICE PER KIT
+This is the price for a single satellite assembly kit. A quote for the educational training program is available on request.
+The platform is designed as an engineering education system, not a one-off demo kit. Students don't follow an instruction sheet — they run a mission.
+Real telemetry packets, a ground station, a mission log
+The team owns the mission end-to-end — from assembly to flight-data analysis
+The curriculum, firmware, protocols and mission scenarios are built by working engineers and validated on real launches. Teachers get access to training and continuous technical support.
+mission support across the cycle
+Customer questions
+Launching the team-assembled satellite on a weather balloon to up to 700 m with telemetry downlink. Held under suitable weather and an approved site. Procedures are agreed separately.

@@ -1,0 +1,33 @@
+[{"stream_name":"stderr","time":5.212965689,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":19.020396015,"data":"2022 строк всего 17139087 пример обозначений ['92044A', '00045B', '00041B', '00045A', '83020D']\n"}
+,{"stream_name":"stdout","time":19.150025021,"data":"  кандидатов по наклонению 438118\n"}
+,{"stream_name":"stdout","time":26.286791145,"data":"2023 строк всего 15740029 пример обозначений ['15019C', '92044A', '69046F', '83020D', '76023C']\n"}
+,{"stream_name":"stdout","time":26.85448125,"data":"  кандидатов по наклонению 458443\n"}
+,{"stream_name":"stdout","time":27.390535579,"data":"обозначения выбранных: ['22138A', '22138AA', '22138AB', '22138AC', '22138AD', '22138AE', '22138AF', '22138AG', '22138AH', '22138AJ', '22138AK', '22138AL']\n"}
+,{"stream_name":"stdout","time":27.4002547,"data":"launch\n"}
+,{"stream_name":"stdout","time":27.400308529,"data":"LVM3-M2 23.10.2022    37\n"}
+,{"stream_name":"stdout","time":27.400315609,"data":"LVM3-M3 26.03.2023    37\n"}
+,{"stream_name":"stdout","time":27.400319605,"data":"Name: norad_id, dtype: int64\n"}
+,{"stream_name":"stdout","time":27.573585163,"data":"\n"}
+,{"stream_name":"stdout","time":27.573609216,"data":"Спутников с достаточной историей: 74\n"}
+,{"stream_name":"stdout","time":27.577341565,"data":"\n"}
+,{"stream_name":"stdout","time":27.577379603,"data":"== LVM3-M2 23.10.2022: 37 спутников, наклонение 87.82°, начальная высота медиана 596 км, конечная 1186 км\n"}
+,{"stream_name":"stdout","time":27.57738734,"data":"  окно наблюдения медиана 432 сут\n"}
+,{"stream_name":"stdout","time":27.577435441,"data":"  наблюдаемый уход узла за окно: медиана -92.2°, разброс между спутниками -142.9..-92.2°\n"}
+,{"stream_name":"stdout","time":27.578645747,"data":"  ошибка модели J2 в конце окна: медиана |ошибки| 0.19°, 90-й процентиль 6.77°, макс по траектории медиана 0.19°\n"}
+,{"stream_name":"stdout","time":27.58111913,"data":"  разнос плоскостей внутри запуска: наблюдаемый размах 50.7°, предсказанный 50.8°, корреляция 0.9905\n"}
+,{"stream_name":"stdout","time":27.582993039,"data":"  подъём до 1190 км: 3 спутников, медиана 78 сут (10–90 %: 75–78), ожидание на низкой орбите медиана 20 сут\n"}
+,{"stream_name":"stdout","time":27.583265244,"data":"\n"}
+,{"stream_name":"stdout","time":27.583296219,"data":"== LVM3-M3 26.03.2023: 37 спутников, наклонение 87.73°, начальная высота медиана 448 км, конечная 1198 км\n"}
+,{"stream_name":"stdout","time":27.583307785,"data":"  окно наблюдения медиана 278 сут\n"}
+,{"stream_name":"stdout","time":27.583474484,"data":"  наблюдаемый уход узла за окно: медиана -78.9°, разброс между спутниками -99.9..-63.6°\n"}
+,{"stream_name":"stdout","time":27.584356392,"data":"  ошибка модели J2 в конце окна: медиана |ошибки| 2.15°, 90-й процентиль 6.71°, макс по траектории медиана 2.20°\n"}
+,{"stream_name":"stdout","time":27.585186143,"data":"  разнос плоскостей внутри запуска: наблюдаемый размах 36.3°, предсказанный 36.6°, корреляция 0.9918\n"}
+,{"stream_name":"stdout","time":27.586547948,"data":"  подъём до 1190 км: 26 спутников, медиана 188 сут (10–90 %: 118–246), ожидание на низкой орбите медиана 19 сут\n"}
+,{"stream_name":"stderr","time":30.786413603,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":30.786447769,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":31.229466231,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":31.229499625,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":33.448603747,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":34.848222696,"data":"[NbConvertApp] Writing 304086 bytes to __results__.html\n"}
+]

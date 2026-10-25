@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>ПОДХОД — портфолио проекта (запасной, кейс 1)</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root { --ink:#14171c; --muted:#5b6370; --accent:#c4501b; --line:#e3e5e8; --soft:#f6f4f1; --ok:#2f6f4f; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#fff; color:var(--ink);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .slide { width:1280px; height:720px; padding:56px 72px 44px; position:relative; overflow:hidden;
+    page-break-after: always; break-after: page; display:flex; flex-direction:column; }
+  .slide:last-child { page-break-after:auto; break-after:auto; }
+  .kicker { font-size:15px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:10px; }
+  h1 { font-size:44px; line-height:1.08; margin:0 0 14px; letter-spacing:-.01em; }
+  h2 { font-size:34px; line-height:1.12; margin:0 0 18px; letter-spacing:-.01em; }
+  p, li { font-size:19px; line-height:1.42; margin:0; }
+  .muted { color:var(--muted); }
+  .foot { position:absolute; left:72px; right:72px; bottom:22px; font-size:12.5px; color:var(--muted);
+    display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:8px; }
+  .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:28px; }
+  .grid3 { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:20px; }
+  .card { background:var(--soft); border-radius:10px; padding:18px 20px; }
+  .card h3 { font-size:19px; margin:0 0 8px; }
+  .card p, .card li { font-size:16.5px; line-height:1.4; }
+  ul { margin:0; padding-left:20px; } li { margin:4px 0; }
+  .big { font-size:23px; line-height:1.38; }
+  .tag { display:inline-block; font-size:14px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:4px; padding:3px 9px; margin-right:8px; vertical-align:2px; }
+  table { border-collapse:collapse; width:100%; }
+  td, th { font-size:16.5px; padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  th { color:var(--muted); font-weight:600; font-size:14px; text-transform:uppercase; letter-spacing:.06em; }
+  .bars { margin-top:6px; }
+  .bar-row { display:grid; grid-template-columns: 1fr 112px; grid-template-rows:auto auto; column-gap:12px; margin:10px 0; }
+  .bar-row .lbl { font-size:15.5px; grid-column: 1 / 3; margin-bottom:3px; }
+  .bar-row .val { grid-column: 2; grid-row: 2; align-self:center; }
+  .bar { height:20px; border-radius:4px; background:var(--accent); grid-column:1; grid-row:2; min-width:6px; }
+  .bar.budget { background:#9aa3ad; }
+  .bar.j2 { background:var(--ok); }
+  .bar-row .val { font-size:16px; font-weight:700; }
+  .fill { color:#b00020; background:#fff2f2; padding:0 4px; border-radius:3px; }
+  .flow { display:grid; grid-template-columns: repeat(4, 1fr); gap:14px; margin-top:6px; }
+  .step { border:1.5px solid var(--line); border-radius:10px; padding:14px 16px; position:relative; }
+  .step .n { font-size:13px; font-weight:700; color:var(--accent); letter-spacing:.08em; }
+  .step h3 { font-size:18px; margin:4px 0 6px; }
+  .step p { font-size:15px; line-height:1.38; }
+  .note { font-size:14px; color:var(--muted); line-height:1.35; }
+</style>
+</head>
+<body>
+<section class="slide">
+  <div class="kicker">Кейс 1 · Применение машинного зрения в системах управления космическими аппаратами</div>
+  <h1>ПОДХОД — оптическая навигация буксира<br>к отработавшему спутнику</h1>
+  <p class="big muted" style="max-width:1040px;margin-bottom:26px">Оцениваем по одной камере, где и как повёрнут неуправляемый спутник, и, главное, понимаем, когда этой оценке нельзя доверять при сближении.</p>
+  <div class="grid2" style="gap:22px">
+    <div class="card">
+      <h3>Андрей Углов <span class="muted" style="font-weight:400">· руководитель, модель и проверка переноса</span></h3>
+      <p>Модель оценки позы, слой доверия и проверка переноса «синтетика → реальная камера». Опыт: проект FRS (распределённая система допуска, перенос модели между доменами, внешняя проверка на 488 062 кадрах WFAS), победитель Весенней научной сессии СНО НИЯУ МИФИ 2026, ЛШАД ФКН ВШЭ 2026.</p>
+    </div>
+    <div class="card">
+      <h3>Лев <span class="fill">[фамилия]</span> <span class="muted" style="font-weight:400">· динамика и интеграция</span></h3>
+      <p>Модель относительного движения при подходе, конвейер данных, скорость работы на ноутбуке. <span class="fill">[1 строка: стек и достижения]</span></p>
+    </div>
+    <div class="card">
+      <h3><span class="fill">[Имя Фамилия]</span> <span class="muted" style="font-weight:400">· данные и экономика</span></h3>
+      <p>Метрики, разбор ошибок по условиям съёмки, рынок увода спутников с орбиты. <span class="fill">[1 строка: опыт анализа данных]</span></p>
+    </div>
+    <div class="card" style="background:#fff;border:1.5px dashed var(--line)">
+      <h3><span class="fill">[если подтвердятся]</span> <span class="muted" style="font-weight:400">· баллистика · ML</span></h3>
+      <p>Физик/астроном — относительная динамика и освещённость. Всеволод Овчинников — обучение и адаптация моделей.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Космический идеатон БРИКС · 2026</span><span>Команда «<span class="fill">[название]</span>»</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Задача</div>
+  <h2>Чтобы увести мёртвый спутник, буксир должен видеть его сам, а одна уверенная ошибка опаснее сотни неточных кадров</h2>
+  <div class="grid2" style="grid-template-columns:1.05fr 1fr;gap:34px">
+    <div>
+      <p style="margin-bottom:12px">А-РОКЕТС заявляет для буксира «СКАУТ 1» «контролируемое сведение отработавших МКА и космического мусора», на ПМЭФ-2026 — расчистку низкой орбиты. Отработавший спутник не помогает: на нём нет маяков, он может вращаться, его освещение меняется каждую минуту.</p>
+      <p style="margin-bottom:12px">Нейросети для оценки позы учат на синтетических картинках, потому что реальных снимков с орбиты почти нет. На реальной камере они ошибаются, создатели набора SPEED+ прямо называют этот разрыв доменов главной трудностью.</p>
+      <p><b>Постановка:</b> по снимку одной камеры выдать положение и ориентацию цели и решение «продолжать / ждать / отойти», так чтобы доля принятых грубых ошибок была измерена при переносе с синтетики на реальные снимки стенда.</p>
+    </div>
+    <div class="card" style="background:#fff;border:1.5px solid var(--line)">
+      <h3>Данные для проверки уже есть</h3>
+      <table>
+        <tr><th>Домен SPEED+</th><th>Снимков</th></tr>
+        <tr><td>Синтетика (обучение)</td><td>59 960</td></tr>
+        <tr><td>Стенд, рассеянный свет (lightbox)</td><td>6 740</td></tr>
+        <tr><td>Стенд, имитатор Солнца (sunlamp)</td><td>2 791</td></tr>
+      </table>
+      <p class="note" style="margin-top:10px">Стэнфорд (SLAB) и ESA, соревнование SPEC2021. Разметка реальных доменов открыта с 2023 года. Открытый базовый код speedplusbaseline (MIT).</p>
+    </div>
+  </div>
+  <div class="foot"><span>Источники: a-rockets.com, ПМЭФ-2026, SPEED+ (arXiv 2110.03101, Zenodo 5588480)</span><span>2 / 5</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Идея и принцип работы</div>
+  <h2>Не ещё одна сеть, а слой доверия между зрением и управлением</h2>
+  <div class="flow">
+    <div class="step"><div class="n">ШАГ 1</div><h3>Базовая оценка позы</h3><p>Открытая модель по ключевым точкам спутника и геометрическое решение положения и ориентации по известной форме цели.</p></div>
+    <div class="step"><div class="n">ШАГ 2</div><h3>Оценка доверия</h3><p>Согласованность ключевых точек, невязка геометрического решения, разногласие нескольких моделей. Порог отказа задаётся заранее на синтетике.</p></div>
+    <div class="step"><div class="n">ШАГ 3</div><h3>Проверка переноса</h3><p>Тот же порог без подстройки на реальных снимках стенда. Разбор ошибок по освещению, дальности и ракурсу, поиск ярлыков, на которые опирается модель.</p></div>
+    <div class="step"><div class="n">ШАГ 4</div><h3>Влияние на сближение</h3><p>Ошибки зрения подаются в модель относительного движения при подходе. Сравниваем «доверять всегда» и «доверять со слоем отказа».</p></div>
+  </div>
+  <div class="grid2" style="margin-top:20px;gap:24px">
+    <div class="card"><h3>Почему это наша задача</h3><p>Ровно эту цепочку мы прошли в FRS: обучение на синтетике, перенос на реальные камеры, внешняя проверка на 488 062 кадрах WFAS без дообучения, разбор ярлыков и отказ там, где модель не знает.</p></div>
+    <div class="card"><h3>Чем отличаемся</h3><p>Лидеры SPEC2021 улучшали точность. Мы меряем то, что нужно управлению: сколько грубых ошибок проходит в контур при заданной доле принятых кадров и что это делает с безопасностью подхода.</p></div>
+  </div>
+  <div class="foot"><span>ПОДХОД · кейс 1</span><span>3 / 5</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Результат на защите и план</div>
+  <h2>8 ноября: модель со слоем доверия и отчёт о переносе на реальные снимки</h2>
+  <div class="grid2" style="grid-template-columns:1fr 1.1fr;gap:30px">
+    <div>
+      <p style="margin-bottom:10px"><b>Живая демонстрация.</b> Последовательность реальных снимков стенда: модель показывает позу и в трудных кадрах честно говорит «не уверен». Рядом модель подхода, где без слоя доверия буксир нарушает безопасную дистанцию, а с ним нет.</p>
+      <p style="margin-bottom:6px"><b>Метрики:</b></p>
+      <ul>
+        <li>ошибка положения и угла на lightbox и sunlamp (метрика ESA)</li>
+        <li>доля грубых ошибок среди принятых кадров при заданной доле принятых</li>
+        <li>нарушения безопасной дистанции и время подхода в модели</li>
+      </ul>
+    </div>
+    <table>
+      <tr><th>Срок</th><th>Что готово</th></tr>
+      <tr><td>26–28 окт.</td><td>Данные, базовая модель, воспроизведение её точности</td></tr>
+      <tr><td>29 окт. – 1 нояб.</td><td>Оценка доверия и порог отказа на синтетике</td></tr>
+      <tr><td>2–4 нояб.</td><td>Перенос на реальные домены, разбор ошибок и ярлыков</td></tr>
+      <tr><td>4–6 нояб.</td><td>Модель подхода, сравнение режимов. Интенсив: вопросы менторам А-РОКЕТС о сценарии увода</td></tr>
+      <tr><td>7–8 нояб.</td><td>Репетиция 3 минут, доработка с менторами, защита</td></tr>
+    </table>
+  </div>
+  <p class="note" style="margin-top:14px">Обучение на бесплатных облачных GPU. Если не хватает, берём меньшую модель и меньшее разрешение. Минимальный результат: базовая модель, слой доверия и отчёт переноса — это компьютерная модель по п. 9.4.</p>
+  <div class="foot"><span>ПОДХОД · кейс 1</span><span>4 / 5</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Применение в странах БРИКС</div>
+  <h2>Мусор на низкой орбите общий, и проверять навигацию для его уборки удобнее вместе</h2>
+  <div class="grid3">
+    <div class="card"><h3>Кто делает</h3><p>Российский буксир А-РОКЕТС заявляет увод отработавших аппаратов. Индия провела автономное сближение и стыковку в миссии SpaDeX. Сближение и сервис на орбите становятся задачей нескольких стран блока.</p></div>
+    <div class="card"><h3>Кому нужно</h3><p>Операторам, чьи аппараты отработали на низкой орбите, и разработчикам сервисных аппаратов. Им нужна навигация, которой можно доверять в контуре управления, а не только высокая средняя точность.</p></div>
+    <div class="card"><h3>Кто платит</h3><p>Первый пользователь — А-РОКЕТС как модуль для миссии увода (гипотеза, проверяем на интенсиве). Дальше — услуга сведения с орбиты для операторов малых спутников.</p></div>
+  </div>
+  <div class="card" style="margin-top:20px;background:#fff;border:1.5px solid var(--line)">
+    <h3>Формы кооперации</h3>
+    <p>Общий открытый протокол проверки оптической навигации на одинаковых данных, обмен реальными снимками стендов между лабораториями стран БРИКС, развитие модуля в стажировке А-РОКЕТС.</p>
+  </div>
+  <div class="foot"><span>Источники: a-rockets.com, ПМЭФ-2026, ISRO SpaDeX</span><span>5 / 5</span></div>
+</section>
+</body>
+</html>
