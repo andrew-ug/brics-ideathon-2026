@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ДРЕЙФ — планировщик буксира</title>
+<meta name="description" content="Калькулятор миссий электрического буксира «СКАУТ»: сколько ждать и сколько ксенона нужно, чтобы довести спутник до плоскости клиента к сроку.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbfaf8; --surface:#ffffff; --soft:#f3f1ed; --ink:#14171c; --ink2:#3a404a; --muted:#6a7280; --line:#e4e2de;
+  --blue:#2a78d6; --blue-soft:rgba(42,120,214,.12); --accent:#c4501b; --accent-soft:rgba(196,80,27,.10);
+  --hatch:#d9d5cf; --shadow:0 1px 2px rgba(20,23,28,.04),0 8px 28px rgba(20,23,28,.06);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0f1114; --surface:#171a1f; --soft:#1d2127; --ink:#eef0f3; --ink2:#c9ced6; --muted:#949ca8; --line:#2a2f37;
+    --blue:#4a8fe0; --blue-soft:rgba(74,143,224,.16); --accent:#de6a33; --accent-soft:rgba(222,106,51,.14);
+    --hatch:#353a43; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 28px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Onest,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:24px}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:24px;height:56px}
+.logo{font-weight:800;letter-spacing:.06em;font-size:18px;color:var(--ink)}
+.logo span{color:var(--accent)}
+nav{display:flex;gap:20px;font-size:14px;margin-left:auto;flex-wrap:wrap}
+nav a{color:var(--muted)} nav a:hover{color:var(--ink);text-decoration:none}
+section{padding-block:72px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+h1{font-size:clamp(34px,5.2vw,60px);line-height:1.04;letter-spacing:-.025em;margin:0 0 20px;font-weight:800;max-width:15ch}
+h2{font-size:clamp(26px,3.4vw,38px);line-height:1.1;letter-spacing:-.02em;margin:0 0 14px;font-weight:700;max-width:24ch}
+h3{font-size:18px;margin:0 0 6px;font-weight:600}
+.lead{font-size:clamp(17px,1.6vw,20px);color:var(--ink2);max-width:60ch;margin:0}
+.muted{color:var(--muted)}
+.hero{padding-block:64px 56px}
+.hero-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:36px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+.kpi b{display:block;font-size:30px;line-height:1.05;letter-spacing:-.02em;font-weight:700}
+.kpi span{font-size:14px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:20px;margin-top:32px}
+.controls{padding:22px}
+.ctl{margin-bottom:22px}
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:600;font-size:15px;margin-bottom:8px}
+.ctl label output{font-size:24px;font-weight:700;letter-spacing:-.01em}
+.ctl small{display:block;color:var(--muted);font-size:13px;margin-top:6px}
+input[type=range]{width:100%;accent-color:var(--accent);height:28px}
+.presets{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:999px;padding:6px 12px;font:500 13px Onest,system-ui,sans-serif;cursor:pointer}
+.chip:hover{border-color:var(--muted)} .chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.polar{display:block;width:100%;max-width:300px;margin:8px auto 0}
+.polar .rot{transition:transform .6s cubic-bezier(.2,.8,.2,1);transform-origin:150px 150px}
+.result{padding:22px 24px}
+.verdict{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.verdict .big{font-size:clamp(40px,5vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1}
+.verdict .unit{font-size:18px;color:var(--ink2)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--blue-soft);color:var(--ink)}
+.badge.no{background:var(--accent-soft)}
+.tank{height:10px;border-radius:999px;background:var(--soft);border:1px solid var(--line);overflow:hidden;margin:14px 0 6px}
+.tank i{display:block;height:100%;background:var(--accent);border-radius:999px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;margin:18px 0 6px}
+.rows div{border-top:1px solid var(--line);padding-top:8px}
+.rows dt{font-size:13px;color:var(--muted)} .rows dd{margin:2px 0 0;font-weight:600;font-size:17px}
+.story{font-size:15px;color:var(--ink2);margin:12px 0 0}
+.chart{position:relative;margin-top:8px}
+.chart svg{display:block;width:100%;overflow:visible}
+.chart-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:22px}
+.chart-title h3{margin:0}
+.chart-title span{font-size:13px;color:var(--muted)}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;line-height:1.35;padding:7px 10px;border-radius:8px;
+  white-space:nowrap;transform:translate(-50%,calc(-100% - 12px));opacity:0;transition:opacity .12s}
+.tip.on{opacity:1}
+.axis text{fill:var(--muted);font-size:12px} .axis line,.axis path{stroke:var(--line)}
+.grid line{stroke:var(--line);stroke-dasharray:2 4}
+.lbl{fill:var(--ink2);font-size:12px;font-weight:500}
+.how{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:32px}
+.how .card{padding:18px}
+.step{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px}
+.formula{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:13px;background:var(--soft);border-radius:8px;padding:8px 10px;margin:10px 0 0;color:var(--ink)}
+.how p{margin:0;font-size:14.5px;color:var(--ink2)}
+.note{margin-top:18px;padding:14px 18px;border-left:3px solid var(--accent);background:var(--surface);border-radius:0 12px 12px 0;font-size:14.5px;color:var(--ink2)}
+.proof{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:28px;margin-top:28px;align-items:start}
+.proof .big{font-size:64px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--ink2);flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+details{margin-top:14px;font-size:14px} summary{cursor:pointer;color:var(--muted)}
+.tbl{overflow-x:auto;max-height:320px;margin-top:8px}
+table{border-collapse:collapse;font-size:13px;width:100%} th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right} th:first-child,td:first-child{text-align:left}
+.brics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:28px}
+.brics .card{padding:20px}
+.brics h3{font-size:17px}
+.brics p{margin:6px 0 0;font-size:14.5px;color:var(--ink2)}
+.src{font-size:12.5px;color:var(--muted);margin-top:10px}
+footer{padding-block:40px 56px;font-size:14px;color:var(--muted)}
+.team{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 24px}
+.team div{color:var(--ink)} .team span{display:block;color:var(--muted);font-size:13px}
+@media (max-width:900px){
+  .hero-grid,.calc,.proof{grid-template-columns:1fr}
+  .how{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .brics{grid-template-columns:1fr}
+  .team{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:16px}
+  nav{display:none}
+  .kpis{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr}
+  .rows{grid-template-columns:1fr}
+  section{padding-block:52px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="#">ДРЕЙФ<span>.</span></a>
+  <nav><a href="#calc">Калькулятор</a><a href="#how">Как считаем</a><a href="#proof">Проверка</a><a href="#brics">БРИКС</a></nav>
+</div></header>
+
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <p class="eyebrow">Кейс 3 · Космический идеатон БРИКС · партнёр А-РОКЕТС</p>
+    <h1>Где подождать, чтобы успеть к&nbsp;сроку и&nbsp;сберечь топливо</h1>
+    <p class="lead">Попутный запуск выводит спутник не в ту плоскость орбиты. Повернуть её двигателем буксиру «СКАУТ» не хватит топлива. Но Земля сплюснута, и плоскость поворачивается сама, на разной высоте с разной скоростью. Мы считаем, на какой высоте и сколько ждать.</p>
+    <div class="kpis" id="kpis"></div>
+  </div>
+  <svg class="polar" id="hero-polar" viewBox="0 0 300 300" aria-label="Вид с северного полюса: плоскость запуска и плоскость клиента"></svg>
+</div></section>
+
+<section id="calc"><div class="wrap">
+  <p class="eyebrow">Калькулятор</p>
+  <h2>Выберите сдвиг и срок. Мы найдём план с наименьшим расходом</h2>
+  <p class="lead">Старт: солнечно-синхронная орбита 550 км, наклонение 97,6°. Буксир 150 кг и груз 50 кг. Числа посчитаны заранее той же моделью, что лежит в репозитории, страница их только показывает.</p>
+
+  <div class="calc">
+    <div class="card controls">
+      <div class="ctl">
+        <label for="in-shift">Сдвиг плоскости <output id="out-shift"></output></label>
+        <input id="in-shift" type="range" min="-30" max="30" step="1" value="-15">
+        <small>На сколько градусов по долготе узла плоскость клиента повёрнута от плоскости запуска.</small>
+      </div>
+      <div class="ctl">
+        <label for="in-dl">Срок клиента <output id="out-dl"></output></label>
+        <input id="in-dl" type="range" min="30" max="365" step="5" value="180">
+        <small>Когда спутник должен быть на месте, в сутках от запуска.</small>
+      </div>
+      <div class="ctl" style="margin-bottom:0">
+        <label>Примеры со слайдов</label>
+        <div class="presets" id="presets"></div>
+      </div>
+      <svg class="polar" id="calc-polar" viewBox="0 0 300 300" aria-label="Угол между плоскостями"></svg>
+    </div>
+
+    <div class="card result">
+      <div id="verdict"></div>
+      <div class="chart-title"><h3 id="urg-title">Цена срочности</h3><span>нажмите на график, чтобы выбрать срок</span></div>
+      <div class="chart" id="ch-urgency"></div>
+      <div class="chart-title"><h3>Профиль высоты</h3><span id="prof-sub"></span></div>
+      <div class="chart" id="ch-profile"></div>
+      <details><summary>Таблица: ксенон по срокам для этого сдвига</summary><div class="tbl" id="tbl-urg"></div></details>
+    </div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <p class="eyebrow">Как считаем</p>
+  <h2>Четыре шага. Каждый можно проверить кодом</h2>
+  <div class="how">
+    <div class="card"><div class="step">1 · Бесплатный поворот</div><h3>Дрейф от сплюснутости Земли</h3>
+      <p>Плоскость орбиты поворачивается сама. На 550 км почти на 1° в сутки, выше медленнее, ниже быстрее. Разница скоростей и есть наш «двигатель».</p>
+      <div class="formula">dΩ/dt = −3/2 · n · J2 · (R/a)² · cos i</div></div>
+    <div class="card"><div class="step">2 · Платный поворот</div><h3>Поворот тягой</h3>
+      <p>Повернуть плоскость двигателем напрямую дорого. На 15° нужно 3,1 км/с, а у буксира на всё 2,0–2,8 км/с.</p>
+      <div class="formula">Δv = π/2 · v · sin i · ΔΩ</div></div>
+    <div class="card"><div class="step">3 · Перебор</div><h3>Лучший план к сроку</h3>
+      <p>Перебираем высоту ожидания от 350 до 1550 км и долю поворота тягой от 0 до 100 %. Учитываем тень, сопротивление атмосферы и расход массы. Берём план с наименьшим ксеноном, который успевает.</p>
+      <div class="formula"><a id="ln-map" href="#">work/calc/strategy_map.py</a></div></div>
+    <div class="card"><div class="step">4 · Сверка</div><h3>Честный численный полёт</h3>
+      <p>Три плана слайда прогнали прямым интегрированием орбиты: J2, тень, атмосфера, шаг 30 с. Ксенон совпал с моделью с точностью до 6 %.</p>
+      <div class="formula"><a id="ln-num" href="#">work/calc/price_numeric_check.py</a></div></div>
+  </div>
+  <div class="note"><b>Допущения, которые мы проверяем к 8 ноября.</b> Масса буксира не опубликована, мы взяли 150 кг. Тяга работает только на свету, доля света 0,62, это среднее, а не расчёт по Солнцу: на орбите «рассвет — закат» тени почти нет, и там 60 суток на −15° выполнимы. Подъём и поворот делаются по очереди, совмещение было бы дешевле, поэтому наши числа — оценка сверху. Тяга, удельный импульс и суммарный импульс взяты с сайта a-rockets.com.</div>
+</div></section>
+
+<section id="proof"><div class="wrap">
+  <p class="eyebrow">Проверка на реальных спутниках</p>
+  <h2>Мы не верим формуле на слово</h2>
+  <div class="proof">
+    <div>
+      <div class="big" id="proof-big"></div>
+      <p class="lead" style="margin-top:12px">максимальная ошибка на <b>72 спутниках OneWeb</b> с двух запусков индийской ракеты LVM3.</p>
+      <p class="story">Мы взяли настоящую историю высоты и наклонения каждого спутника и по формуле дрейфа восстановили, как повернулась его плоскость за 9–14 месяцев. Узлы из каталога в формулу не подавались, ими только сверяли ответ. Плоскости ушли на 64–123°, а модель ошиблась меньше чем на 0,3°.</p>
+      <p class="story muted">Это проверка самого эффекта при известной истории орбиты, а не прогноз миссии. Две ступени ракеты из выборки исключены.</p>
+    </div>
+    <div class="card" style="padding:20px 22px">
+      <div class="chart-title" style="margin-top:0"><h3>Ошибка модели у каждого из 72 спутников</h3></div>
+      <div class="legend" style="margin-top:8px"><span><i style="background:var(--blue)"></i>LVM3-M2, 23.10.2022, 36 спутников</span><span><i style="background:var(--accent)"></i>LVM3-M3, 26.03.2023, 36 спутников</span></div>
+      <div class="chart" id="ch-oneweb"></div>
+      <details><summary>Таблица: все 72 спутника</summary><div class="tbl" id="tbl-ow"></div></details>
+      <p class="src">История орбит каталога Space-Track, выгрузка juliensimon/space-track-tle-history на Hugging Face (CC BY 4.0). Код: <a id="ln-ow" href="#">work/kaggle/oneweb_drift/</a></p>
+    </div>
+  </div>
+</div></section>
+
+<section id="brics"><div class="wrap">
+  <p class="eyebrow">Страны БРИКС</p>
+  <h2>Российский буксир для задачи, которую открыто называет Индия</h2>
+  <div class="brics">
+    <div class="card"><h3>Индия — председатель БРИКС в 2026 году</h3>
+      <p>Инженеры ISRO пишут, что для электрических миссий учёт поворота орбиты «is also crucial», и откладывают его на будущее. Мы считаем ровно это. К 2030 году ISRO требует уводить отработавшие аппараты с успехом больше 99 %.</p>
+      <p class="src">arxiv.org/abs/2511.23014 · isro.gov.in/Debris_Free_Space_Missions.html</p></div>
+    <div class="card"><h3>Попутные запуски уже продаются</h3>
+      <p>Индия (NSIL) и Китай (CAS Space) продают места на своих ракетах. Довезти аппарат от общей орбиты до своей — работа буксира. ОАЭ свой кубсат PHI-1 запускали американской ракетой.</p>
+      <p class="src">nsilindia.co.in · en.cas-space.com · mbrsc.ae</p></div>
+    <div class="card"><h3>Реальный случай</h3>
+      <p>«Союз» 5.11.2024 вывел 53 аппарата, среди них иранские Kowsar и Hodhod. Иран в БРИКС с 2024 года. Один запуск, и каждому аппарату нужна своя орбита.</p>
+      <p class="src">interfax.ru/russia/1037987</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div style="color:var(--ink);font-weight:600">Команда DevCore</div>
+  <div class="team">
+    <div>Андрей Углов<span>руководитель, инженерия</span></div>
+    <div>Андрей Полевой<span>физика</span></div>
+    <div>Лев Шиянов<span>данные и ML</span></div>
+    <div>Антон Винидиктов<span>экономика</span></div>
+  </div>
+  <div>Код, данные и все расчёты: <a id="ln-repo" href="#">репозиторий проекта</a>. Буксир «СКАУТ»: тяга 55 мН, удельный импульс 1500 с, суммарный импульс 380 кН·с (a-rockets.com).</div>
+</div></footer>
+
+<script src="data.js"></script>
+<script>
+(() => {
+const REPO = "https://github.com/andrew-ug/brics-ideathon-2026";
+const D = window.DRIFT, S = D.start, NS = "http://www.w3.org/2000/svg";
+const $ = s => document.querySelector(s);
+const num = (x, d = 1) => Number(x).toLocaleString("ru-RU", { minimumFractionDigits: d, maximumFractionDigits: d });
+const deg = x => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x) + "°";
+const st = { dO: -15, dl: 180 };
+const get = (dO, dl) => D.grid[String(dO)][D.deadlines.indexOf(dl)];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+$("#ln-map").href = REPO + "/blob/main/work/calc/strategy_map.py";
+$("#ln-num").href = REPO + "/blob/main/work/calc/price_numeric_check.py";
+$("#ln-ow").href = REPO + "/tree/main/work/kaggle/oneweb_drift";
+$("#ln-repo").href = REPO;
+
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const lin = (d0, d1, r0, r1) => v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+function step(x) { const p = 10 ** Math.floor(Math.log10(x)), f = x / p; return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p; }
+function ticks(a, b, n) { const s = step((b - a) / n), t = []; for (let v = Math.ceil(a / s) * s; v <= b + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
+
+function frame(box, o) {
+  box.innerHTML = "";
+  const W = box.clientWidth || 600, H = o.h || Math.round(Math.max(220, Math.min(300, W * 0.46)));
+  const m = { l: 46, r: 14, t: 14, b: 38 };
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": o.aria }, box);
+  const x = lin(o.x0, o.x1, m.l, W - m.r), y = lin(o.y0, o.y1, H - m.b, m.t);
+  const g = el("g", { class: "grid" }, svg), ax = el("g", { class: "axis" }, svg);
+  for (const t of o.yt) { el("line", { x1: m.l, x2: W - m.r, y1: y(t), y2: y(t) }, g); el("text", { x: m.l - 8, y: y(t) + 4, "text-anchor": "end" }, ax, o.fy(t)); }
+  for (const t of o.xt) el("text", { x: x(t), y: H - m.b + 18, "text-anchor": "middle" }, ax, o.fx(t));
+  el("line", { x1: m.l, x2: W - m.r, y1: H - m.b, y2: H - m.b }, ax);
+  el("text", { x: W - m.r, y: H - 4, "text-anchor": "end" }, ax, o.xl);
+  el("text", { x: m.l, y: m.t - 2, "text-anchor": "start" }, ax, o.yl);
+  const tip = document.createElement("div"); tip.className = "tip"; box.appendChild(tip);
+  return { svg, x, y, W, H, m, tip };
+}
+function showTip(f, px, py, html) { f.tip.innerHTML = html; f.tip.style.left = Math.min(Math.max(px, 90), f.W - 90) + "px"; f.tip.style.top = py + "px"; f.tip.classList.add("on"); }
+
+// Вид с северного полюса: плоскость орбиты с наклонением 97,6° выглядит узким эллипсом через центр.
+function polar(svg, dO, big) {
+  svg.innerHTML = "";
+  const c = 150, R = 118, ry = R * Math.abs(Math.cos(S.inc * Math.PI / 180)) + 6;
+  const defs = el("defs", {}, svg);
+  const gr = el("radialGradient", { id: svg.id + "-e", cx: "40%", cy: "38%" }, defs);
+  el("stop", { offset: "0", "stop-color": css("--blue"), "stop-opacity": ".55" }, gr);
+  el("stop", { offset: "1", "stop-color": css("--blue"), "stop-opacity": ".18" }, gr);
+  el("circle", { cx: c, cy: c, r: 62, fill: `url(#${svg.id}-e)`, stroke: css("--blue"), "stroke-opacity": ".35" }, svg);
+  el("text", { x: c, y: c + 4, "text-anchor": "middle", class: "lbl", style: "font-size:11px" }, svg, "Земля");
+  const a = el("g", {}, svg);
+  el("ellipse", { cx: c, cy: c, rx: R, ry, fill: "none", stroke: css("--muted"), "stroke-width": 2, "stroke-dasharray": "4 5" }, a);
+  const b = el("g", { class: "rot", style: `transform:rotate(${-dO}deg)` }, svg);
+  el("ellipse", { cx: c, cy: c, rx: R, ry, fill: "none", stroke: css("--accent"), "stroke-width": 2.5 }, b);
+  const sat = el("circle", { r: 5, fill: css("--accent"), stroke: css("--surface"), "stroke-width": 2 }, b);
+  el("animateMotion", { dur: "7s", repeatCount: "indefinite", path: `M${c - R},${c} a${R},${ry} 0 1,0 ${2 * R},0 a${R},${ry} 0 1,0 ${-2 * R},0` }, sat);
+  const r2 = R + 16, t = -dO * Math.PI / 180;
+  const p = (ang, r) => [c + r * Math.cos(ang), c + r * Math.sin(ang)];
+  const [x1, y1] = p(0, r2), [x2, y2] = p(t, r2);
+  el("path", { d: `M${x1},${y1} A${r2},${r2} 0 0,${t > 0 ? 1 : 0} ${x2},${y2}`, fill: "none", stroke: css("--ink2"), "stroke-width": 1.5 }, svg);
+  el("text", { x: c, y: c + 100, "text-anchor": "middle", class: "lbl", style: "font-weight:700;font-size:15px" }, svg, "ΔΩ = " + deg(dO));
+  if (big) {
+    el("text", { x: 12, y: 290, class: "lbl" }, svg, "— — плоскость запуска");
+    el("text", { x: 288, y: 290, class: "lbl", "text-anchor": "end", style: `fill:${css("--accent")}` }, svg, "плоскость клиента");
+  }
+}
+
+function kpis() {
+  const g = D.grid["-15"], a = g[D.deadlines.indexOf(180)], b = g[D.deadlines.indexOf(90)];
+  const e = Math.max(...D.oneweb.map(r => r.err));
+  $("#kpis").innerHTML =
+    `<div class="kpi"><b>${num(a.xe)} кг</b><span>ксенона на сдвиг −15° за 180 суток</span></div>` +
+    `<div class="kpi"><b>${num(b.xe)} кг</b><span>то же за 90 суток, в ${num(b.xe / a.xe)} раза дороже</span></div>` +
+    `<div class="kpi"><b>&lt; 0,3°</b><span>ошибка модели на 72 реальных спутниках</span></div>`;
+  $("#proof-big").textContent = num(e, 2) + "°";
+}
+
+const PRESETS = [[-15, 90], [-15, 180], [-15, 365], [-15, 60], [15, 180], [-5, 60]];
+function presets() {
+  const box = $("#presets"); box.innerHTML = "";
+  for (const [dO, dl] of PRESETS) {
+    const b = document.createElement("button"); b.className = "chip"; b.type = "button";
+    b.textContent = `${deg(dO)} за ${dl} сут`;
+    b.setAttribute("aria-pressed", st.dO === dO && st.dl === dl);
+    b.onclick = () => { st.dO = dO; st.dl = dl; render(); };
+    box.appendChild(b);
+  }
+}
+
+const KIND = { "дрейф": "Чистый дрейф", "гибрид": "Дрейф и тяга", "прямо": "Поворот только тягой" };
+function verdict(p) {
+  const v = $("#verdict");
+  if (!p) {
+    const i = D.grid[String(st.dO)].findIndex(q => q);
+    const f = D.grid[String(st.dO)][i], fdl = D.deadlines[i];
+    v.innerHTML = `<span class="badge no">Решения не нашли</span>
+      <div class="verdict" style="margin-top:12px"><span class="big">—</span><span class="unit">за ${st.dl} суток</span></div>
+      <p class="story">Ни один рассмотренный план не успевает к сроку с ${num(S.xe_tank)} кг ксенона на борту: тяга слабая, а тяга работает только на свету.
+      ${f ? `Самый короткий срок, который у нас получился для ${deg(st.dO)}: <b>${fdl} суток</b>, ${num(f.xe)} кг.` : ""}</p>
+      <p class="story muted">Это вывод модели при доле света 0,62. На орбите «рассвет — закат» тени почти нет, и сроки там короче.</p>`;
+    return;
+  }
+  const pct = p.xe / S.xe_tank * 100, up = p.h - S.h;
+  const story = p.kind === "прямо"
+    ? `Буксир остаётся на ${S.h} км и поворачивает плоскость тягой ${num(p.turn, 0)} суток.`
+    : `Буксир ${up > 0 ? "поднимается" : "опускается"} с ${S.h} до ${p.h} км за ${num(p.up, 0)} сут, ждёт ${num(p.wait + p.turn, 0)} сут,
+       пока плоскость довернётся${p.part > 0 ? `, и часть угла (${num(p.part)}°) доворачивает тягой` : ""}, затем возвращается за ${num(p.down, 0)} сут.`;
+  v.innerHTML = `<span class="badge">${KIND[p.kind]}</span>
+    <div class="verdict" style="margin-top:12px"><span class="big">${num(p.xe)} кг</span><span class="unit">ксенона из ${num(S.xe_tank)} на борту</span></div>
+    <div class="tank" aria-hidden="true"><i style="width:${pct.toFixed(1)}%"></i></div>
+    <div class="muted" style="font-size:13px">${num(pct, 0)} % бака</div>
+    <dl class="rows">
+      <div><dt>Высота ожидания</dt><dd>${p.h} км${up ? ` (${up > 0 ? "+" : "−"}${Math.abs(up)} км)` : ""}</dd></div>
+      <div><dt>Полёт займёт</dt><dd>${num(p.days, 0)} из ${st.dl} суток</dd></div>
+      <div><dt>Набор скорости, Δv</dt><dd>${p.dv} м/с</dd></div>
+      <div><dt>Повёрнуто тягой</dt><dd>${num(p.part)}° из ${Math.abs(st.dO)}°</dd></div>
+    </dl>
+    <p class="story">${story}</p>`;
+}
+
+function urgency() {
+  const box = $("#ch-urgency"), g = D.grid[String(st.dO)];
+  const pts = D.deadlines.map((dl, i) => ({ dl, p: g[i] })), ok = pts.filter(q => q.p);
+  const yMax = Math.max(4, ...ok.map(q => q.p.xe)) * 1.12;
+  $("#urg-title").textContent = `Цена срочности для сдвига ${deg(st.dO)}`;
+  const f = frame(box, { x0: 30, x1: 365, y0: 0, y1: yMax, xt: [30, 60, 90, 180, 270, 365], yt: ticks(0, yMax, 4),
+    fx: t => t, fy: t => num(t, t % 1 ? 1 : 0), xl: "срок, сутки", yl: "ксенон, кг", aria: "Расход ксенона в зависимости от срока" });
+  const { svg, x, y, H, m } = f;
+  const first = ok.length ? ok[0].dl : 366;
+  if (first > 30) {
+    const pat = el("pattern", { id: "hatch", width: 7, height: 7, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" }, el("defs", {}, svg));
+    el("line", { x1: 0, y1: 0, x2: 0, y2: 7, stroke: css("--hatch"), "stroke-width": 2.5 }, pat);
+    const xe = x(Math.min(first - 2.5, 365));
+    el("rect", { x: x(30), y: m.t, width: xe - x(30), height: H - m.b - m.t, fill: "url(#hatch)", rx: 4 }, svg);
+    if (xe - x(30) > 44) {
+      const tx = el("text", { x: (x(30) + xe) / 2, y: m.t + 18, "text-anchor": "middle", class: "lbl" }, svg);
+      el("tspan", { x: (x(30) + xe) / 2 }, tx, "решения");
+      el("tspan", { x: (x(30) + xe) / 2, dy: 15 }, tx, "не нашли");
+    }
+  }
+  if (ok.length) {
+    const d = ok.map((q, i) => `${i ? "L" : "M"}${x(q.dl)},${y(q.p.xe)}`).join("");
+    const grad = el("linearGradient", { id: "ga", x1: 0, x2: 0, y1: 0, y2: 1 }, el("defs", {}, svg));
+    el("stop", { offset: 0, "stop-color": css("--blue"), "stop-opacity": .22 }, grad);
+    el("stop", { offset: 1, "stop-color": css("--blue"), "stop-opacity": 0 }, grad);
+    el("path", { d: d + `L${x(365)},${y(0)}L${x(first)},${y(0)}Z`, fill: "url(#ga)" }, svg);
+    el("path", { d, fill: "none", stroke: css("--blue"), "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+  }
+  const cur = get(st.dO, st.dl);
+  el("line", { x1: x(st.dl), x2: x(st.dl), y1: m.t, y2: H - m.b, stroke: css("--accent"), "stroke-width": 1.5, "stroke-dasharray": "3 4" }, svg);
+  if (cur) el("circle", { cx: x(st.dl), cy: y(cur.xe), r: 6, fill: css("--accent"), stroke: css("--surface"), "stroke-width": 2 }, svg);
+  const hx = el("line", { y1: m.t, y2: H - m.b, stroke: css("--muted"), "stroke-width": 1, opacity: 0 }, svg);
+  const hit = el("rect", { x: m.l, y: 0, width: f.W - m.l - m.r, height: H, fill: "transparent", style: "cursor:pointer" }, svg);
+  const near = e => { const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) * f.W / r.width;
+    const dl = Math.round(Math.min(365, Math.max(30, 30 + (px - m.l) / (f.W - m.l - m.r) * 335)) / 5) * 5; return Math.min(365, Math.max(30, dl)); };
+  hit.addEventListener("pointermove", e => { const dl = near(e), p = get(st.dO, dl);
+    hx.setAttribute("x1", x(dl)); hx.setAttribute("x2", x(dl)); hx.setAttribute("opacity", 1);
+    showTip(f, x(dl) * box.clientWidth / f.W, p ? y(p.xe) : y(yMax * .5), p ? `<b>${dl} сут</b> → ${num(p.xe)} кг ксенона` : `<b>${dl} сут</b>: решения не нашли`); });
+  hit.addEventListener("pointerleave", () => { hx.setAttribute("opacity", 0); f.tip.classList.remove("on"); });
+  hit.addEventListener("click", e => { st.dl = near(e); render(); });
+  $("#tbl-urg").innerHTML = `<table><tr><th>Срок, сут</th><th>Ксенон, кг</th><th>Высота ожидания, км</th><th>Полёт, сут</th></tr>` +
+    pts.filter(q => [30, 60, 90, 120, 150, 180, 240, 300, 365].includes(q.dl)).map(q => `<tr><td>${q.dl}</td><td>${q.p ? num(q.p.xe) : "решения не нашли"}</td><td>${q.p ? q.p.h : ""}</td><td>${q.p ? num(q.p.days, 0) : ""}</td></tr>`).join("") + `</table>`;
+}
+
+function profile() {
+  const box = $("#ch-profile"), p = get(st.dO, st.dl);
+  if (!p) { box.innerHTML = `<p class="story muted">Плана нет, поэтому и профиля нет. Сдвиньте срок вправо.</p>`; $("#prof-sub").textContent = ""; return; }
+  const T = p.days, t1 = p.up, t2 = T - p.down, lo = Math.min(S.h, p.h), hi = Math.max(S.h, p.h);
+  const pad = Math.max(60, (hi - lo) * .25), xMax = Math.max(st.dl, T) * 1.03;
+  $("#prof-sub").textContent = `высота ожидания ${p.h} км`;
+  const f = frame(box, { h: 200, x0: 0, x1: xMax, y0: lo - pad, y1: hi + pad, xt: ticks(0, xMax, 5), yt: ticks(lo - pad, hi + pad, 3),
+    fx: t => t, fy: t => t, xl: "сутки от запуска", yl: "высота, км", aria: "Высота буксира по времени" });
+  const { svg, x, y, H, m } = f;
+  const d = `M${x(0)},${y(S.h)}L${x(t1)},${y(p.h)}L${x(t2)},${y(p.h)}L${x(T)},${y(S.h)}`;
+  el("path", { d, fill: "none", stroke: css("--blue"), "stroke-width": 2.5, "stroke-linejoin": "round" }, svg);
+  el("line", { x1: x(st.dl), x2: x(st.dl), y1: m.t, y2: H - m.b, stroke: css("--accent"), "stroke-width": 1.5, "stroke-dasharray": "3 4" }, svg);
+  el("text", { x: x(st.dl) - 6, y: m.t + 12, "text-anchor": "end", class: "lbl", style: `fill:${css("--accent")}` }, svg, "срок клиента");
+  const above = p.h >= S.h ? -10 : 18;
+  if (p.kind !== "прямо") {
+    el("text", { x: (x(t1) + x(t2)) / 2, y: y(p.h) + above, "text-anchor": "middle", class: "lbl" }, svg, `ожидание ${num(t2 - t1, 0)} сут`);
+    el("text", { x: x(t1 / 2) + 8, y: y((S.h + p.h) / 2), "text-anchor": "start", class: "lbl" }, svg, `${num(t1, 0)} сут`);
+  } else {
+    el("text", { x: (x(0) + x(T)) / 2, y: y(S.h) - 10, "text-anchor": "middle", class: "lbl" }, svg, `поворот тягой ${num(T, 0)} сут`);
+  }
+  for (const [t, h] of [[0, S.h], [t1, p.h], [t2, p.h], [T, S.h]]) el("circle", { cx: x(t), cy: y(h), r: 4, fill: css("--blue"), stroke: css("--surface"), "stroke-width": 2 }, svg);
+}
+
+function oneweb() {
+  const box = $("#ch-oneweb"), R = [...D.oneweb].sort((a, b) => a.err - b.err);
+  const f = frame(box, { h: 300, x0: 0, x1: R.length + 1, y0: 0, y1: .32, xt: [1, 18, 36, 54, 72], yt: [0, .1, .2, .3],
+    fx: t => t, fy: t => num(t, t ? 1 : 0) + "°", xl: "72 спутника, по возрастанию ошибки", yl: "ошибка модели",
+    aria: "Ошибка модели для каждого из 72 спутников" });
+  const { svg, x, y, m, W } = f;
+  el("line", { x1: m.l, x2: W - m.r, y1: y(.3), y2: y(.3), stroke: css("--ink2"), "stroke-width": 1, "stroke-dasharray": "5 4" }, svg);
+  el("text", { x: m.l + 6, y: y(.3) + 16, "text-anchor": "start", class: "lbl" }, svg, "0,3°: ни один спутник не выше");
+  const col = r => r.launch === "LVM3-M2" ? css("--blue") : css("--accent");
+  const pts = R.map((r, i) => ({ r, cx: x(i + 1), cy: y(r.err) }));
+  for (const q of pts) el("circle", { cx: q.cx, cy: q.cy, r: 5, fill: col(q.r), stroke: css("--surface"), "stroke-width": 2, "fill-opacity": .9 }, svg);
+  const ring = el("circle", { r: 9, fill: "none", stroke: css("--ink"), "stroke-width": 1.5, opacity: 0 }, svg);
+  const hit = el("rect", { x: m.l, y: 0, width: W - m.l - m.r, height: f.H, fill: "transparent" }, svg);
+  hit.addEventListener("pointermove", e => {
+    const b = svg.getBoundingClientRect(), px = (e.clientX - b.left) * W / b.width, py = (e.clientY - b.top) * f.H / b.height;
+    let best = pts[0], dm = 1e9; for (const q of pts) { const d = (q.cx - px) ** 2 + (q.cy - py) ** 2; if (d < dm) { dm = d; best = q; } }
+    ring.setAttribute("cx", best.cx); ring.setAttribute("cy", best.cy); ring.setAttribute("opacity", 1);
+    const r = best.r;
+    showTip(f, best.cx * box.clientWidth / W, best.cy * box.clientWidth / W, `<b>NORAD ${r.norad}</b> · ${r.launch} · ${r.days} сут<br>плоскость ушла на ${num(Math.abs(r.obs), 1)}°, модель ${num(Math.abs(r.pred), 1)}°<br>максимум ошибки ${num(r.err, 2)}°`);
+  });
+  hit.addEventListener("pointerleave", () => { ring.setAttribute("opacity", 0); f.tip.classList.remove("on"); });
+  $("#tbl-ow").innerHTML = `<table><tr><th>NORAD</th><th>Запуск</th><th>Сутки</th><th>Поворот по каталогу, °</th><th>Модель, °</th><th>Макс. ошибка, °</th></tr>` +
+    R.map(r => `<tr><td>${r.norad}</td><td>${r.launch}</td><td>${r.days}</td><td>${num(r.obs, 2)}</td><td>${num(r.pred, 2)}</td><td>${num(r.err, 3)}</td></tr>`).join("") + `</table>`;
+}
+
+const inS = $("#in-shift"), inD = $("#in-dl");
+let prevShift = st.dO;
+inS.addEventListener("input", () => { let v = +inS.value; if (v === 0) { v = prevShift < 0 ? 1 : -1; inS.value = v; } prevShift = st.dO = v; render(); });
+inD.addEventListener("input", () => { st.dl = +inD.value; render(); });
+
+function render() {
+  inS.value = st.dO; inD.value = st.dl; prevShift = st.dO;
+  $("#out-shift").textContent = deg(st.dO); $("#out-dl").textContent = st.dl + " сут";
+  polar($("#calc-polar"), st.dO, false);
+  verdict(get(st.dO, st.dl)); urgency(); profile(); presets();
+}
+kpis(); polar($("#hero-polar"), -15, true); render(); oneweb();
+let rt; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(() => { urgency(); profile(); oneweb(); }, 120); }).observe(document.body);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { kpis(); polar($("#hero-polar"), -15, true); render(); oneweb(); });
+})();
+</script>
+</body>
+</html>
