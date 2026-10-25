@@ -1,0 +1,83 @@
+{
+  "version": 5,
+  "method": "filter_saved_v4_summary; no TLE download or propagation rerun",
+  "source_file": "oneweb_drift_check.csv",
+  "source_sha256": "ab62b7bb666f695dcdf3710a62d4bc9e9ead022dfe062671070c0fe4707d2673",
+  "input_object_count": 74,
+  "excluded_rocket_body_norad_ids": [
+    54149,
+    56082
+  ],
+  "payload_count": 72,
+  "sources": [
+    "https://www.isro.gov.in/lvm3.html",
+    "https://www.isro.gov.in/ISRO_EN/LVM3M3MissionLandingPage.html",
+    "https://www.isro.gov.in/LVM3_M3UpperStageRe_entersAtmosphere.html",
+    "https://lss.fnal.gov/archive/2024/pub/fermilab-pub-24-0844-ppd.pdf"
+  ],
+  "all_payloads": {
+    "payload_count": 72,
+    "observation_days_median": 355.09565981000003,
+    "max_gap_days": 3.9277913999999896,
+    "absolute_drift_deg_median": 92.21731567382812,
+    "absolute_drift_deg_min": 63.59870147705078,
+    "absolute_drift_deg_max": 122.75540924072266,
+    "absolute_end_error_deg_median": 0.17690585066662834,
+    "absolute_end_error_deg_max": 0.2896311376999563,
+    "absolute_path_error_deg_max": 0.2896311376999563,
+    "relative_end_error_percent_median": 0.20267684660888358,
+    "relative_end_error_percent_max": 0.23631036118895046,
+    "observed_drift_range_deg": 59.156707763671875,
+    "reconstructed_drift_range_deg": 59.31558648036253,
+    "raise_days_sample_count": 29,
+    "raise_days_median": 133.0,
+    "raise_days_p10": 103.616666666,
+    "raise_days_p90": 246.200000004
+  },
+  "by_launch": {
+    "LVM3-M2 23.10.2022": {
+      "payload_count": 36,
+      "observation_days_median": 432.191330365,
+      "max_gap_days": 3.86666017999994,
+      "absolute_drift_deg_median": 92.21865463256836,
+      "absolute_drift_deg_min": 92.21051025390625,
+      "absolute_drift_deg_max": 122.75540924072266,
+      "absolute_end_error_deg_median": 0.18979370419755526,
+      "absolute_end_error_deg_max": 0.2896311376999563,
+      "absolute_path_error_deg_max": 0.2896311376999563,
+      "relative_end_error_percent_median": 0.20580226425003315,
+      "relative_end_error_percent_max": 0.23631036118895046,
+      "observed_drift_range_deg": 30.544898986816406,
+      "reconstructed_drift_range_deg": 30.63879166434822,
+      "raise_days_sample_count": 3,
+      "raise_days_median": 78.0,
+      "raise_days_p10": 75.4,
+      "raise_days_p90": 78.066666664
+    },
+    "LVM3-M3 26.03.2023": {
+      "payload_count": 36,
+      "observation_days_median": 278.026930215,
+      "max_gap_days": 3.9277913999999896,
+      "absolute_drift_deg_median": 78.86959838867188,
+      "absolute_drift_deg_min": 63.59870147705078,
+      "absolute_drift_deg_max": 94.1332015991211,
+      "absolute_end_error_deg_median": 0.1358056164452961,
+      "absolute_end_error_deg_max": 0.1670501763296386,
+      "absolute_path_error_deg_max": 0.16782045338393914,
+      "relative_end_error_percent_median": 0.17638526106197921,
+      "relative_end_error_percent_max": 0.20587039222715534,
+      "observed_drift_range_deg": 30.534500122070312,
+      "reconstructed_drift_range_deg": 30.57332048653968,
+      "raise_days_sample_count": 26,
+      "raise_days_median": 188.0,
+      "raise_days_p10": 117.87500000499998,
+      "raise_days_p90": 246.250000005
+    }
+  },
+  "verification": {
+    "unique_payload_ids": true,
+    "known_rocket_bodies_absent": true,
+    "retained_fields_and_order_unchanged": true,
+    "source_bytes_unchanged": true
+  }
+}

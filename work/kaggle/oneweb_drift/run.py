@@ -7,6 +7,13 @@ import numpy as np, pandas as pd, pyarrow.parquet as pq
 from huggingface_hub import hf_hub_download
 MU, RE, J2 = 398600.4418, 6378.137, 1.08262668e-3
 LAUNCHES = {"LVM3-M2 23.10.2022": "2022-10-22", "LVM3-M3 26.03.2023": "2023-03-26"}
+# v5: обозначение запуска включает верхние ступени, а не только OneWeb.
+# Обе ступени: Foster et al., §5.2 и рис. 8,
+# https://lss.fnal.gov/archive/2024/pub/fermilab-pub-24-0844-ppd.pdf
+# 56082 также прямо идентифицирована ISRO:
+# https://www.isro.gov.in/LVM3_M3UpperStageRe_entersAtmosphere.html
+EXCLUDED_ROCKET_BODIES = {54149, 56082}
+EXPECTED_COUNTS = {name: 36 for name in LAUNCHES}
 frames = []
 for year in (2022, 2023):
     path = hf_hub_download("juliensimon/space-track-tle-history", f"data/tle_{year}.parquet", repo_type="dataset")
@@ -16,6 +23,7 @@ for year in (2022, 2023):
     # v4: отбор по международному обозначению запуска, а не по наклонению. В v3 фильтр 87,2–88,2° выкидывал точки,
     # где наклонение на подъёме опускалось ниже 87,2°, и это выглядело как «дыры в данных» у 29 спутников
     m = df["intl_designator"].fillna("").str[:5].isin(["22138", "23043"])
+    m &= ~df["norad_id"].isin(EXCLUDED_ROCKET_BODIES)
     frames.append(df[m]); print("  строк двух запусков LVM3", int(m.sum()), "наклонение мин/макс", df.loc[m, "inclination"].min(), df.loc[m, "inclination"].max())
     del df, t
 d = pd.concat(frames).sort_values(["norad_id", "epoch"]).drop_duplicates(["norad_id", "epoch"])
@@ -29,6 +37,9 @@ for name, day in LAUNCHES.items():
 print("выбрано по дате первого TLE:", len(pick))
 d = d[d["norad_id"].isin(pick)].copy()
 d["launch"] = d["norad_id"].map(pick)
+counts = d.groupby("launch")["norad_id"].nunique().to_dict()
+if counts != EXPECTED_COUNTS:
+    raise SystemExit(f"ожидалось по 36 OneWeb на запуск, получено {counts}; проверь состав выборки")
 print("обозначения выбранных:", sorted(d["intl_designator"].dropna().str[:8].unique().tolist())[:12])
 n = d["mean_motion"].values * 2 * math.pi / 86400
 d["a_km"] = (MU / n**2) ** (1 / 3)
@@ -64,6 +75,8 @@ for nid, g in d.groupby("norad_id"):
 r = pd.DataFrame(rows)
 if r.empty:
     raise SystemExit("нет спутников, проверь отбор")
+if r.groupby("launch")["norad"].nunique().to_dict() != EXPECTED_COUNTS:
+    raise SystemExit("после фильтрации не осталось 72 OneWeb; не публикуй неполную выборку как полную")
 r.to_csv("oneweb_drift_check.csv", index=False)
 print("\nСпутников с достаточной историей:", len(r))
 for L, g in r.groupby("launch"):
