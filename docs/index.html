@@ -89,6 +89,19 @@ h2{font-size:clamp(26px,3vw,40px);line-height:1.08;letter-spacing:-.03em;margin:
 .facts div+div{padding-left:22px;border-left:1px solid var(--line)}
 .facts .num{font-size:clamp(30px,3.4vw,44px);font-weight:600;letter-spacing:-.03em;display:block}
 .facts p{color:var(--ink2);margin:6px 0 0;font-size:14.5px}
+.basics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+.basics div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.basics small{display:block;font-family:var(--mono);color:var(--muted);font-size:12px;margin-bottom:8px}
+.basics h3{margin:0 0 8px;font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.basics p{margin:0;color:var(--ink2);font-size:14.5px}
+.whatif{margin-top:30px}
+.whatif h3{margin:0 0 10px;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.wi div{display:grid;grid-template-columns:9.5em minmax(0,1fr) 3em;gap:14px;align-items:center;padding:5px 0;font-size:13.5px;color:var(--ink2)}
+.wi i{display:block;height:8px;border-radius:4px;background:var(--line2)}
+.wi div.on{color:var(--ink)} .wi div.on i{background:var(--accent)}
+.wi b{font-weight:600;text-align:right;color:var(--ink);font-size:15px}
+.wi-note{color:var(--muted);font-size:13.5px;margin:10px 0 0;max-width:72ch}
+@media (max-width:980px){.basics{grid-template-columns:1fr}}
 .eqs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
 .eq{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
 .eq math{font-family:"STIX Two Math","Latin Modern Math","Cambria Math",math;font-size:30px;color:var(--ink);margin:2px 0 14px}
@@ -169,6 +182,11 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
       <div class="presets" id="presets"></div>
     </div>
   </div>
+  <div class="basics">
+    <div><small>1 · что нужно клиенту</small><h3>Не высота, а плоскость</h3><p>Попутная ракета выпускает всех клиентов в одну плоскость орбиты. Плоскость развёрнута относительно Солнца, а Земля под ней вращается. Поэтому от плоскости зависит, в котором часу спутник пролетает над местом. Сдвиг на 15° — это час: съёмка в 10:30 вместо 11:30.</p></div>
+    <div><small>2 · почему это трудно</small><h3>Высотой плоскость не повернуть</h3><p>Подняться и опуститься буксиру дёшево, но так меняется только размер орбиты, а развёрнута она остаётся так же. Повернуть плоскость на 15° двигателем стоит 38 кг ксенона, а в баке 25,8 кг.</p></div>
+    <div><small>3 · что делаем мы</small><h3>Ждём, пока Земля повернёт сама</h3><p>Сплюснутая Земля медленно поворачивает все плоскости, причём на разной высоте с разной скоростью. Буксир поднимается, ждёт, пока разница наберёт нужный угол, и спускается. Бак не дозаправить, поэтому сэкономленный ксенон — это следующие работы буксира.</p></div>
+  </div>
 </div></div>
 
 <section id="price"><div class="wrap">
@@ -190,6 +208,11 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
       <div><span class="num" id="f-r0"></span><p>в сутки поворачивается плоскость на 550 км, там, где буксир выпустили</p></div>
       <div><span class="num" id="f-r1"></span><p>в сутки на 740 км, куда буксир поднимается ждать</p></div>
       <div><span class="num" id="f-d"></span><p>набегает разница: 15° примерно за <span id="f-t"></span> суток, и топливо на это не тратится</p></div>
+    </div>
+    <div class="whatif">
+      <h3>Если ждать 180 суток на другой высоте, плоскость буксира отстанет на</h3>
+      <div class="wi" id="whatif"></div>
+      <p class="wi-note">Клиенту нужно 15°. Чем выше ждать, тем быстрее набегает угол, но тем дольше и дороже подниматься и спускаться. Планировщик ищет высоту, где это сходится к сроку с наименьшим ксеноном.</p>
     </div>
     <div class="eqs">
       <div class="eq"><h3>Бесплатно: плоскость поворачивается сама</h3>
@@ -224,13 +247,13 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
 
 <section id="proof"><div class="wrap">
   <div class="sec-head"><div class="idx">03</div><div>
-    <h2>Проверили на 72 настоящих спутниках</h2>
+    <h2>Закон поворота проверили на 72 настоящих спутниках</h2>
   </div></div>
   <div class="body"><div class="proof">
     <div>
       <div class="big num" id="proof-big"></div>
-      <p>максимальная ошибка модели. Мы взяли настоящую историю высоты и наклонения 72 спутников OneWeb с двух запусков индийской ракеты LVM3 и восстановили, как повернулась их плоскость за 9–14 месяцев. Плоскости ушли на 64–123°.</p>
-      <p style="color:var(--muted)">Это проверка самого эффекта при известной истории орбиты, а не прогноз миссии. Две ступени ракеты исключены.</p>
+      <p>максимальная ошибка модели. Расход топлива настоящих буксиров никто не публикует, поэтому мы проверили закон, на котором держится вся экономия: как быстро поворачивается плоскость на разной высоте. Взяли настоящую историю высоты и наклонения 72 спутников OneWeb с двух запусков индийской ракеты LVM3, по формуле предсказали, как повернутся их плоскости, и сравнили с реальностью. За 9–14 месяцев плоскости ушли на 64–123°.</p>
+      <p style="color:var(--muted)">Ксенон и сроки сверяли отдельно, численным полётом (раздел 02). Две ступени ракеты из выборки исключены.</p>
     </div>
     <div>
       <div class="keys"><span><i style="background:var(--blue)"></i>LVM3-M2, 23.10.2022 · 36</span><span><i style="background:var(--accent)"></i>LVM3-M3, 26.03.2023 · 36</span></div>
@@ -563,6 +586,10 @@ function oneweb() {
 function statics() {
   const rate = h => { const a = 6378.137 + h, n = Math.sqrt(398600.4418 / a ** 3); return -1.5 * n * 1.08262668e-3 * (6378.137 / a) ** 2 * Math.cos(S.inc * Math.PI / 180) * 86400 * 180 / Math.PI; };
   const r0 = rate(550), r1 = rate(740);
+  $("#whatif").innerHTML = [550, 640, 740, 1030].map(h => {   // отставание за 180 суток ожидания на высоте h
+    const lag = (r0 - rate(h)) * 180;
+    return `<div class="${h === 740 ? "on" : ""}"><span class="num">${h} км${h === 550 ? ", остаться" : ""}</span><i style="width:${Math.max(1, lag / 40 * 100)}%"></i><b class="num">${num(lag, 0)}°</b></div>`;
+  }).join("");
   $("#f-r0").textContent = num(r0, 2) + "°"; $("#f-r1").textContent = num(r1, 2) + "°"; $("#f-d").textContent = num(r0 - r1, 2) + "°";
   $("#f-t").textContent = Math.round(15 / (r0 - r1) / 10) * 10;
   $("#proof-big").textContent = num(Math.max(...D.oneweb.map(r => r.err)), 2) + "°";
