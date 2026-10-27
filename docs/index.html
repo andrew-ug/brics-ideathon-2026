@@ -1336,7 +1336,7 @@ function sunArrow(c, x, y, ang, sz, col) {               // наконечник
 function sunDraw() {
   const { c, W, H } = SV; if (!W) return; c.clearRect(0, 0, W, H);
   const t = sun.t, sd = sunDir(t), year = sun.mode === "year", orb = sun.mode === "orbit";
-  const nar = W < 520, top = nar ? 42 + (orb ? 3 : 4) * 16 : 0, bot = year ? (nar ? 78 : 52) : 0;   // на узком экране рисунок под легендой, в «годе» снизу место для подписи
+  const nar = W < 520, top = 42 + (orb ? 3 : 4) * 16, bot = year ? (nar ? 78 : 52) : 0;   // рисунок под легендой, в «годе» снизу место для подписи
   const cy = top + (H - top - bot) / 2, m = Math.min(W, H - top - bot);
   let ex, ey, ER, rot, sx, sy, sr;                      // rot — поворот картинки: в крупном плане Солнце всегда слева
   c.font = "500 11.5px Onest, sans-serif"; c.textAlign = "center";
