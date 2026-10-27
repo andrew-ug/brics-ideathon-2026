@@ -146,7 +146,7 @@ table{border-collapse:collapse;font-size:12.5px;width:100%;font-family:var(--mon
 .kicker{font:500 12px var(--mono);color:var(--accent2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
 .subh{font-size:19px;font-weight:600;margin:34px 0 0;letter-spacing:-.01em}
 .sw{display:inline-block;width:16px;height:2px;margin-right:8px;vertical-align:middle;border-radius:1px}
-@media (max-width:620px){.vis .cv.tall{min-height:460px}}
+@media (max-width:620px){.vis .cv.tall{min-height:520px}}
 .side .unit{font-size:12.5px;color:var(--muted);margin:0 0 -10px}
 .sw.dash{background:repeating-linear-gradient(90deg,var(--client) 0 4px,transparent 4px 7px)}
 /* технические данные */
@@ -1336,7 +1336,8 @@ function sunArrow(c, x, y, ang, sz, col) {               // наконечник
 function sunDraw() {
   const { c, W, H } = SV; if (!W) return; c.clearRect(0, 0, W, H);
   const t = sun.t, sd = sunDir(t), year = sun.mode === "year", orb = sun.mode === "orbit";
-  const top = W < 520 ? 42 + (orb ? 3 : year ? 4 : 5) * 16 : 0, cy = top + (H - top) / 2, m = Math.min(W, H - top);   // на узком экране рисунок под легендой
+  const nar = W < 520, top = nar ? 42 + (orb ? 3 : 4) * 16 : 0, bot = year ? (nar ? 78 : 52) : 0;   // на узком экране рисунок под легендой, в «годе» снизу место для подписи
+  const cy = top + (H - top - bot) / 2, m = Math.min(W, H - top - bot);
   let ex, ey, ER, rot, sx, sy, sr;                      // rot — поворот картинки: в крупном плане Солнце всегда слева
   c.font = "500 11.5px Onest, sans-serif"; c.textAlign = "center";
   const Ro = m * .34;
@@ -1366,6 +1367,8 @@ function sunDraw() {
       if (t - d < 40) continue;
       const [gx, gy] = yearPos(d), G = sunRings(d).filter(q => q.id === "r0" || q.id === "r3");
       disk(gx, gy, ER, sunDir(d) + 180, .32);
+      const gl = Math.hypot(sx - gx, sy - gy); c.save(); c.strokeStyle = "rgba(255,200,97,.35)"; c.setLineDash([2, 5]); c.lineWidth = 1.1;
+      c.beginPath(); c.moveTo(gx, gy); c.lineTo(gx + (sx - gx) / gl * (gl - sr * 1.1), gy + (sy - gy) / gl * (gl - sr * 1.1)); c.stroke(); c.restore();
       for (const q of G) { const P = pts(q, rr(q.h), gx, gy); stroke(q, P, true, .4); stroke(q, P, false, .4); }
       c.fillStyle = css("--muted"); c.fillText(`было: сутки ${Math.round(d)}`, gx, gy + rr(740) + 14);
     }
@@ -1374,8 +1377,8 @@ function sunDraw() {
   c.save(); c.strokeStyle = "rgba(255,200,97,.5)"; c.setLineDash([2, 5]); c.lineWidth = 1.2; c.beginPath();
   c.moveTo(ex, ey); c.lineTo(ex + (sx - ex) / sl * (sl - sr * 1.1), ey + (sy - ey) / sl * (sl - sr * 1.1)); c.stroke(); c.restore();
   const PP = R.map(q => pts(q, rr(q.h), ex, ey));
-  const fade = i => orb && i ? .25 : 1;   // в режиме «полтора часа» важно только кольцо ракеты
-  R.forEach((q, i) => stroke(q, PP[i], false, fade(i)));   // южные половины колец — под Землёй
+  const ORD = (orb ? ["r0"] : ["r3", "r0", "r2", "r1"]).map(id => R.findIndex(q => q.id === id));   // пунктир клиента поверх буксира, в «полтора часа» только кольцо ракеты
+  for (const i of ORD) stroke(R[i], PP[i], false);   // южные половины колец — под Землёй
   const utc = year ? 12 : (t % 1) * 24;                 // в режиме «год» Земля показана каждый день в 12:00 по Гринвичу
   disk(ex, ey, ER, 0, 1, false);                        // ночь кладём поверх суши
   drawLandTop(c, ex, ey, ER, sd - (12 - utc) * 15 + rot);
@@ -1403,13 +1406,11 @@ function sunDraw() {
     }
     c.restore();
   }
-  R.forEach((q, i) => stroke(q, PP[i], true, fade(i)));
+  for (const i of ORD) stroke(R[i], PP[i], true);
   if (!year) {                                          // Земля крутится против часовой: дуга на ночной стороне, поверх колец
     const ra = ER * .55, a0 = 15, a1 = 95; c.save(); c.strokeStyle = "rgba(255,255,255,.7)"; c.lineWidth = 1.6;
     c.beginPath(); c.arc(ex, ey, ra, -a0 * RAD, -a1 * RAD, true); c.stroke(); sunArrow(c, ex + ra * Math.cos(a1 * RAD), ey - ra * Math.sin(a1 * RAD), a1 + 90, 6, "rgba(255,255,255,.85)"); c.restore();
   }
-  if (!year) R.forEach((q, i) => {                      // точка — дневной узел: тот из двух узлов, что на дневной стороне
-    if (fade(i) < 1) return; const p = PP[i][Math.abs(dd(q.dir, sd)) <= 90 ? 60 : 0]; c.fillStyle = q.col; c.beginPath(); c.arc(p[0], p[1], 4, 0, 7); c.fill(); });
   if (sun.mode === "orbit") {                           // спутник на кольце ракеты
     const q = R[0], r = rr(q.h), k = rot * RAD, [x, y, z] = sunPt(q, sunU(t)), X = x * Math.cos(k) - y * Math.sin(k), Y = x * Math.sin(k) + y * Math.cos(k);
     if (z >= 0 || Math.hypot(X, Y) * r > ER) { c.fillStyle = "#fff"; c.strokeStyle = css("--bg"); c.lineWidth = 2; c.beginPath(); c.arc(ex + r * X, ey - r * Y, 5, 0, 7); c.fill(); c.stroke(); }
@@ -1417,9 +1418,15 @@ function sunDraw() {
   c.textAlign = "left"; c.textBaseline = "alphabetic"; c.font = "500 12px " + css("--mono"); c.fillStyle = css("--ink2");
   const day = Math.floor(t + 1e-9), hm = clock((t % 1) * 24), P = SUNP.p;
   const tug = t < P.up ? "буксир поднимается на 740 км" : t < P.days - P.down ? "буксир ждёт на 740 км" : t < P.days ? "буксир спускается на 550 км" : "буксир на кольце клиента";
-  c.fillText(year ? `сутки ${day} · ${tug}` : sun.mode === "day" ? `сутки ${day} · ${hm} по Гринвичу` : `виток ${Math.floor(t / T_ORB) + 1} · ${Math.round((t % T_ORB) * 1440)} мин из 96`, 14, 22);
+  c.fillText(year ? `сутки ${day} · ${tug}` : sun.mode === "day" ? `сутки ${day} · ${hm} по Гринвичу` : `виток ${Math.floor(t / T_ORB) + 1} · минута ${Math.round((t % T_ORB) * 1440)} из 96`, 14, 22);
+  if (year) {                                           // главная мысль года — прямо на рисунке
+    c.save(); c.font = "500 12px Onest, sans-serif"; c.textAlign = "center"; c.fillStyle = css("--ink2");
+    const cap = ["серое кольцо поворачивается вслед за Солнцем", "синее смотрит всё время в одну сторону"], one = cap.join(" · ");
+    if (c.measureText(one).width < W - 24) c.fillText(one, W / 2, H - 36); else cap.forEach((l, k) => c.fillText(l, W / 2, H - 68 + k * 16));
+    c.restore();
+  }
   const LG = orb ? [[R[0], "кольцо ракеты, по нему летит спутник"], ["dot", "спутник"], ["tick", "засечка: где виток пересёк экватор"]]
-    : [[R[0], "кольцо ракеты, 550 км"], [R[1], "кольцо клиента"], [R[3], "буксир с клиентом"], [R[2], "кольцо через полюса (видно с ребра)"]].concat(year ? [] : [["node", "пролёт над экватором днём"]]);
+    : [[R[0], "кольцо ракеты, 550 км"], [R[1], "кольцо клиента"], [R[3], "кольцо буксира с клиентом"], [R[2], "кольцо через полюса (видно с ребра)"]];
   c.font = "500 11px Onest, sans-serif"; const lw = Math.max(...LG.map(r => c.measureText(r[1]).width)) + 34, lh = 16, ly = 34;
   c.save(); c.fillStyle = "rgba(7,9,12,.72)"; c.beginPath(); c.roundRect ? c.roundRect(8, ly - 4, lw, LG.length * lh + 8, 6) : c.rect(8, ly - 4, lw, LG.length * lh + 8); c.fill();
   LG.forEach(([k, txt], j) => { const y = ly + 8 + j * lh; c.globalAlpha = 1;
@@ -1438,7 +1445,7 @@ function sunSay() {
     day: "<b>Сутки.</b> Земля делает оборот вокруг себя, а кольца почти стоят. Каждое место дважды в сутки проходит под кольцом, и всегда в одно и то же местное время по Солнцу: на экваторе днём в 11:30 и ночью в 23:30. Поэтому спутник на этом кольце видит каждое место при одном и том же освещении. Ночная половина Земли затемнена, жёлтый пунктир — луч на Солнце.",
     year: "<b>Год.</b> Земля обходит Солнце по пунктиру, 0,99° в сутки. Серое кольцо на 550 км поворачивается так же и весь год держит один угол к Солнцу: пролёт около 11:30. Синее кольцо через полюса не поворачивается и всё время смотрит в одну сторону (сравни блёклые копии Земли). Поэтому его пролёт уплывает на 4 минуты в сутки, к 114-м суткам кольцо идёт по границе дня и ночи, а дальше днём проходит уже вечером. Буксир поднимает клиента на 740 км, где кольцо поворачивается на 0,90° в сутки и отстаёт на 0,09°. За 175 суток вместе с подъёмом и спуском пролёт уходит на час раньше, к 10:30, и буксир уже снова на 550 км. Тут анимация замирает: дальше клиент держит новый час."
   }[sun.mode];
-  $("#sun-note").textContent = sun.mode === "year" ? "вид сверху · Земля — каждый день в 12:00 по Гринвичу · не в масштабе" : "вид с севера · точка — пролёт над экватором днём · высота ×4";
+  $("#sun-note").textContent = sun.mode === "year" ? "вид сверху · Земля — каждый день в 12:00 по Гринвичу · не в масштабе" : "вид сверху на северный полюс · высота колец ×4";
 }
 function sunStep(dt) {
   if (reduce) return;
