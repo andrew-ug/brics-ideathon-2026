@@ -145,6 +145,10 @@ table{border-collapse:collapse;font-size:12.5px;width:100%;font-family:var(--mon
 
 .kicker{font:500 12px var(--mono);color:var(--accent2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
 .subh{font-size:19px;font-weight:600;margin:34px 0 0;letter-spacing:-.01em}
+.sw{display:inline-block;width:16px;height:2px;margin-right:8px;vertical-align:middle;border-radius:1px}
+@media (max-width:620px){.vis .cv.tall{min-height:460px}}
+.side .unit{font-size:12.5px;color:var(--muted);margin:0 0 -10px}
+.sw.dash{background:repeating-linear-gradient(90deg,var(--client) 0 4px,transparent 4px 7px)}
 /* технические данные */
 details.eng{margin-top:0;font-size:15px}
 details.eng>summary{font-size:15px;color:var(--ink2);list-style:none;display:flex;align-items:center;gap:10px}
@@ -253,11 +257,27 @@ header .wrap>*{white-space:nowrap}
   </div></div>
   <div class="body">
     <div class="rows">
-      <div><h3>Спутник летит без мотора</h3><p>Это второй закон Ньютона. На спутник действует только притяжение Земли, и оно даёт ему ускорение к центру: на высоте 550 км это 8,3 м/с². Чтобы лететь по кругу, нужно ровно такое ускорение, v²/r. Отсюда скорость v = √(GM/r) = 7,6 км/с и один оборот за полтора часа. Спутник всё время падает к Земле, но летит вбок так быстро, что каждый раз пролетает мимо. По кольцу он идёт сам, как по рельсам, а высота сама задаёт скорость.</p></div>
+      <div><h3>Спутник летит без мотора</h3><p>Это второй закон Ньютона. На спутник действует только притяжение Земли, на высоте 550 км оно тянет к центру с ускорением 8,3 м/с². Ровно такое ускорение нужно, чтобы лететь по кругу этой высоты со скоростью 7,6 км/с, и один оборот занимает полтора часа (вывод — в <a href="#eng" class="to-eng">технических данных</a>). Спутник всё время падает к Земле, но летит вбок так быстро, что каждый раз пролетает мимо. По кольцу он идёт сам, как по рельсам, а высота сама задаёт скорость.</p></div>
       <div><h3>Колец-рельсов много</h3><p>У каждого кольца своя высота, свой наклон к экватору и свой поворот вокруг оси Земли. Попутная ракета выпускает все спутники на одно кольцо, а каждому заказчику нужно своё.</p></div>
       <div><h3>Сменить кольцо может только двигатель</h3><p>Подняться на соседнее кольцо и вернуться дёшево: с 550 до 740 км и обратно — 2,8 кг ксенона. Повернуть кольцо двигателем дорого: на 15° уйдёт 38 кг, больше всего бака «СКАУТа» в 25,8 кг. Для подъёма скорость меняют немного, а для поворота приходится менять направление полёта на 7,6 км/с.</p></div>
       <div><h3>Кольца поворачиваются сами</h3><p>В школьной задаче Земля — идеальный шар, и кольцо стояло бы на месте вечно. Настоящая Земля толще на экваторе на 21 км. Эта поправка к притяжению (её называют J2) медленно поворачивает каждое кольцо вокруг оси Земли, не меняя наклона (раздел 04). Её считает наша модель, а численная сверка планов добавляет ещё тень Земли и сопротивление воздуха (раздел 08). Чем выше кольцо, тем медленнее: при наклоне 97,6° кольцо на 550 км поворачивается на 0,99° в сутки, на 740 км — на 0,90°.</p></div>
       <div><h3>Отсюда весь приём</h3><p>Буксир с клиентом поднимается на кольцо, которое поворачивается медленнее, и разница копится, 0,09° в сутки. Вместе с подъёмом и спуском за 175 суток набирается 15°, и буксир возвращается на 550 км. Набранный угол не пропадает: на одной высоте оба кольца снова поворачиваются одинаково, а разница между ними остаётся.</p></div>
+    </div>
+    <h3 class="subh">Три движения сразу: спутник, Земля и Солнце</h3>
+    <div class="vis">
+      <div class="cv tall"><canvas id="suncv" aria-label="Солнце, Земля и кольца спутников вокруг неё, вид сверху на северный полюс"></canvas><span class="note" id="sun-note"></span></div>
+      <div class="side">
+        <div class="seg full" id="sun-mode"><button type="button" data-m="orbit">полтора часа</button><button type="button" data-m="day">сутки</button><button type="button" data-m="year" aria-pressed="true">год</button></div>
+        <div class="ctl"><label for="sun-d">Сутки от запуска <output id="sun-do"></output></label><input id="sun-d" type="range" min="0" max="365" step="1" value="0"></div>
+        <p class="unit">Во сколько кольцо проходит над экватором днём, по местному времени Солнца</p>
+        <div class="read">
+          <div><span><i class="sw" style="background:var(--muted)"></i>кольцо, куда вывела ракета, 550 км</span><b class="num" id="sun-r0"></b></div>
+          <div><span><i class="sw dash"></i>кольцо, нужное клиенту</span><b class="num" id="sun-r1"></b></div>
+          <div><span><i class="sw" style="background:var(--accent);height:3px"></i>буксир со спутником клиента</span><b class="num hot" id="sun-r2"></b></div>
+          <div><span><i class="sw" style="background:var(--blue)"></i>кольцо через полюса, 550 км</span><b class="num" id="sun-r3"></b></div>
+        </div>
+        <p class="say" id="sun-say"></p>
+      </div>
     </div>
   </div>
 </div></section>
@@ -419,6 +439,14 @@ header .wrap>*{white-space:nowrap}
   <div class="sec-head"><div class="idx">08</div><div>
   <details class="eng"><summary>Технические данные: формулы, допущения и откуда числа</summary>
     <div class="eqs">
+      <div class="eq"><h3>Скорость на кольце: второй закон Ньютона</h3>
+        <math display="block"><mfrac><mrow><mi>G</mi><mi>M</mi><mi>m</mi></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac><mo>=</mo><mfrac><mrow><mi>m</mi><msup><mi>v</mi><mn>2</mn></msup></mrow><mi>r</mi></mfrac><mspace width="0.8em"/><mo>⇒</mo><mspace width="0.8em"/><mi>v</mi><mo>=</mo><msqrt><mfrac><mrow><mi>G</mi><mi>M</mi></mrow><mi>r</mi></mfrac></msqrt><mo>,</mo><mspace width="0.8em"/><mi>T</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi><mi>r</mi></mrow><mi>v</mi></mfrac></math>
+        <p>Слева притяжение, справа сколько нужно тянуть к центру, чтобы лететь по кругу. Это одна и та же сила, других нет. Масса спутника m сокращается, поэтому на одной высоте все летят с одной скоростью. Ускорение на 550 км — 8,3 м/с² вместо 9,8 у поверхности.</p>
+        <dl class="sym">
+          <div><dt>GM</dt><dd>притяжение Земли, 398 600 км³/с²</dd></div>
+          <div><dt>r</dt><dd>радиус кольца от центра Земли: 6378 + 550 = 6928 км</dd></div>
+          <div><dt>v, T</dt><dd>скорость 7,6 км/с и оборот 95,6 мин</dd></div>
+        </dl></div>
       <div class="eq"><h3>Поворот орбиты сам по себе</h3>
         <math display="block"><mfrac><mrow><mi>d</mi><mi mathvariant="normal">Ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mi>n</mi><msub><mi>J</mi><mn>2</mn></msub><msup><mrow><mo>(</mo><mfrac><mi>R</mi><mi>a</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mi>cos</mi><mspace width="0.22em"/><mi>i</mi></math>
         <dl class="sym">
@@ -1021,7 +1049,7 @@ function costChart() {
   const W2 = box.clientWidth || 700, short = W2 < 560, up = ours ? ours.h - S.h : 150, upKg = kg(v(S.h) - v(S.h + up));
   const rows = [
     [`Поднять орбиту на ${up} км`, upKg, "base"],
-    [short ? "Догнать место на кольце, до 8 суток" : "Догнать нужное место на кольце: опуститься на 20 км и вернуться, до 8 суток", kg(2 * (v(S.h - 20) - v(S.h))), "base"],
+    [short ? "Догнать место на кольце, до 8 суток" : "Догнать нужное место на том же кольце: опуститься или подняться на 20 км и вернуться, до 8 суток", kg(2 * (v(S.h - 20) - v(S.h))), "base"],
     [short ? "Повернуть на 15° двигателем" : "Повернуть плоскость на 15° двигателем", kg(turn), "bad"],
     [short ? "Повернуть на 15° с ожиданием, 180 суток" : "Повернуть на 15° с ожиданием: наш план за 180 суток", ours ? ours.xe : 0, "ours"]];
   const bar = 18, gap = 46, m = { l: 0, r: 70, t: 14, b: 30 }, H2 = m.t + rows.length * gap + m.b;
@@ -1042,6 +1070,7 @@ function costChart() {
   const sut = n => n % 10 === 1 && n % 100 !== 11 ? "сутки" : "суток", w = Math.round(ours ? ours.wait : 0);
   $("#cost-say").innerHTML = ours ? `<b>Почему наш план стоит ${num(ours.xe)} кг.</b> Буксир поднимается на ${up} км, ждёт там ${w} ${sut(w)} и возвращается на ${S.h} км. Подъём и спуск занимают ещё по неделе, и за них тоже набегает часть поворота. ` +
     `Ксенон уходит только на подъём и спуск, примерно по ${num(upKg)} кг. Поворот на 15° за это время набегает сам, как — в разделе 04.<br><br>` +
+    `<b>Почему высота помогает дважды.</b> Она меняет сразу две скорости: как быстро спутник летит по кольцу и как быстро поворачивается само кольцо. Первая разница большая: опустился на 20 км — обгоняешь нужное место на 24° в сутки, поднялся — так же отстаёшь. Любое место на кольце не дальше полукруга, поэтому за 8 суток догонишь любое. Вторая крошечная: кольца на 550 и 530 км расходятся всего на 0,01° в сутки. Поэтому место на кольце догоняют за дни и небольшой спуск, а плоскость поворачивают месяцами, уходя на сотни километров.<br><br>` +
     `<b>При чём тут деньги.</b> Бак буксира в полёте не дозаправить, поэтому ксенон — это его рабочий ресурс. План тратит ${Math.round(ours.xe / S.xe_tank * 100)} % бака: если все заказы такие, бака хватит на ${Math.floor(S.xe_tank / ours.xe)}. Каждый занимает полгода, поэтому выгоднее развозить нескольких клиентов за один полёт, как в сценариях «Группировка» и «Два заказа» в разделе 02. Поворот двигателем в бак не помещается вовсе: такую доставку не продать.` : "";
 }
 
@@ -1266,19 +1295,179 @@ function oneweb() {
   $("#proof-big").textContent = num(Math.max(...D.oneweb.map(r => r.err)), 2) + "°";
 }
 
+// ---------- 00: Солнце, Земля и кольца ----------
+// Вид сверху на северный полюс. Наклон оси Земли 23,4° не показан, Солнце «среднее»: Земля обходит его на 360/365,2422° в сутки.
+// Час дневного пролёта над экватором t: направление на этот узел = направление на Солнце + (t − 12)·15°, восток против часовой (как в 02 и 07).
+const SV = canvasOf("#suncv"), SUN_W = 360 / 365.2422, T_ORB = 2 * Math.PI * Math.sqrt((6378.137 + S.h) ** 3 / 398600.4418) / 86400;
+const sun = { mode: "year", t: 0, hold: 0 };
+const SUNP = (() => {   // буксир: план −15° за 180 суток из модели, отставание от колец на 550 км нормировано на итог модели, 15°
+  const p = get(-15, 180), t1 = p.up, t2 = p.days - p.down;
+  const hP = d => d <= t1 ? (t1 ? S.h + (p.h - S.h) * d / t1 : p.h) : d <= t2 ? p.h : d < p.days ? p.h + (S.h - p.h) * (d - t2) / Math.max(p.down, 1e-6) : S.h;
+  const N = 600, F = [0];
+  for (let k = 1; k <= N; k++) { const d = p.days * (k - .5) / N; F.push(F[k - 1] + (rate(hP(d)) - rate(S.h)) * p.days / N); }
+  const lag = d => { if (d >= p.days) return -15; const x = Math.max(0, d) / p.days * N, k = Math.min(N - 1, Math.floor(x)); return -15 * (F[k] + (F[k + 1] - F[k]) * (x - k)) / F[N]; };
+  return { p, hP, lag };
+})();
+const sunDir = t => 180 + SUN_W * t;                 // направление с Земли на Солнце, в день 0 Солнце слева
+function sunRings(t) {
+  const w = rate(S.h) * t, s0 = sunDir(0);
+  return [
+    { id: "r0", h: S.h, inc: S.inc, dir: s0 - 7.5 + w, col: css("--muted"), dash: [], lw: 1.5 },                       // ракета выпустила: 11:30
+    { id: "r1", h: S.h, inc: S.inc, dir: s0 - 22.5 + w, col: css("--client"), dash: [5, 5], lw: 1.5 },                // нужно клиенту: 10:30
+    { id: "r3", h: S.h, inc: 90, dir: s0 + 22.5, col: css("--blue"), dash: [], lw: 1.4 },                               // через полюса: стоит, 13:30 в день 0
+    { id: "r2", h: SUNP.hP(t), inc: S.inc, dir: s0 - 7.5 + w + SUNP.lag(t), col: css("--accent"), dash: [], lw: 2.4 }  // буксир с клиентом
+  ];
+}
+function sunHour(dir, t) { const d = ((dir - sunDir(t)) % 360 + 540) % 360 - 180; let h = 12 + d / 15; if (h < 6) h += 12; if (h >= 18) h -= 12; return h; }
+function sunGlyph(c, x, y, r) {
+  const g = c.createRadialGradient(x, y, 0, x, y, r * 2.4); g.addColorStop(0, "rgba(255,200,97,.55)"); g.addColorStop(1, "rgba(255,200,97,0)");
+  c.fillStyle = g; c.beginPath(); c.arc(x, y, r * 2.4, 0, 7); c.fill(); c.fillStyle = css("--sun"); c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
+}
+// точка кольца q при фазе u, единичный радиус, без поворота картинки; z > 0 — северная половина (ближе к зрителю).
+// q.dir — дневной узел. Восходящий узел напротив, ночью: спутник идёт по кольцу с ростом u, наклон 97,6°, а дневной узел (u = π) он проходит с севера на юг,
+// как снимающие спутники с пролётом в 10:30
+function sunPt(q, u) { const th = (q.dir + 180) * RAD, ci = Math.cos(q.inc * RAD), si = Math.sin(q.inc * RAD);
+  return [Math.cos(u) * Math.cos(th) - Math.sin(u) * Math.sin(th) * ci, Math.cos(u) * Math.sin(th) + Math.sin(u) * Math.cos(th) * ci, Math.sin(u) * si]; }
+const sunLon0 = t => sunDir(t) - 180 + 360 * (t % 1);   // куда смотрит гринвичский меридиан (вид с севера, без поворота картинки)
+const sunU = t => Math.PI + 2 * Math.PI * (t / T_ORB % 1);   // в момент t = 0 спутник на дневном узле
+function sunArrow(c, x, y, ang, sz, col) {               // наконечник стрелки, ang — направление в градусах против часовой
+  const a = -ang * RAD; c.save(); c.fillStyle = col; c.translate(x, y); c.rotate(a); c.beginPath(); c.moveTo(sz, 0); c.lineTo(-sz * .7, sz * .6); c.lineTo(-sz * .7, -sz * .6); c.closePath(); c.fill(); c.restore();
+}
+function sunDraw() {
+  const { c, W, H } = SV; if (!W) return; c.clearRect(0, 0, W, H);
+  const t = sun.t, sd = sunDir(t), year = sun.mode === "year", orb = sun.mode === "orbit";
+  const top = W < 520 ? 42 + (orb ? 3 : year ? 4 : 5) * 16 : 0, cy = top + (H - top) / 2, m = Math.min(W, H - top);   // на узком экране рисунок под легендой
+  let ex, ey, ER, rot, sx, sy, sr;                      // rot — поворот картинки: в крупном плане Солнце всегда слева
+  c.font = "500 11.5px Onest, sans-serif"; c.textAlign = "center";
+  const Ro = m * .34;
+  const yearPos = d => [W / 2 + Ro * Math.cos(SUN_W * d * RAD), cy - Ro * Math.sin(SUN_W * d * RAD)];
+  if (year) {
+    ER = m * .1; rot = 0; [ex, ey] = yearPos(t); sx = W / 2; sy = cy; sr = m * .045;
+    c.strokeStyle = "rgba(255,255,255,.12)"; c.setLineDash([3, 6]); c.beginPath(); c.arc(W / 2, cy, Ro, 0, 7); c.stroke(); c.setLineDash([]);
+    for (const f of [45, 135, 225, 315]) sunArrow(c, W / 2 + Ro * Math.cos(f * RAD), cy - Ro * Math.sin(f * RAD), f + 90, 5, "rgba(255,255,255,.3)");   // Земля идёт против часовой
+    sunGlyph(c, sx, sy, sr); c.fillStyle = css("--sun"); c.fillText("Солнце", sx, sy + sr + 16);
+  } else {
+    ER = m * .24; rot = 180 - sd; ex = W / 2 + m * .08; ey = cy; sx = -m * .02; sy = cy; sr = m * .1;
+    sunGlyph(c, sx, sy, sr); c.fillStyle = css("--sun"); c.textAlign = "left"; c.fillText("к Солнцу", 10, cy + sr + 18);
+  }
+  const rr = h => ER * (1 + 4 * h / 6378.137), R = sunRings(t), dd = (a, b) => ((a - b) % 360 + 540) % 360 - 180;
+  const pts = (q, r, cx, cy) => { const o = [], k = rot * RAD;
+    for (let j = 0; j <= 120; j++) { const [x, y, z] = sunPt(q, j / 120 * 2 * Math.PI), X = x * Math.cos(k) - y * Math.sin(k), Y = x * Math.sin(k) + y * Math.cos(k);
+      o.push([cx + r * X, cy - r * Y, z]); } return o; };
+  const stroke = (q, P, front, alpha = 1) => { c.save(); c.strokeStyle = q.col; c.lineWidth = q.lw; c.setLineDash(q.dash); c.globalAlpha = alpha * (front ? 1 : .35); c.beginPath(); let pen = false;
+    for (let k = 1; k < P.length; k++) { const a = P[k - 1], b = P[k]; if ((a[2] >= 0) === front || (b[2] >= 0) === front) { if (!pen) c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); pen = true; } else pen = false; }
+    c.stroke(); c.restore(); };
+  const disk = (cx, cy, r, an, alpha, night = true) => {   // шар с ночной половиной; an — направление на ночь в картинке
+    c.save(); c.globalAlpha = alpha; const g = c.createRadialGradient(cx - r * .3, cy - r * .3, r * .1, cx, cy, r);
+    g.addColorStop(0, "#2b5d9c"); g.addColorStop(1, "#0f2747"); c.fillStyle = g; c.beginPath(); c.arc(cx, cy, r, 0, 7); c.fill();
+    if (night) { c.fillStyle = "rgba(2,4,9,.55)"; c.beginPath(); c.arc(cx, cy, r, -(an + 90) * RAD, -(an - 90) * RAD); c.closePath(); c.fill(); } c.restore(); };
+  if (year) {                                           // где Земля была раньше: кольцо через полюса смотрит в одну сторону, кольцо ракеты — за Солнцем
+    for (const d of [0, 91.3, 182.6, 273.9]) {
+      if (t - d < 40) continue;
+      const [gx, gy] = yearPos(d), G = sunRings(d).filter(q => q.id === "r0" || q.id === "r3");
+      disk(gx, gy, ER, sunDir(d) + 180, .32);
+      for (const q of G) { const P = pts(q, rr(q.h), gx, gy); stroke(q, P, true, .4); stroke(q, P, false, .4); }
+      c.fillStyle = css("--muted"); c.fillText(`было: сутки ${Math.round(d)}`, gx, gy + rr(740) + 14);
+    }
+  }
+  const sl = Math.hypot(sx - ex, sy - ey);             // луч на Солнце: где на Земле полдень
+  c.save(); c.strokeStyle = "rgba(255,200,97,.5)"; c.setLineDash([2, 5]); c.lineWidth = 1.2; c.beginPath();
+  c.moveTo(ex, ey); c.lineTo(ex + (sx - ex) / sl * (sl - sr * 1.1), ey + (sy - ey) / sl * (sl - sr * 1.1)); c.stroke(); c.restore();
+  const PP = R.map(q => pts(q, rr(q.h), ex, ey));
+  const fade = i => orb && i ? .25 : 1;   // в режиме «полтора часа» важно только кольцо ракеты
+  R.forEach((q, i) => stroke(q, PP[i], false, fade(i)));   // южные половины колец — под Землёй
+  const utc = year ? 12 : (t % 1) * 24;                 // в режиме «год» Земля показана каждый день в 12:00 по Гринвичу
+  disk(ex, ey, ER, 0, 1, false);                        // ночь кладём поверх суши
+  drawLandTop(c, ex, ey, ER, sd - (12 - utc) * 15 + rot);
+  c.fillStyle = "rgba(2,4,9,.55)"; const an = sd + rot + 180; c.beginPath(); c.arc(ex, ey, ER, -(an + 90) * RAD, -(an - 90) * RAD); c.closePath(); c.fill();
+  c.save(); c.strokeStyle = "rgba(255,255,255,.8)"; c.lineWidth = 1.2; const pc = Math.max(2.5, ER * .04);   // северный полюс — крестик, не точка
+  c.beginPath(); c.moveTo(ex - pc, ey); c.lineTo(ex + pc, ey); c.moveTo(ex, ey - pc); c.lineTo(ex, ey + pc); c.stroke();
+  c.restore();
+  if (sun.mode === "orbit") {                           // след спутника по Земле за последние полтора оборота после запуска (видна северная половина)
+    const N = 140, span = 1.6 * T_ORB, o0 = sunLon0(t) + rot;
+    c.save(); c.lineWidth = 1.6; c.lineCap = "round"; let prev = null;
+    for (let j = 0; j <= N; j++) {
+      const tau = t - span * (1 - j / N); if (tau < 0) { prev = null; continue; }
+      const [x, y, z] = sunPt(sunRings(tau)[0], sunU(tau));
+      if (z < 0) { prev = null; continue; }
+      const a = (Math.atan2(y, x) / RAD - sunLon0(tau) + o0) * RAD, r = ER * Math.sqrt(1 - z * z), P = [ex + r * Math.cos(a), ey - r * Math.sin(a)];
+      if (prev) { c.globalAlpha = .12 + .7 * j / N; c.strokeStyle = "#fff"; c.beginPath(); c.moveTo(prev[0], prev[1]); c.lineTo(P[0], P[1]); c.stroke(); }
+      prev = P;
+    }
+    // где спутник пересёк экватор днём, номер витка: засечки едут вместе с Землёй, между соседними 24°
+    c.font = "600 11px " + css("--mono"); c.textAlign = "center"; c.textBaseline = "middle";
+    for (let n = Math.floor(t / T_ORB), k = 0; k < 5 && n >= 0; k++, n--) {
+      const tau = n * T_ORB, a = (sunRings(tau)[0].dir - sunLon0(tau) + o0) * RAD, ca = Math.cos(a), sa = Math.sin(a);
+      c.globalAlpha = 1 - k * .17; c.strokeStyle = "#fff"; c.lineWidth = 2; c.beginPath(); c.moveTo(ex + ER * .9 * ca, ey - ER * .9 * sa); c.lineTo(ex + ER * 1.04 * ca, ey - ER * 1.04 * sa); c.stroke();
+      c.fillStyle = "#fff"; c.fillText(String(n + 1), ex + ER * .8 * ca, ey - ER * .8 * sa);
+    }
+    c.restore();
+  }
+  R.forEach((q, i) => stroke(q, PP[i], true, fade(i)));
+  if (!year) {                                          // Земля крутится против часовой: дуга на ночной стороне, поверх колец
+    const ra = ER * .55, a0 = 15, a1 = 95; c.save(); c.strokeStyle = "rgba(255,255,255,.7)"; c.lineWidth = 1.6;
+    c.beginPath(); c.arc(ex, ey, ra, -a0 * RAD, -a1 * RAD, true); c.stroke(); sunArrow(c, ex + ra * Math.cos(a1 * RAD), ey - ra * Math.sin(a1 * RAD), a1 + 90, 6, "rgba(255,255,255,.85)"); c.restore();
+  }
+  if (!year) R.forEach((q, i) => {                      // точка — дневной узел: тот из двух узлов, что на дневной стороне
+    if (fade(i) < 1) return; const p = PP[i][Math.abs(dd(q.dir, sd)) <= 90 ? 60 : 0]; c.fillStyle = q.col; c.beginPath(); c.arc(p[0], p[1], 4, 0, 7); c.fill(); });
+  if (sun.mode === "orbit") {                           // спутник на кольце ракеты
+    const q = R[0], r = rr(q.h), k = rot * RAD, [x, y, z] = sunPt(q, sunU(t)), X = x * Math.cos(k) - y * Math.sin(k), Y = x * Math.sin(k) + y * Math.cos(k);
+    if (z >= 0 || Math.hypot(X, Y) * r > ER) { c.fillStyle = "#fff"; c.strokeStyle = css("--bg"); c.lineWidth = 2; c.beginPath(); c.arc(ex + r * X, ey - r * Y, 5, 0, 7); c.fill(); c.stroke(); }
+  }
+  c.textAlign = "left"; c.textBaseline = "alphabetic"; c.font = "500 12px " + css("--mono"); c.fillStyle = css("--ink2");
+  const day = Math.floor(t + 1e-9), hm = clock((t % 1) * 24), P = SUNP.p;
+  const tug = t < P.up ? "буксир поднимается на 740 км" : t < P.days - P.down ? "буксир ждёт на 740 км" : t < P.days ? "буксир спускается на 550 км" : "буксир на кольце клиента";
+  c.fillText(year ? `сутки ${day} · ${tug}` : sun.mode === "day" ? `сутки ${day} · ${hm} по Гринвичу` : `виток ${Math.floor(t / T_ORB) + 1} · ${Math.round((t % T_ORB) * 1440)} мин из 96`, 14, 22);
+  const LG = orb ? [[R[0], "кольцо ракеты, по нему летит спутник"], ["dot", "спутник"], ["tick", "засечка: где виток пересёк экватор"]]
+    : [[R[0], "кольцо ракеты, 550 км"], [R[1], "кольцо клиента"], [R[3], "буксир с клиентом"], [R[2], "кольцо через полюса (видно с ребра)"]].concat(year ? [] : [["node", "пролёт над экватором днём"]]);
+  c.font = "500 11px Onest, sans-serif"; const lw = Math.max(...LG.map(r => c.measureText(r[1]).width)) + 34, lh = 16, ly = 34;
+  c.save(); c.fillStyle = "rgba(7,9,12,.72)"; c.beginPath(); c.roundRect ? c.roundRect(8, ly - 4, lw, LG.length * lh + 8, 6) : c.rect(8, ly - 4, lw, LG.length * lh + 8); c.fill();
+  LG.forEach(([k, txt], j) => { const y = ly + 8 + j * lh; c.globalAlpha = 1;
+    if (k === "dot") { c.fillStyle = "#fff"; c.beginPath(); c.arc(25, y, 4, 0, 7); c.fill(); }
+    else if (k === "tick") { c.strokeStyle = "#fff"; c.lineWidth = 2; c.beginPath(); c.moveTo(21, y + 4); c.lineTo(29, y - 4); c.stroke(); }
+    else if (k === "node") { c.fillStyle = css("--ink2"); c.beginPath(); c.arc(25, y, 3.5, 0, 7); c.fill(); }
+    else { c.strokeStyle = k.col; c.lineWidth = k.lw; c.setLineDash(k.dash); c.beginPath(); c.moveTo(16, y); c.lineTo(34, y); c.stroke(); c.setLineDash([]); }
+    c.fillStyle = css("--ink2"); c.textAlign = "left"; c.textBaseline = "middle"; c.fillText(txt, 40, y); });
+  c.restore();
+  for (const q of R) $("#sun-" + q.id).textContent = clock(sunHour(q.dir, t));
+  $("#sun-do").textContent = day; if (document.activeElement !== $("#sun-d")) $("#sun-d").value = day;
+}
+function sunSay() {
+  $("#sun-say").innerHTML = {
+    orbit: "<b>Полтора часа.</b> Белая точка — спутник, тонкая линия — его след по Земле, засечки с номерами — где он пересёк экватор днём на каждом витке. Пока спутник делает оборот, Земля поворачивается на 24°, и засечки уезжают вместе с ней. Поэтому каждый следующий виток ложится на 24° западнее прошлого, это 2700 км на экваторе. Само кольцо за виток повернётся всего на 0,07°, на глаз оно стоит.",
+    day: "<b>Сутки.</b> Земля делает оборот вокруг себя, а кольца почти стоят. Каждое место дважды в сутки проходит под кольцом, и всегда в одно и то же местное время по Солнцу: на экваторе днём в 11:30 и ночью в 23:30. Поэтому спутник на этом кольце видит каждое место при одном и том же освещении. Ночная половина Земли затемнена, жёлтый пунктир — луч на Солнце.",
+    year: "<b>Год.</b> Земля обходит Солнце по пунктиру, 0,99° в сутки. Серое кольцо на 550 км поворачивается так же и весь год держит один угол к Солнцу: пролёт около 11:30. Синее кольцо через полюса не поворачивается и всё время смотрит в одну сторону (сравни блёклые копии Земли). Поэтому его пролёт уплывает на 4 минуты в сутки, к 114-м суткам кольцо идёт по границе дня и ночи, а дальше днём проходит уже вечером. Буксир поднимает клиента на 740 км, где кольцо поворачивается на 0,90° в сутки и отстаёт на 0,09°. За 175 суток вместе с подъёмом и спуском пролёт уходит на час раньше, к 10:30, и буксир уже снова на 550 км. Тут анимация замирает: дальше клиент держит новый час."
+  }[sun.mode];
+  $("#sun-note").textContent = sun.mode === "year" ? "вид сверху · Земля — каждый день в 12:00 по Гринвичу · не в масштабе" : "вид с севера · точка — пролёт над экватором днём · высота ×4";
+}
+function sunStep(dt) {
+  if (reduce) return;
+  if (sun.mode === "year") {
+    if (sun.hold > 0) { sun.hold -= dt; if (sun.hold <= 0 && sun.t >= 365) sun.t = 0; return; }
+    const n = Math.min(365, sun.t + dt * 15), arr = SUNP.p.days;
+    if (sun.t < arr && n >= arr) { sun.t = arr; sun.hold = 1.8; } else { sun.t = n; if (n >= 365) sun.hold = 1.5; }
+  } else { sun.t += sun.mode === "day" ? dt / 12 : dt * T_ORB / 8; if (sun.t >= 365) sun.t = 0; }
+}
+$("#sun-mode").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; sun.mode = b.dataset.m; sun.hold = 0;
+  for (const x of $("#sun-mode").children) x.setAttribute("aria-pressed", x === b); sunSay(); });
+$("#sun-d").addEventListener("input", e => { sun.t = +e.target.value; sun.hold = 0; });
+if (reduce) sun.t = 175;
+sunSay();
+
 // ---------- цикл ----------
 function frame(now) {
   const dt = Math.min(.05, (now - last) / 1000); last = now;
-  G.check(); RG.check(); NV.check(); BG.check();
+  G.check(); RG.check(); NV.check(); BG.check(); SV.check(); sunStep(dt);
   spin += dt * .12; uT += dt * 2.2;
   if (st.playing && P) { st.t = Math.min(1, st.t + dt / 9); if (st.t >= 1) { st.playing = false; syncPlay(); } hud(); }
   if (!reduce) { bul.t += dt; if (bul.t > 1.5) bul.day += dt * 15; if (bul.day > 365) { bul.day = 0; bul.t = 0; } ring.spin += dt * .25; ring.u += dt * 1.1;
     ns.t += dt; ns.u += dt * 1.4; if (ns.t > ns.total + 2.5) ns.t = 0; }
-  drawGlobe(); ringDraw(); needDraw(); bulgeDraw();
+  drawGlobe(); ringDraw(); needDraw(); bulgeDraw(); sunDraw();
   requestAnimationFrame(frame);
 }
-function resizeAll() { G.resize(); RG.resize(); NV.resize(); BG.resize(); }
+function resizeAll() { G.resize(); RG.resize(); NV.resize(); BG.resize(); SV.resize(); }
 $("#brics-ex").addEventListener("toggle", e => { if (e.target.open) brics(); });   // схема в раскрывашке: строить по настоящей ширине
+for (const a of document.querySelectorAll("a.to-eng")) a.addEventListener("click", () => { $("#eng details.eng").open = true; });
 resizeAll(); bulgeRead(); ringRead(); for (const m of ["net", "junk", "next", "shot"]) needSet(m); update(false); oneweb(); brics(); costChart();
 st.t = 0; if (!reduce) st.playing = true; syncPlay(); hud();
 if (reduce) bul.day = 180;
