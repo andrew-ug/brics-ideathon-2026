@@ -3,15 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ДРЕЙФ — планировщик буксира</title>
-<meta name="description" content="Повтор миссии электрического буксира «СКАУТ»: плоскость орбиты поворачивается сама, мы считаем, где подождать, чтобы успеть к сроку с минимумом ксенона.">
+<title>ДРЕЙФ — планировщик буксира · DevCore</title>
+<meta name="description" content="Проект ДРЕЙФ команды DevCore: как буксиру «СКАУТ» повернуть плоскость орбиты спутника за 2,8 кг ксенона вместо 38. Земля поворачивает орбиты сама, мы считаем, где подождать.">
+<meta property="og:title" content="ДРЕЙФ — планировщик буксира · DevCore">
+<meta property="og:description" content="Повернуть плоскость орбиты спутника за 2,8 кг ксенона вместо 38: Земля поворачивает орбиты сама, мы считаем, где буксиру подождать.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#07090c; --panel:#0e1217; --panel2:#131820; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
-  --ink:#f2f4f7; --ink2:#b7bfca; --muted:#7a8390; --accent:#e2611f; --accent2:#ff8a4c; --blue:#3f8cf0; --client:#d7dde5;
+  --ink:#f2f4f7; --ink2:#b7bfca; --muted:#7a8390; --accent:#e2611f; --accent2:#ff8a4c; --blue:#3f8cf0; --client:#d7dde5; --sun:#ffc861;
   --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
   color-scheme:dark;
 }
@@ -31,9 +33,9 @@ header nav a{border:0;color:var(--ink2)} header nav a:hover{color:var(--ink)}
 
 .hero{padding-block:44px 28px;position:relative;overflow:hidden}
 .hero:before{content:"";position:absolute;inset:-20% -10% auto auto;width:900px;height:900px;background:radial-gradient(closest-side,rgba(63,140,240,.10),transparent 70%);pointer-events:none}
-h1{font-size:clamp(30px,4.4vw,56px);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0;max-width:20ch}
+h1{font-size:clamp(30px,4.4vw,56px);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0;max-width:19ch}
 h1 em{font-style:normal;color:var(--accent2)}
-.sub{color:var(--ink2);font-size:clamp(15px,1.4vw,18px);max-width:62ch;margin:16px 0 0}
+.sub{color:var(--ink2);font-size:clamp(15px,1.4vw,18px);max-width:64ch;margin:16px 0 0}
 
 .instrument{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);margin-top:28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,var(--panel),#0a0d12);overflow:hidden}
 .stage{position:relative;min-height:520px;border-right:1px solid var(--line)}
@@ -42,27 +44,31 @@ h1 em{font-style:normal;color:var(--accent2)}
 .stage .legend{position:absolute;left:18px;bottom:16px;display:flex;gap:18px;font-size:12.5px;color:var(--ink2);flex-wrap:wrap}
 .legend b{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:4px;margin-right:7px}
 .legend b.c{border-top:2px dashed var(--client)}
-.hud{padding:22px 24px 20px;display:flex;flex-direction:column;gap:16px}
+.hud{padding:22px 24px 20px;display:flex;flex-direction:column;gap:15px}
 .phase{display:flex;gap:6px;flex-wrap:wrap}
 .phase span{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);transition:all .25s}
 .phase span.on{color:#111;background:var(--ink);border-color:var(--ink)}
 .phase span.done{color:var(--ink2)}
-.gap-read{display:flex;align-items:baseline;gap:12px}
-.gap-read .num{font-size:clamp(52px,6vw,76px);font-weight:600;line-height:.95;letter-spacing:-.04em}
-.gap-read small{color:var(--ink2);font-size:14px;max-width:12ch;line-height:1.3}
+.gap-read{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.gap-read .num{font-size:clamp(46px,5.4vw,70px);font-weight:600;line-height:.95;letter-spacing:-.04em}
+.gap-read small{color:var(--ink2);font-size:14px;max-width:13ch;line-height:1.3}
+.gap-read .num em{font-style:normal;font-size:.42em;color:var(--ink2);letter-spacing:0;margin-left:.08em}
+.clockline{font-family:var(--mono);font-size:13.5px;color:var(--ink2);margin-top:-6px}
+.clockline b{color:var(--ink);font-weight:600} .clockline i{font-style:normal;color:var(--muted)}
 .tele{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .tele div{padding:10px 0}
 .tele div+div{padding-left:14px;border-left:1px solid var(--line)}
 .tele dt{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.tele dd{margin:3px 0 0;font-size:19px}
+.tele dd{margin:3px 0 0;font-size:19px;white-space:nowrap}
+@media (max-width:440px){.tele dd{font-size:16px}.tele dd small{font-size:11px}.tele div+div{padding-left:10px}}
 .tele dd small{color:var(--muted);font-size:13px}
 .timeline{display:flex;align-items:center;gap:12px}
 .play{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:var(--panel2);color:var(--ink);cursor:pointer;display:grid;place-items:center}
 .play:hover{border-color:var(--ink)}
 .track{flex:1;position:relative;height:44px;cursor:pointer;touch-action:none}
 .track svg{position:absolute;inset:0;width:100%;height:100%}
-.ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;color:var(--ink2);margin-bottom:2px}
-.ctl label output{font-family:var(--mono);color:var(--ink);font-size:15px}
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13.5px;color:var(--ink2);margin-bottom:2px}
+.ctl label output{font-family:var(--mono);color:var(--ink);font-size:14.5px;text-align:right}
 input[type=range]{width:100%;accent-color:var(--accent);height:26px;margin:0}
 .presets{display:flex;flex-wrap:wrap;gap:6px}
 .chip{border:1px solid var(--line2);background:transparent;color:var(--ink2);border-radius:999px;padding:5px 11px;font:500 12.5px Onest,system-ui,sans-serif;cursor:pointer}
@@ -74,9 +80,45 @@ input[type=range]{width:100%;accent-color:var(--accent);height:26px;margin:0}
 section{padding-block:76px;border-top:1px solid var(--line)}
 .sec-head{display:grid;grid-template-columns:120px minmax(0,1fr);gap:24px;align-items:start}
 .idx{font-family:var(--mono);color:var(--muted);font-size:13px;padding-top:8px}
-h2{font-size:clamp(26px,3vw,40px);line-height:1.08;letter-spacing:-.03em;margin:0;font-weight:700;max-width:26ch}
+h2{font-size:clamp(26px,3vw,40px);line-height:1.08;letter-spacing:-.03em;margin:0;font-weight:700;max-width:24ch}
 .lede{color:var(--ink2);max-width:62ch;margin:12px 0 0}
 .body{margin-left:144px}
+
+/* живые схемы */
+.vis{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);margin-top:30px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,var(--panel),#0a0d12);overflow:hidden}
+.vis .cv{position:relative;min-height:400px;border-right:1px solid var(--line)}
+.vis canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vis .note{position:absolute;right:14px;bottom:12px;font:11.5px var(--mono);color:var(--muted)}
+.side{padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:999px;padding:3px;gap:3px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;color:var(--ink2);font:500 12.5px Onest,system-ui,sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:#111}
+.seg.full{display:flex;width:100%}
+.seg.full button{flex:1;padding:8px 12px;font-size:13.5px}
+.seg.grid2{display:grid;grid-template-columns:1fr 1fr;width:100%;border-radius:14px}
+.seg.grid2 button{border-radius:10px;padding:9px 10px;font-size:13.5px}
+.case{margin:22px 0 0;max-width:86ch;font-size:14.5px;color:var(--ink2);border-left:2px solid var(--accent);padding:2px 0 2px 14px}
+.case b{color:var(--ink);font-weight:600}
+.team{font-size:13px;color:var(--ink2);border-left:1px solid var(--line2);padding-left:14px;margin-left:-4px;white-space:nowrap}
+.hero .kicker{margin-bottom:14px}
+footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:13.5px}
+footer b{color:var(--ink2);font-weight:600}
+.jumps{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.jumps a{border:1px solid rgba(255,138,76,.55);border-radius:999px;padding:7px 14px;font-size:13.5px;color:var(--ink);background:rgba(226,97,31,.10)}
+.jumps a:hover{border-color:var(--accent2)}
+.jumps a span{font-family:var(--mono);font-size:11.5px;color:var(--accent2);letter-spacing:.04em;text-transform:uppercase;margin-right:8px}
+.halo{paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round}
+.pairnote{font-size:13.5px;color:var(--ink2);margin:10px 0 0;max-width:46ch}
+.read{display:grid;gap:10px}
+.read div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.read span{color:var(--ink2);font-size:13.5px}
+.read b{font:600 22px var(--mono);letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
+.read b.hot{color:var(--accent2)}
+.read b small{font-size:13px;color:var(--muted);font-weight:500}
+.say{color:var(--ink2);font-size:14.5px;margin:0}
+.say b{color:var(--ink);font-weight:600}
+.row{display:flex;align-items:center;gap:12px}
+
 .chart{position:relative;margin-top:28px}
 .chart svg{display:block;width:100%;overflow:visible}
 .tip{position:absolute;pointer-events:none;background:var(--ink);color:#0b0d10;font-size:13px;line-height:1.35;padding:7px 10px;border-radius:8px;white-space:nowrap;transform:translate(-50%,calc(-100% - 12px));opacity:0;transition:opacity .12s;z-index:5}
@@ -84,64 +126,77 @@ h2{font-size:clamp(26px,3vw,40px);line-height:1.08;letter-spacing:-.03em;margin:
 .axis text{fill:var(--muted);font-size:12px;font-family:var(--mono)} .axis line{stroke:var(--line2)}
 .grid line{stroke:var(--line)}
 .lbl{fill:var(--ink2);font-size:12.5px}
-.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:34px;border-top:1px solid var(--line)}
-.facts div{padding:22px 22px 6px 0}
-.facts div+div{padding-left:22px;border-left:1px solid var(--line)}
-.facts .num{font-size:clamp(30px,3.4vw,44px);font-weight:600;letter-spacing:-.03em;display:block}
-.facts p{color:var(--ink2);margin:6px 0 0;font-size:14.5px}
-.basics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
-.basics div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
-.basics small{display:block;font-family:var(--mono);color:var(--muted);font-size:12px;margin-bottom:8px}
-.basics h3{margin:0 0 8px;font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
-.basics p{margin:0;color:var(--ink2);font-size:14.5px}
-.whatif{margin-top:30px}
-.whatif h3{margin:0 0 10px;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
-.wi div{display:grid;grid-template-columns:9.5em minmax(0,1fr) 3em;gap:14px;align-items:center;padding:5px 0;font-size:13.5px;color:var(--ink2)}
-.wi i{display:block;height:8px;border-radius:4px;background:var(--line2)}
-.wi div.on{color:var(--ink)} .wi div.on i{background:var(--accent)}
-.wi b{font-weight:600;text-align:right;color:var(--ink);font-size:15px}
-.wi-note{color:var(--muted);font-size:13.5px;margin:10px 0 0;max-width:72ch}
-@media (max-width:980px){.basics{grid-template-columns:1fr}}
-.eqs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
-.eq{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
-.eq math{font-family:"STIX Two Math","Latin Modern Math","Cambria Math",math;font-size:30px;color:var(--ink);margin:2px 0 14px}
-.eq p{margin:0;color:var(--ink2);font-size:14.5px}
-.eq b{color:var(--ink)}
-sub{line-height:0}
-.eq h3{margin:0 0 10px;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
-.sym{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line);display:grid;gap:7px;font-size:13.5px;line-height:1.4}
-.sym div{display:grid;grid-template-columns:4.2em minmax(0,1fr);gap:10px;align-items:baseline}
-.sym dt{font-family:"STIX Two Math","Latin Modern Math","Cambria Math",serif;font-size:17px;color:var(--ink);font-style:italic}
-.sym dt.up{font-style:normal}
-.sym dd{margin:0;color:var(--ink2)}
-@media (max-width:620px){.eqs{grid-template-columns:1fr}.eq math{font-size:24px}}
-.formula{font-family:var(--mono);font-size:14px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:26px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.formula span{color:var(--muted)}
-.proof{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr);gap:36px;margin-top:30px;align-items:start}
-.proof .big{font-size:clamp(64px,8vw,104px);font-weight:600;letter-spacing:-.05em;line-height:.9}
+.advice{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:22px;border-top:1px solid var(--line)}
+.advice div{padding:18px 20px 4px 0}
+.advice div+div{padding-left:20px;border-left:1px solid var(--line)}
+.advice .num{font-size:clamp(26px,3vw,36px);font-weight:600;letter-spacing:-.03em;display:block}
+.advice p{color:var(--ink2);margin:4px 0 0;font-size:14px}
+.proof{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.55fr);gap:36px;margin-top:30px;align-items:start}
+.proof .big{font-size:clamp(56px,7vw,92px);font-weight:600;letter-spacing:-.05em;line-height:.9}
 .proof p{color:var(--ink2);font-size:14.5px;margin:14px 0 0}
+.pair{display:flex;gap:26px;margin-top:18px;flex-wrap:wrap}
+.pair div span{display:block;font-size:12.5px;color:var(--muted)}
+.pair div b{font:600 30px var(--mono);letter-spacing:-.03em}
 .keys{display:flex;gap:18px;font-size:12.5px;color:var(--ink2);flex-wrap:wrap}
 .keys i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:0}
 details{margin-top:14px;font-size:13.5px} summary{cursor:pointer;color:var(--muted)}
 .tbl{overflow-x:auto;max-height:300px;margin-top:8px}
 table{border-collapse:collapse;font-size:12.5px;width:100%;font-family:var(--mono)} th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right} th:first-child,td:first-child{text-align:left} th{color:var(--muted);font-weight:500}
-.rows{margin-top:30px;border-top:1px solid var(--line)}
-.rows div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;padding:20px 0;border-bottom:1px solid var(--line)}
-.rows h3{margin:0;font-size:18px;font-weight:600;letter-spacing:-.01em}
-.rows p{margin:0;color:var(--ink2);font-size:15px}
-.rows small{display:block;color:var(--muted);font-size:12px;margin-top:6px;font-family:var(--mono)}
-footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
-.team{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:14px 0 26px}
-.team div{color:var(--ink);font-size:15px} .team span{display:block;color:var(--muted);font-size:13px}
+
+.kicker{font:500 12px var(--mono);color:var(--accent2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.subh{font-size:19px;font-weight:600;margin:34px 0 0;letter-spacing:-.01em}
+/* технические данные */
+details.eng{margin-top:0;font-size:15px}
+details.eng>summary{font-size:15px;color:var(--ink2);list-style:none;display:flex;align-items:center;gap:10px}
+details.eng>summary:before{content:"+";font:600 16px var(--mono);width:26px;height:26px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center;color:var(--ink)}
+details.eng[open]>summary:before{content:"−"}
+details.countries{margin-top:26px;font-size:15px}
+details.countries>summary{font-size:15px;color:var(--ink);list-style:none;display:flex;align-items:center;gap:10px}
+details.countries>summary::-webkit-details-marker{display:none}
+details.countries>summary:before{content:"+";font:600 16px var(--mono);width:26px;height:26px;border:1px solid rgba(255,138,76,.6);border-radius:50%;display:grid;place-items:center;color:var(--accent2);flex:none}
+details.countries[open]>summary:before{content:"−"}
+.eqs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.eq{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.eq h3{margin:0 0 10px;font-size:16px;font-weight:600;color:var(--ink)}
+.eq math{font-family:"STIX Two Math","Latin Modern Math","Cambria Math",math;font-size:28px;color:var(--ink);margin:2px 0 12px}
+.eq p{margin:0;color:var(--ink2);font-size:14px}
+.sym{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:6px;font-size:13px;line-height:1.4}
+.sym div{display:grid;grid-template-columns:4.2em minmax(0,1fr);gap:10px;align-items:baseline}
+.sym dt{font-family:"STIX Two Math","Latin Modern Math","Cambria Math",serif;font-size:16px;color:var(--ink);font-style:italic}
+.sym dt.up{font-style:normal}
+.sym dd{margin:0;color:var(--ink2)}
+sub{line-height:0}
+details.more{margin-top:12px;font-size:14.5px}
+details.more>summary{font-size:14.5px;color:var(--ink);list-style:none;display:flex;align-items:center;gap:10px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary:before{content:"+";font:600 14px var(--mono);width:22px;height:22px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center;color:var(--ink2);flex:none}
+details.more[open]>summary:before{content:"−"}
+details.more p{margin:10px 0 0 32px;color:var(--ink2);font-size:14.5px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:22px;border-top:1px solid var(--line)}
+.steps>div{padding:18px 22px 8px 0}
+.steps>div+div{padding-left:22px;border-left:1px solid var(--line)}
+.steps .when{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent2)}
+.steps h3{margin:6px 0 8px;font-size:17px;font-weight:600}
+.steps ul{margin:0;padding-left:18px;color:var(--ink2);font-size:14.5px}
+.steps li{margin:6px 0}
+@media (max-width:820px){.steps{grid-template-columns:1fr}.steps>div+div{padding-left:0;border-left:0;border-top:1px solid var(--line)}}
+.rows{margin-top:22px;border-top:1px solid var(--line)}
+.rows div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;padding:18px 0;border-bottom:1px solid var(--line)}
+.rows h3{margin:0;font-size:17px;font-weight:600}
+.rows p{margin:0;color:var(--ink2);font-size:14.5px}
+
+header .wrap>*{white-space:nowrap}
+@media (max-width:1440px){header .tag{display:none}}
+@media (max-width:620px){.case-more{display:none}}
+@media (max-width:900px){header nav{display:none}}
 @media (max-width:980px){
-  .instrument{grid-template-columns:1fr} .stage{min-height:420px;border-right:0;border-bottom:1px solid var(--line)}
+  .instrument,.vis{grid-template-columns:1fr} .stage,.vis .cv{min-height:400px;border-right:0;border-bottom:1px solid var(--line)}
   .body{margin-left:0} .sec-head{grid-template-columns:1fr;gap:6px} .proof{grid-template-columns:1fr}
-  .team{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:620px){
   .wrap{padding-inline:16px} header nav,header .tag{display:none}
-  .stage{min-height:340px} .facts{grid-template-columns:1fr} .facts div+div{padding-left:0;border-left:0;border-top:1px solid var(--line)}
-  .rows div{grid-template-columns:1fr;gap:6px} section{padding-block:56px}
+  .stage{min-height:340px} .vis .cv{min-height:330px} .advice{grid-template-columns:1fr} .advice div+div{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .rows div{grid-template-columns:1fr;gap:6px} .instrument .hud{order:-1} .instrument .stage{border-bottom:0;border-top:1px solid var(--line);min-height:320px} section{padding-block:56px} .eqs{grid-template-columns:1fr} .eq math{font-size:22px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -150,23 +205,28 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
 
 <header><div class="wrap">
   <a class="logo" href="#">ДРЕЙФ<i></i></a>
-  <span class="tag">планировщик миссий буксира «СКАУТ» · кейс 3, Космический идеатон БРИКС</span>
-  <nav><a href="#price">Цена срочности</a><a href="#why">Почему работает</a><a href="#proof">Проверка</a></nav>
+  <span class="team">команда DevCore</span>
+  <span class="tag">планировщик буксира «СКАУТ» · кейс 3, Космический идеатон БРИКС</span>
+  <nav><a href="#plane">Плоскость</a><a href="#need">Буксир</a><a href="#why">Как помогает Земля</a><a href="#price">Цена срока</a><a href="#proof">Проверка</a><a href="#brics">БРИКС</a></nav>
 </div></header>
 
 <div class="hero"><div class="wrap">
-  <h1>Плоскость орбиты <em>повернётся сама.</em> Мы считаем, где подождать.</h1>
-  <p class="sub">Попутный запуск выпускает спутник не в ту плоскость, а повернуть её двигателем буксиру не хватит топлива. Нажмите «пуск» и посмотрите, как буксир решает это почти бесплатно.</p>
+  <div class="kicker">Проект ДРЕЙФ · команда DevCore · Космический идеатон БРИКС 2026, кейс 3</div>
+  <h1>Повернуть орбиту спутника за <em>2,8 кг топлива</em> вместо 38</h1>
+  <p class="sub">Попутная ракета выпускает все спутники в одну орбиту. Буксир «СКАУТ» компании А-РОКЕТС доводит каждый туда, где он нужен. Поднять орбиту буксиру дёшево, а повернуть её плоскость на 15° стоит 38 кг ксенона, больше всего бака в 25,8 кг. Земля поворачивает орбиты сама, на разной высоте с разной скоростью. Мы считаем, где буксиру подождать, чтобы успеть к сроку. Буксир делает А-РОКЕТС, планировщик для него — наш.</p>
+  <div class="jumps"><a href="#next"><span>к слайду 4</span>что уже сделано и куда дальше</a><a href="#brics"><span>к слайду 5</span>применение в странах БРИКС</a></div>
+  <p class="case"><b>Пример, с которого начинается схема.</b> Ракета выпустила спутник на солнечно-синхронную орбиту 550 км с наклоном 97,6°: такая орбита пролетает над каждым местом в один и тот же час. Клиенту нужна та же высота и тот же наклон, но плоскость, повёрнутая на 15°: тогда спутник будет пролетать на час раньше. Задача — успеть за 180 суток и потратить как можно меньше ксенона.<span class="case-more"> Другой поворот, от −30° до +30°, и другой срок можно выбрать ползунками: эти варианты посчитаны заранее.</span></p>
 
   <div class="instrument">
     <div class="stage">
-      <canvas id="globe" aria-label="Земля, плоскость клиента и плоскость буксира"></canvas>
+      <canvas id="globe" aria-label="Земля, орбита клиента и орбита буксира"></canvas>
       <div class="corner" id="corner"></div>
-      <div class="legend"><span><b class="c"></b>плоскость клиента</span><span><b></b>буксир</span><span class="num" style="color:var(--muted)">высота ×4 для наглядности</span></div>
+      <div class="legend"><span><b class="c"></b>нужная клиенту орбита</span><span><b></b>буксир с клиентом</span><span class="num" style="color:var(--muted)">схема плана · наклон 97,6° · высота ×4</span></div>
     </div>
     <div class="hud">
       <div class="phase" id="phase"><span>1 · подъём</span><span>2 · ожидание</span><span>3 · спуск</span><span>на месте</span></div>
-      <div class="gap-read"><span class="num" id="gap">15,0°</span><small>осталось до плоскости клиента</small></div>
+      <div class="gap-read"><span class="num" id="gap">15°</span><small>осталось повернуть плоскость</small></div>
+      <div class="clockline" id="clockline"></div>
       <dl class="tele">
         <div><dt>день</dt><dd class="num" id="t-day">0</dd></div>
         <div><dt>высота</dt><dd class="num" id="t-h">550 <small>км</small></dd></div>
@@ -177,94 +237,204 @@ footer{padding-block:48px 64px;border-top:1px solid var(--line);color:var(--mute
         <div class="track" id="track" aria-label="Шкала времени миссии"></div>
       </div>
       <p class="plan" id="plan"></p>
-      <div class="ctl"><label for="in-shift">Сдвиг плоскости клиента <output id="o-shift"></output></label><input id="in-shift" type="range" min="-30" max="30" step="1" value="-15"></div>
+      <p class="plan" style="min-height:0;font-size:12.5px;color:var(--muted)">Расчётный пример: буксир 150 кг и спутник 50 кг на орбите 550 км, двигатель «СКАУТа» по данным А-РОКЕТС.</p>
+      <div class="ctl"><label for="in-shift">Повернуть плоскость на <output id="o-shift"></output></label><input id="in-shift" type="range" min="-30" max="30" step="1" value="-15"></div>
       <div class="ctl"><label for="in-dl">Срок клиента <output id="o-dl"></output></label><input id="in-dl" type="range" min="30" max="365" step="5" value="180"></div>
       <div class="presets" id="presets"></div>
+      <details class="more"><summary>Почему поворот только от −30° до +30°</summary><p>30° — это сдвиг пролёта на 2 часа. Шире уже не имеет смысла считать. Поворот на −45° за полгода потребовал бы ждать выше 1200 км. Поворот на +45° даже с самой низкой высоты, 350 км (ниже тормозит воздух), набегал бы больше года.</p></details>
     </div>
-  </div>
-  <div class="basics">
-    <div><small>1 · что нужно клиенту</small><h3>Не высота, а плоскость</h3><p>Попутная ракета выпускает всех клиентов в одну плоскость орбиты. Плоскость развёрнута относительно Солнца, а Земля под ней вращается. Поэтому от плоскости зависит, в котором часу спутник пролетает над местом. Сдвиг на 15° — это час: съёмка в 10:30 вместо 11:30.</p></div>
-    <div><small>2 · почему это трудно</small><h3>Высотой плоскость не повернуть</h3><p>Подняться и опуститься буксиру дёшево, но так меняется только размер орбиты, а развёрнута она остаётся так же. Повернуть плоскость на 15° двигателем стоит 38 кг ксенона, а в баке 25,8 кг.</p></div>
-    <div><small>3 · что делаем мы</small><h3>Ждём, пока Земля повернёт сама</h3><p>Сплюснутая Земля медленно поворачивает все плоскости, причём на разной высоте с разной скоростью. Буксир поднимается, ждёт, пока разница наберёт нужный угол, и спускается. Бак не дозаправить, поэтому сэкономленный ксенон — это следующие работы буксира.</p></div>
   </div>
 </div></div>
 
-<section id="price"><div class="wrap">
+<section id="plane"><div class="wrap">
   <div class="sec-head"><div class="idx">01</div><div>
-    <h2>Чем короче срок, тем дороже. Это цена срочности</h2>
-    <p class="lede" id="price-lede"></p>
+    <h2>Что такое плоскость орбиты и где она поворачивается</h2>
+    <p class="lede">Спутник летит по кольцу вокруг центра Земли. Плоскость орбиты — воображаемый лист, на котором лежит это кольцо. За один оборот, полтора часа, кольцо поворачивается всего на 0,07°, а Земля под ним — на 24°. Медленный поворот самого кольца — в разделе 04.</p>
   </div></div>
-  <div class="body"><div class="chart" id="ch-urgency"></div>
-    <details><summary>Таблица</summary><div class="tbl" id="tbl-urg"></div></details></div>
+  <div class="body"><div class="vis">
+    <div class="cv"><canvas id="ring" aria-label="Земля, плоскость экватора и кольцо орбиты, которое пересекает экватор в двух точках"></canvas><span class="note">высота ×4</span></div>
+    <div class="side">
+      <div class="ctl"><label for="r-inc">Наклон к экватору <output id="r-inco"></output></label><input id="r-inc" type="range" min="0" max="180" step="1" value="60"></div>
+      <div class="ctl"><label for="r-om">Поворот плоскости вокруг оси Земли <output id="r-omo"></output></label><input id="r-om" type="range" min="0" max="360" step="1" value="40"></div>
+      <div class="seg full" id="r-many"><button type="button" data-m="0" aria-pressed="true">одна орбита</button><button type="button" data-m="1">много орбит</button></div>
+      <p class="say" id="r-say"></p>
+    </div>
+  </div></div>
+</div></section>
+
+<section id="need"><div class="wrap">
+  <div class="sec-head"><div class="idx">02</div><div>
+    <h2>Как буксир доводит спутник до его плоскости</h2>
+    <p class="lede">Ракета выпускает всех в одну плоскость, а каждому нужна своя. Наклон к экватору у всех один, его задала ракета, и буксир его не меняет. Представьте кольца с этим наклоном на разных высотах, как дорожки карусели: каждое поворачивается вокруг оси Земли (кроме наклона ровно 90°, его можно выбрать ниже), и чем ниже кольцо, тем быстрее. Перейти на другую высоту буксиру дёшево. Поэтому он уходит на кольцо, которое поворачивается медленнее или быстрее, ждёт, пока набежит нужный угол, и возвращается. На схеме вид с севера: экватор — это край Земли, а наклонные кольца видны сбоку, сплюснутыми, и чем ближе наклон к 90°, тем они уже.</p>
+  </div></div>
+  <div class="body"><div class="vis">
+    <div class="cv"><canvas id="needcv" aria-label="Вид с северного полюса: кольца орбит на 550 км стоят, кольцо буксира на другой высоте поворачивается относительно них"></canvas><span class="note" id="n-note">вид с севера · высота ×4</span></div>
+    <div class="side">
+      <div class="seg grid2" id="n-mode"><button type="button" data-m="shot" aria-pressed="true">съёмка</button><button type="button" data-m="net">группировка</button><button type="button" data-m="junk">увод мусора</button><button type="button" data-m="next">два заказа</button></div>
+      <div class="ctl"><label for="n-inc">Наклон к экватору, его задала ракета <output id="n-inco"></output></label><input id="n-inc" type="range" min="30" max="150" step="0.2" value="97.6"></div>
+      <div class="presets" id="n-incp"><button type="button" class="chip" data-i="97.6">97,6° как в шапке</button><button type="button" class="chip" data-i="90">90°</button><button type="button" class="chip" data-i="53">53°</button></div>
+      <div class="read">
+        <div><span>сутки</span><b class="num" id="n-day"></b></div>
+        <div><span>высота буксира</span><b class="num" id="n-h"></b></div>
+        <div><span>плоскость буксира повернулась</span><b class="num hot" id="n-deg"></b></div>
+        <div><span>ксенон с начала, оценка</span><b class="num" id="n-xe"></b></div>
+      </div>
+      <p class="say" id="n-say"></p>
+    </div>
+  </div></div>
+</div></section>
+
+<section id="cost"><div class="wrap">
+  <div class="sec-head"><div class="idx">03</div><div>
+    <h2>Плоскость — самое дорогое в доставке</h2>
+    <p class="lede">Повернуть плоскость — значит развернуть вбок само движение спутника, а он летит со скоростью 7,6 км/с. Расход ксенона для буксира с грузом, 200 кг.</p>
+  </div></div>
+  <div class="body"><div class="chart" id="ch-cost"></div><p class="say" id="cost-say" style="max-width:62ch;margin-top:14px"></p></div>
 </div></section>
 
 <section id="why"><div class="wrap">
-  <div class="sec-head"><div class="idx">02</div><div>
-    <h2>Почему это работает: Земля сплюснута</h2>
-    <p class="lede">Земля не идеальный шар: на экваторе она толще, чем у полюсов, на 21 км. Этот лишний «пояс» массы притягивает орбиту, и её плоскость медленно поворачивается. В формулах сплюснутость обозначают J<sub>2</sub>. Чем выше орбита, тем слабее эффект. Буксир поднимается, плоскость клиента уходит вперёд, разница набегает сама.</p>
+  <div class="sec-head"><div class="idx">04</div><div>
+    <h2>Земля поворачивает орбиты сама, и чем выше, тем медленнее</h2>
+    <p class="lede">Земля толще на экваторе на 21 км. Этот пояс тянет кольцо к экватору, но спутник несётся по кольцу со скоростью 7,6 км/с, и кольцо ведёт себя как раскрученный волчок: не ложится, а поворачивается. Его точки над экватором ползут, наклон остаётся прежним. Чем выше орбита, тем слабее тянет и тем медленнее ползёт.</p>
   </div></div>
   <div class="body">
-    <div class="facts">
-      <div><span class="num" id="f-r0"></span><p>в сутки поворачивается плоскость на 550 км, там, где буксир выпустили</p></div>
-      <div><span class="num" id="f-r1"></span><p>в сутки на 740 км, куда буксир поднимается ждать</p></div>
-      <div><span class="num" id="f-d"></span><p>набегает разница: 15° примерно за <span id="f-t"></span> суток, и топливо на это не тратится</p></div>
-    </div>
-    <div class="whatif">
-      <h3>Если ждать 180 суток на другой высоте, плоскость буксира отстанет на</h3>
-      <div class="wi" id="whatif"></div>
-      <p class="wi-note">Клиенту нужно 15°. Чем выше ждать, тем быстрее набегает угол, но тем дольше и дороже подниматься и спускаться. Планировщик ищет высоту, где это сходится к сроку с наименьшим ксеноном.</p>
-    </div>
-    <div class="eqs">
-      <div class="eq"><h3>Бесплатно: плоскость поворачивается сама</h3>
-        <math display="block"><mfrac><mrow><mi>d</mi><mi mathvariant="normal">Ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mi>n</mi><msub><mi>J</mi><mn>2</mn></msub><msup><mrow><mo>(</mo><mfrac><mi>R</mi><mi>a</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mi>cos</mi><mspace width="0.22em"/><mi>i</mi></math>
-        <p>На сколько градусов в сутки плоскость поворачивается без всякого топлива. Чем выше орбита, тем больше <i>a</i> и тем медленнее поворот. На этой разнице буксир и экономит.</p>
-        <dl class="sym">
-          <div><dt class="up">Ω</dt><dd>где стоит плоскость орбиты: долгота точки, в которой спутник пересекает экватор с юга на север</dd></div>
-          <div><dt>dΩ/dt</dt><dd>скорость её поворота, градусов в сутки</dd></div>
-          <div><dt>n</dt><dd>как быстро спутник обегает Землю: около 15 оборотов в сутки</dd></div>
-          <div><dt>J<sub>2</sub></dt><dd>сплюснутость Земли, 0,00108</dd></div>
-          <div><dt>R</dt><dd>радиус Земли, 6378 км</dd></div>
-          <div><dt>a</dt><dd>радиус орбиты: R плюс высота</dd></div>
-          <div><dt>i</dt><dd>наклон орбиты к экватору. 97,6° получается у солнечно-синхронной орбиты на 550 км: на ней спутник проходит над каждым местом в одно и то же время суток</dd></div>
-        </dl></div>
-      <div class="eq"><h3>Дорого: повернуть плоскость двигателем</h3>
-        <math display="block"><mi mathvariant="normal">Δ</mi><mi>v</mi><mo>=</mo><mfrac><mi>π</mi><mn>2</mn></mfrac><mi>v</mi><mspace width="0.18em"/><mi>sin</mi><mspace width="0.22em"/><mi>i</mi><mo>·</mo><mi mathvariant="normal">Δ</mi><mi mathvariant="normal">Ω</mi></math>
-        <p>Повернуть плоскость на 15° двигателем стоит 38 кг ксенона, а в баке буксира всего 25,8 кг. Полного бака с грузом хватает только на 10°. Поэтому буксир не крутит плоскость сам, а ждёт, пока её повернёт Земля, и тратит на это 2,8 кг за 180 суток.</p>
-        <dl class="sym">
-          <div><dt class="up">Δ<i>v</i></dt><dd>сколько скорости добавить двигателем. Инженеры считают в ней, потому что она не зависит от массы аппарата. В килограммы её переводит формула Циолковского: 3,1 км/с для буксира с грузом, 200 кг, — это 38 кг ксенона</dd></div>
-          <div><dt>v</dt><dd>скорость спутника на орбите 550 км, 7,6 км/с</dd></div>
-          <div><dt>i</dt><dd>наклон орбиты к экватору, 97,6°</dd></div>
-          <div><dt class="up">ΔΩ</dt><dd>на сколько повернуть плоскость, в радианах: 15° — это 0,26</dd></div>
-        </dl></div>
-    </div>
-    <div class="rows" style="margin-top:22px">
-      <div><h3>Перебор планов</h3><p>Высота ожидания от 350 до 1550 км, доля угла, которую берём двигателем, от 0 до 100 %. Учтены тень (тяга только на свету), сопротивление атмосферы и расход массы. Берём план с наименьшим ксеноном, который успевает.</p></div>
-      <div><h3>Сверка численным полётом</h3><p>Три плана прогнали прямым интегрированием орбиты: J2, тень, атмосфера, шаг 30 секунд. Ксенон совпал с моделью с точностью до 6 %.</p></div>
-      <div><h3>Откуда числа</h3><p>Двигатель по данным А-РОКЕТС: тяга 55 мН, удельный импульс 1500 с, суммарный импульс 380 кН·с. Из последних двух получается запас ксенона 25,8 кг. Груз 50 кг тоже оттуда. Массу самого буксира компания не публикует, мы взяли 150 кг. Доля света 0,62 — среднее: на орбите «рассвет — закат» тени почти нет, и там 60 суток на 15° выполнимы. Подъём и поворот по очереди, совместить дешевле, поэтому числа — оценка сверху.</p></div>
+    <div class="vis">
+      <div class="cv"><canvas id="bulge" aria-label="Сплюснутая Земля и две орбиты, которые поворачиваются с разной скоростью"></canvas><span class="note">наклон 97,6° · утолщение ×35 · высота ×4</span></div>
+      <div class="side">
+        <div class="ctl"><label for="b-h">Где ждёт буксир <output id="b-ho"></output></label><input id="b-h" type="range" min="350" max="1500" step="10" value="740"></div>
+        <div class="read">
+          <div><span>кольцо на 550 км, куда буксир вернётся, поворачивается за сутки на</span><b class="num" id="b-r0"></b></div>
+          <div><span>кольцо буксира с клиентом на этой высоте — за сутки на</span><b class="num" id="b-r1"></b></div>
+          <div><span>разница набегает за месяц</span><b class="num hot" id="b-m"></b></div>
+          <div><span>поэтому кольцо буксира по сравнению с кольцом на 550 км</span><b class="num" id="b-dir"></b></div>
+          <div><span>15° наберётся только ожиданием на этой высоте за</span><b class="num" id="b-t"></b></div>
+        </div>
+        <p class="say" id="b-say"></p>
+      </div>
     </div>
   </div>
 </div></section>
 
+<section id="price"><div class="wrap">
+  <div class="sec-head"><div class="idx">05</div><div>
+    <h2>Короче срок — дороже. Мы показываем, где остановиться</h2>
+    <p class="lede" id="price-lede"></p>
+  </div></div>
+  <div class="body"><div class="chart" id="ch-urgency"></div>
+    <div class="advice" id="advice"></div>
+    <details><summary>Таблица</summary><div class="tbl" id="tbl-urg"></div></details></div>
+</div></section>
+
 <section id="proof"><div class="wrap">
-  <div class="sec-head"><div class="idx">03</div><div>
-    <h2>Закон поворота проверили на 72 настоящих спутниках</h2>
+  <div class="sec-head"><div class="idx">06</div><div>
+    <h2>Проверка на 72 настоящих спутниках: расчёт совпал с каталогом</h2>
+    <p class="lede">Мы дали модели высоту и наклон 72 спутников OneWeb из открытого каталога, и она посчитала, куда повернутся их плоскости за 9–14 месяцев. Расчёт совпал с тем, где плоскости оказались на самом деле.</p>
   </div></div>
   <div class="body"><div class="proof">
     <div>
       <div class="big num" id="proof-big"></div>
-      <p>максимальная ошибка модели. Расход топлива настоящих буксиров никто не публикует, поэтому мы проверили закон, на котором держится вся экономия: как быстро поворачивается плоскость на разной высоте. Взяли настоящую историю высоты и наклонения 72 спутников OneWeb с двух запусков индийской ракеты LVM3, по формуле предсказали, как повернутся их плоскости, и сравнили с реальностью. За 9–14 месяцев плоскости ушли на 64–123°.</p>
-      <p style="color:var(--muted)">Ксенон и сроки сверяли отдельно, численным полётом (раздел 02). Две ступени ракеты из выборки исключены.</p>
+      <p>самое большое расхождение расчёта и каталога из 72 спутников. Это меньше 2 % от заказа в 15°.</p>
+      <details class="more"><summary>Что на графике и почему точки в группах</summary>
+        <p>Каждая точка — спутник: по горизонтали расчёт, по вертикали каталог. Углы большие, 64–123°, потому что спутники летали 9 и 14 месяцев. Все точки легли на диагональ.</p>
+        <p>Точки собрались в группы, потому что спутники одной ракеты вышли в одной плоскости, а встали в несколько: LVM3-M3 — в три плоскости через 15°, LVM3-M2 — в две через 30°. Группы поднимались до рабочей высоты по-разному, и Земля развела их плоскости. Расчёт попал в каждую группу, а это и есть работа буксира.</p>
+      </details>
+      <details class="more"><summary>Почему OneWeb и что модель не учитывает</summary>
+        <p>Поворот плоскости за счёт высоты уже работает на орбите: так OneWeb разводит свои спутники по плоскостям. Мы взяли два запуска индийской ракеты LVM3, начальную плоскость каждого спутника и историю его высоты и наклона.</p>
+        <p>Модель не учитывает притяжение Луны и Солнца, сопротивление воздуха и мелкие неровности поля Земли. Всё это вместе за 9–14 месяцев сдвинуло плоскости не больше чем на 0,29°. Поэтому «влияет мало» здесь не оборот речи, а измерение.</p>
+        <p>Здесь проверен сам поворот. Расход ксенона сверен отдельно, численным полётом, это в технических данных.</p>
+      </details>
     </div>
     <div>
-      <div class="keys"><span><i style="background:var(--blue)"></i>LVM3-M2, 23.10.2022 · 36</span><span><i style="background:var(--accent)"></i>LVM3-M3, 26.03.2023 · 36</span></div>
+      <div class="keys"><span><i style="background:var(--blue)"></i>LVM3-M2, 23.10.2022 · 36 спутников · 14 месяцев</span><span><i style="background:var(--accent)"></i>LVM3-M3, 26.03.2023 · 36 спутников · 9 месяцев</span></div>
       <div class="chart" id="ch-oneweb" style="margin-top:8px"></div>
-      <details><summary>Таблица: все 72 спутника</summary><div class="tbl" id="tbl-ow"></div></details>
+      <details><summary>Таблица: все 72 спутника (минус — поворот на запад)</summary><div class="tbl" id="tbl-ow"></div></details>
     </div>
+  </div>
+    <div id="next" class="kicker" style="margin-top:52px">Дополнение к слайду 4 заявки</div>
+    <h3 class="subh" style="margin-top:0">Что уже работает, что будет к защите и куда дальше</h3>
+    <div class="steps">
+      <div><div class="when">1 · сделано к отбору</div><h3>Модель и планировщик работают</h3><ul>
+        <li>Поворот проверен на 72 спутниках OneWeb, ксенон сверен численным полётом.</li>
+        <li>Планировщик в начале страницы: поворот от −30° до +30°, срок от 30 до 365 суток, для каждой пары перебрано около 10 тысяч планов.</li></ul></div>
+      <div><div class="when">2 · к защите 8 ноября</div><h3>Любая заявка клиента</h3><ul>
+        <li>Своя орбита, масса и срок на входе.</li>
+        <li>План по суткам, ксенон и точность на выходе, или честное «не успеть».</li>
+        <li>Цена срочности для трёх эталонных миссий и сверка ещё на Starlink.</li></ul></div>
+      <div><div class="when">3 · после защиты</div><h3>Четыре направления</h3>
+        <details class="more"><summary>Пробки на высоте ожидания</summary><p>Буксир месяцами висит на высоте ожидания, а высоты загружены по-разному. По открытому каталогу больше всего объектов в слое 450–500 км, почти 10 тысяч, а на 700–850 км в 7–10 раз меньше. Опасные сближения считают службы контроля космоса и операторы. Раз орбиты всех спутников опубликованы, планировщик может заранее выбирать для ожидания высоту и окна перехода, где сближений меньше.</p></details>
+        <details class="more"><summary>Буксир как челнок</summary><p>Довёз клиента и по расчёту времени оказался у плоскости следующего или у отработавшего спутника. Это задача расписания: где потратить ксенон сейчас, чтобы следующий заказ стоил почти ничего. Принцип — в разделе 02, «два заказа».</p></details>
+        <details class="more"><summary>Космическая погода</summary><p>Буря в феврале 2022 года сожгла 38 из 49 новых Starlink, выпущенных на 210–320 км. Наши планы со сдвигом плюс ждут ниже 550 км, вплоть до 350 км. Прогноз плотности воздуха по тому, как снижаются настоящие спутники, даст план с запасом на бурю.</p></details>
+        <details class="more"><summary>Страховка срока</summary><p>Перенос попутного запуска сжимает срок клиента, а цена сжатого срока уже посчитана в разделе 05. Вероятность переноса, умноженная на цену срочности, — это премия за риск, которую можно вписать в договор.</p></details>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="brics"><div class="wrap">
+  <div class="sec-head"><div class="idx">07</div><div>
+    <div class="kicker">Дополнение к слайду 5 заявки</div>
+    <h2>Применение в странах БРИКС</h2>
+    <p class="lede">Свою плоскость спутник попутного запуска получает, только если его довезёт буксир, а поворот двигателем в бак не помещается (раздел 03). Приём не новый, так разводит свои плоскости OneWeb (раздел 06). Наша часть — план и цена каждой заявки для «СКАУТа».</p>
+  </div></div>
+  <div class="body">
+    <h3 class="subh">Сценарии по странам</h3>
+    <div class="rows">
+      <div><h3>Россия</h3><p>А-РОКЕТС продаёт перевод спутника на нужную орбиту буксиром «СКАУТ». ДРЕЙФ даёт на каждую заявку план, расход ксенона и цену срочности для прайса. Сегодня своя плоскость часто означает отдельную ракету: «Ионосфере-М» для двух плоскостей понадобились два запуска «Союза». Буксир может дать плоскость без второй ракеты, а ДРЕЙФ считает, выполнимо ли это и сколько стоит в сутках и ксеноне.</p></div>
+      <div><h3>Индия</h3><p>ISRO объявила миссии без мусора к 2030 году. Чтобы увести отработавший спутник, буксир должен попасть в его плоскость, это тот же расчёт. Инженеры ISRO в работе 2025 года пишут, что для низких орбит поворот плоскости тоже критичен, и оставляют его на будущее. Планировщик считает его уже сейчас.</p></div>
+      <div><h3>Китай</h3><p>Китайская CAS Space продаёт места на своих ракетах спутникам других стран, у неё есть программа International Ridesharing. Все такие спутники выходят в плоскость главного груза. Буксир с расчётом ДРЕЙФа превращает место на чужой ракете в доставку на свою орбиту.</p></div>
+      <div><h3>Иран, ОАЭ</h3><p>Свои спутники выводят попутно: иранские Kowsar и Hodhod на «Союзе» в 2024 году, PHI-1 из ОАЭ на Falcon 9 в 2025. Попадают туда, куда летел главный груз, а свою плоскость им даст буксир.</p></div>
+      <div><h3>Бразилия</h3><p>Время пролёта уплывает и у работающих спутников: плоскость CBERS-4 за годы ушла на 20°, по проекту пролёт был в 10:30, сейчас в 09:09. Такой уход считает та же модель, что и план буксира.</p></div>
+    </div>
+    <details class="countries" id="brics-ex"><summary>Пример: группировка БРИКС снимает только утром. Шкала времени и цена перевода нового спутника</summary>
+      <p class="say" style="max-width:66ch;margin-top:8px">У каждого спутника группировки свой час пролёта над экватором, его задаёт плоскость орбиты. Земля поворачивается к Солнцу на 15° в час, поэтому поворот плоскости на 15° сдвигает пролёт на час. Все шесть спутников пролетают утром, с 09:09 до 11:09. После полудня не снимает никто. Новый спутник попутная ракета выпустит туда, куда летит главный груз, например на 10:30. Чтобы он снимал в 12:30, его плоскость надо повернуть на 30°.</p>
+      <div class="chart" id="ch-brics"></div>
+      <div class="keys" id="brics-keys" style="margin-top:10px"></div>
+      <div class="advice" id="brics-adv"></div>
+      <details class="more"><summary>Зачем снимать после полудня и откуда данные</summary>
+        <p>Второй взгляд за день ловит то, что быстро меняется. Так американские Terra в 10:30 и Aqua в 13:30 вместе видят пожары четыре раза в сутки.</p>
+        <p>Шесть спутников России, Китая, Индии и Бразилии из общей группировки дистанционного зондирования БРИКС. Час пролёта посчитан по их открытым орбитам на 26.10.2026.</p>
+      </details>
+    </details>
+  </div>
+</div></section>
+
+<section id="eng"><div class="wrap">
+  <div class="sec-head"><div class="idx">08</div><div>
+  <details class="eng"><summary>Технические данные: формулы, допущения и откуда числа</summary>
+    <div class="eqs">
+      <div class="eq"><h3>Поворот орбиты сам по себе</h3>
+        <math display="block"><mfrac><mrow><mi>d</mi><mi mathvariant="normal">Ω</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mi>n</mi><msub><mi>J</mi><mn>2</mn></msub><msup><mrow><mo>(</mo><mfrac><mi>R</mi><mi>a</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mi>cos</mi><mspace width="0.22em"/><mi>i</mi></math>
+        <dl class="sym">
+          <div><dt class="up">Ω</dt><dd>долгота точки, где спутник пересекает экватор с юга на север</dd></div>
+          <div><dt>n</dt><dd>угловая скорость спутника по орбите в радианах в секунду, на 550 км это 15 оборотов в сутки</dd></div>
+          <div><dt>J<sub>2</sub></dt><dd>сплюснутость Земли, 0,00108</dd></div>
+          <div><dt>R, a</dt><dd>радиус Земли 6378 км и радиус орбиты</dd></div>
+          <div><dt>i</dt><dd>наклонение, 97,6° для солнечно-синхронной орбиты на 550 км</dd></div>
+        </dl></div>
+      <div class="eq"><h3>Поворот двигателем</h3>
+        <math display="block"><mi mathvariant="normal">Δ</mi><mi>v</mi><mo>=</mo><mfrac><mi>π</mi><mn>2</mn></mfrac><mi>v</mi><mspace width="0.18em"/><mi>sin</mi><mspace width="0.22em"/><mi>i</mi><mo>·</mo><mi mathvariant="normal">Δ</mi><mi mathvariant="normal">Ω</mi></math>
+        <p>На 15° это 3,1 км/с. По формуле Циолковского для буксира с грузом, 200 кг, это 38 кг ксенона, а в баке 25,8 кг.</p>
+        <dl class="sym">
+          <div><dt class="up">Δ<i>v</i></dt><dd>сколько скорости добавить двигателем</dd></div>
+          <div><dt>v</dt><dd>скорость на орбите 550 км, 7,6 км/с</dd></div>
+          <div><dt class="up">ΔΩ</dt><dd>нужный поворот, в радианах</dd></div>
+        </dl></div>
+    </div>
+    <div class="rows">
+      <div><h3>Перебор планов</h3><p>Высота ожидания от 350 до 1550 км и доля поворота двигателем от 0 до 100 %, около 10 тысяч планов на заявку. Учтены тень (тяга только на свету), сопротивление воздуха и уменьшение массы. Берём план с наименьшим ксеноном, который успевает.</p></div>
+      <div><h3>Сверка численным полётом</h3><p>Три плана прогнали прямым интегрированием орбиты: сплюснутость, тень, атмосфера, шаг 30 секунд. Ксенон совпал с моделью с точностью до 6 %.</p></div>
+      <div><h3>Откуда числа</h3><p>Двигатель по данным А-РОКЕТС: тяга 55 мН, удельный импульс 1500 с, суммарный импульс 380 кН·с, отсюда 25,8 кг ксенона. Груз 50 кг тоже оттуда. Массу самого буксира компания не публикует, мы взяли 150 кг. Доля света 0,62 — среднее, на орбите «рассвет — закат» тени почти нет, и там поворот на 15° за 60 суток выполним. Подъём и поворот идут по очереди, совместить дешевле, поэтому числа — оценка сверху.</p></div>
+    </div>
+  </details>
   </div></div>
 </div></section>
 
+<footer><div class="wrap"><b>ДРЕЙФ</b> — проект команды <b>DevCore</b> для Космического идеатона БРИКС 2026, кейс 3, партнёр кейса — А-РОКЕТС. Все расчёты на странице сделаны по открытым данным.</div></footer>
+
+<div id="err" hidden></div>
 <script src="data.js"></script>
 <script>
+window.onerror = (m, s, l) => { const e = document.getElementById("err"); e.textContent += `ERR ${m} @${l}\n`; };
 (() => {
 const D = window.DRIFT, S = D.start, NS = "http://www.w3.org/2000/svg";
 const $ = s => document.querySelector(s);
@@ -272,23 +442,23 @@ const num = (x, d = 1) => Number(x).toLocaleString("ru-RU", { minimumFractionDig
 const sgn = x => (x > 0 ? "+" : x < 0 ? "−" : "") + num(Math.abs(x), Number.isInteger(x) ? 0 : 1) + "°";
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const get = (dO, dl) => D.grid[String(dO)][D.deadlines.indexOf(dl)];
-const st = { dO: -15, dl: 180, t: 0, playing: false, hold: 0 };
+const st = { dO: -15, dl: 180, t: 0, playing: false };
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const clock = h => { h = ((h % 24) + 24) % 24; let H = Math.floor(h), M = Math.round((h - H) * 60); if (M === 60) { H = (H + 1) % 24; M = 0; } return `${String(H).padStart(2, "0")}:${String(M).padStart(2, "0")}`; };
+const shiftWord = dO => `на ${dO < 0 ? "−" : dO > 0 ? "+" : ""}${Math.abs(dO)}°`;
+const rate = h => { const a = 6378.137 + h, n = Math.sqrt(398600.4418 / a ** 3); return -1.5 * n * 1.08262668e-3 * (6378.137 / a) ** 2 * Math.cos(S.inc * Math.PI / 180) * 86400 * 180 / Math.PI; };
 
 // ---------- план миссии во времени ----------
-let P = null;          // текущий план из модели
-function phases(p) {   // границы фаз в сутках
-  const t1 = p.up, t2 = p.days - p.down;
-  return { t1, t2, T: p.days };
-}
-function hAt(p, d) {   // высота буксира в сутки d
-  const { t1, t2, T } = phases(p);
+let P = null;
+function phases(p) { return { t1: p.up, t2: p.days - p.down, T: p.days }; }
+function hAt(p, d) {
+  const { t1, t2 } = phases(p);
   if (d <= t1) return S.h + (p.h - S.h) * (t1 ? d / t1 : 1);
   if (d <= t2) return p.h;
   return p.h + (S.h - p.h) * Math.min(1, (d - t2) / Math.max(p.down, 1e-6));
 }
-// Доля угла, закрытая к сутки d: дрейф пропорционален отходу по высоте, поворот тягой идёт равномерно на ожидании.
-// Нормировано на итог модели, так что в конце угол ровно 0. Это иллюстрация плана, числа — из модели.
+// Доля сдвига, закрытая к сутки d: дрейф пропорционален отходу по высоте, поворот двигателем идёт равномерно, пока двигатель тратит на него ксенон (P.turn суток после подъёма).
+// Нормировано на итог модели, в конце сдвиг ровно 0. Это иллюстрация плана, числа — из модели.
 let CUM = null;
 function buildCum(p) {
   const N = 400, T = p.days, dr = [0], tu = [0]; let a = 0, b = 0;
@@ -296,121 +466,206 @@ function buildCum(p) {
   for (let k = 1; k <= N; k++) {
     const d = T * (k - .5) / N;
     a += p.h === S.h ? 0 : (hAt(p, d) - S.h) / (p.h - S.h); dr.push(a);
-    b += d > t1 && d <= t2 ? 1 : 0; tu.push(b);
+    b += d > t1 && d <= (p.turn ? Math.min(t2, t1 + p.turn) : t2) ? 1 : 0; tu.push(b);
   }
   return dr.map((v, k) => (a ? (1 - share) * v / a : 0) + (b ? share * tu[k] / b : 0) + (!a && !b ? k / N : 0));
 }
 function closed(d) { if (!CUM) return 0; const k = Math.min(CUM.length - 1, Math.max(0, d / P.days * (CUM.length - 1))); const i = Math.floor(k), f = k - i; return CUM[i] + ((CUM[i + 1] ?? CUM[i]) - CUM[i]) * f; }
-function xeAt(d) {     // ксенон тратится только при работе двигателя: подъём, поворот, спуск
-  const { t1, t2, T } = phases(P), burn = P.up + P.turn + P.down || 1;
+function xeAt(d) {
+  const { t1, t2 } = phases(P), burn = P.up + P.turn + P.down || 1;
   let b = Math.min(d, t1);
   if (P.turn && d > t1) b += Math.min(d - t1, P.turn);
   if (d > t2) b += d - t2;
   return P.xe * Math.min(1, b / burn);
 }
 
-// ---------- 3D глобус на canvas ----------
-const cv = $("#globe"), ctx = cv.getContext("2d");
-let W = 0, H = 0, DPR = 1;
-function resize() { DPR = Math.min(2, devicePixelRatio || 1); const r = cv.getBoundingClientRect(); W = r.width; H = r.height; cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); }
-const INC = S.inc * Math.PI / 180, EL = 16 * Math.PI / 180, YAW = -62 * Math.PI / 180, HX = 4;
+// ---------- 3D: общая камера ----------
+const RAD = Math.PI / 180, INC = S.inc * RAD, HX = 4;
+const CAM0 = { el: 16 * RAD, yaw: -62 * RAD }, CAMB = { el: 34 * RAD, yaw: -28 * RAD };
+let CAM = CAM0;                                       // камера текущей схемы
 const rOf = h => 1 + h / 6378 * HX;
 function view(x, y, z) {
-  const c = Math.cos(YAW), s = Math.sin(YAW), X = c * x - s * y, Y = s * x + c * y;
-  const ce = Math.cos(EL), se = Math.sin(EL);
-  return [X, ce * Y - se * z, se * Y + ce * z];          // экранный x, глубина (меньше — ближе), экранный вверх
+  const c = Math.cos(CAM.yaw), s = Math.sin(CAM.yaw), X = c * x - s * y, Y = s * x + c * y;
+  const ce = Math.cos(CAM.el), se = Math.sin(CAM.el);
+  return [X, ce * Y - se * z, se * Y + ce * z];
 }
 function ringPt(r, om, u) {
   const x0 = r * Math.cos(u), y0 = r * Math.sin(u) * Math.cos(INC), z = r * Math.sin(u) * Math.sin(INC);
   return view(x0 * Math.cos(om) - y0 * Math.sin(om), x0 * Math.sin(om) + y0 * Math.cos(om), z);
 }
-function geom() { const sc = Math.min(W, H) / (2 * rOf(Math.max(1100, P ? P.h : 0))) * .94; return { cx: W * .5, cy: H * .5, sc }; }
+function canvasOf(id) {
+  const cv = $(id), c = cv.getContext("2d"), o = { cv, c, W: 0, H: 0 };
+  o.resize = () => { const d = Math.min(2, devicePixelRatio || 1), r = cv.getBoundingClientRect(); o.W = r.width; o.H = r.height; cv.width = o.W * d; cv.height = o.H * d; c.setTransform(d, 0, 0, d, 0, 0); };
+  o.check = () => { if (Math.abs(cv.clientWidth - o.W) > .5 || Math.abs(cv.clientHeight - o.H) > .5) o.resize(); };   // панель выросла от текста — холст не должен растягиваться
+  return o;
+}
 const scr = (g, v) => [g.cx + v[0] * g.sc, g.cy - v[2] * g.sc];
-function drawRing(g, r, om, color, dash, width, front) {
-  ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.setLineDash(dash || []);
-  ctx.globalAlpha = front ? 1 : .28; ctx.beginPath(); let pen = false;
+function drawRing(c, g, r, om, color, dash, width, front) {
+  c.save(); c.strokeStyle = color; c.lineWidth = width; c.setLineDash(dash || []);
+  c.globalAlpha = front ? 1 : .28; c.beginPath(); let pen = false, prev = null;
   for (let k = 0; k <= 180; k++) {
     const v = ringPt(r, om, k / 180 * 2 * Math.PI), isFront = v[1] < 0, [px, py] = scr(g, v);
-    if (isFront === front) { pen ? ctx.lineTo(px, py) : ctx.moveTo(px, py); pen = true; } else pen = false;
+    // отрезок через границу видимости рисуют обе половины, иначе на стыке щель в один шаг
+    if (prev && (isFront === front || prev.f === front)) { if (!pen) c.moveTo(prev.x, prev.y); c.lineTo(px, py); pen = true; } else pen = false;
+    prev = { f: isFront, x: px, y: py };
   }
-  ctx.stroke(); ctx.restore();
+  c.stroke(); c.restore();
 }
-function drawEarth(g, spin) {
-  const R = g.sc;
-  const glow = ctx.createRadialGradient(g.cx, g.cy, R * .9, g.cx, g.cy, R * 1.25);
+function drawEarth(c, g, spin, flat) {          // flat — сжатие по оси для схемы сплюснутости
+  const R = g.sc, k = 1 - flat;
+  const glow = c.createRadialGradient(g.cx, g.cy, R * .9, g.cx, g.cy, R * 1.25);
   glow.addColorStop(0, "rgba(63,140,240,.22)"); glow.addColorStop(1, "rgba(63,140,240,0)");
-  ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(g.cx, g.cy, R * 1.25, 0, 7); ctx.fill();
-  const body = ctx.createRadialGradient(g.cx - R * .35, g.cy - R * .4, R * .1, g.cx, g.cy, R);
+  c.fillStyle = glow; c.beginPath(); c.arc(g.cx, g.cy, R * 1.25, 0, 7); c.fill();
+  const ry = R * Math.sqrt((k * Math.cos(CAM.el)) ** 2 + Math.sin(CAM.el) ** 2);
+  const body = c.createRadialGradient(g.cx - R * .35, g.cy - R * .4, R * .1, g.cx, g.cy, R);
   body.addColorStop(0, "#2b5d9c"); body.addColorStop(.55, "#143057"); body.addColorStop(1, "#0a1628");
-  ctx.fillStyle = body; ctx.beginPath(); ctx.arc(g.cx, g.cy, R, 0, 7); ctx.fill();
-  ctx.save(); ctx.beginPath(); ctx.arc(g.cx, g.cy, R, 0, 7); ctx.clip();
-  ctx.strokeStyle = "rgba(190,215,255,.13)"; ctx.lineWidth = 1;
-  for (let m = 0; m < 12; m++) {                          // меридианы вращаются вместе с Землёй
-    const lon = m / 12 * 2 * Math.PI + spin; ctx.beginPath(); let pen = false;
-    for (let k = 0; k <= 40; k++) { const la = -Math.PI / 2 + k / 40 * Math.PI, v = view(Math.cos(la) * Math.cos(lon), Math.cos(la) * Math.sin(lon), Math.sin(la));
-      const [px, py] = scr(g, v); if (v[1] < 0) { pen ? ctx.lineTo(px, py) : ctx.moveTo(px, py); pen = true; } else pen = false; }
-    ctx.stroke();
+  c.fillStyle = body; c.beginPath(); c.ellipse(g.cx, g.cy, R, ry, 0, 0, 7); c.fill();
+  c.save(); c.beginPath(); c.ellipse(g.cx, g.cy, R, ry, 0, 0, 7); c.clip();
+  c.strokeStyle = "rgba(190,215,255,.13)"; c.lineWidth = 1;
+  for (let m = 0; m < 12; m++) {
+    const lon = m / 12 * 2 * Math.PI + spin; c.beginPath(); let pen = false;
+    for (let j = 0; j <= 40; j++) { const la = -Math.PI / 2 + j / 40 * Math.PI, v = view(Math.cos(la) * Math.cos(lon), Math.cos(la) * Math.sin(lon), Math.sin(la) * k);
+      const [px, py] = scr(g, v); if (v[1] < 0) { pen ? c.lineTo(px, py) : c.moveTo(px, py); pen = true; } else pen = false; }
+    c.stroke();
   }
   for (const la of [-60, -30, 0, 30, 60]) {
-    const a = la * Math.PI / 180; ctx.beginPath(); let pen = false;
-    ctx.strokeStyle = la === 0 ? "rgba(190,215,255,.32)" : "rgba(190,215,255,.13)";
-    for (let k = 0; k <= 72; k++) { const lo = k / 72 * 2 * Math.PI, v = view(Math.cos(a) * Math.cos(lo), Math.cos(a) * Math.sin(lo), Math.sin(a));
-      const [px, py] = scr(g, v); if (v[1] < 0) { pen ? ctx.lineTo(px, py) : ctx.moveTo(px, py); pen = true; } else pen = false; }
-    ctx.stroke();
+    const a = la * Math.PI / 180; c.beginPath(); let pen = false;
+    c.strokeStyle = la === 0 ? (flat ? "rgba(255,200,97,.75)" : "rgba(190,215,255,.32)") : "rgba(190,215,255,.13)";
+    c.lineWidth = la === 0 && flat ? 3 : 1;
+    for (let j = 0; j <= 72; j++) { const lo = j / 72 * 2 * Math.PI, v = view(Math.cos(a) * Math.cos(lo), Math.cos(a) * Math.sin(lo), Math.sin(a) * k);
+      const [px, py] = scr(g, v); if (v[1] < 0) { pen ? c.lineTo(px, py) : c.moveTo(px, py); pen = true; } else pen = false; }
+    c.stroke();
   }
-  ctx.restore();
+  drawLand(c, g, spin, k);
+  c.restore();
 }
-function drawNodes(g, omT) {                            // восходящие узлы на экваторе и дуга между ними: это и есть ΔΩ
+
+// ---------- материки: контуры суши Natural Earth 110m, упрощены до 0,3° ----------
+const LAND = [[-59.6,-80,-60.2,-81,-64.5,-80.9,-66.3,-80.3,-61.9,-80.4,-60.6,-79.6,-59.6,-80],[-159.2,-79.5,-161.1,-79.6,-163.7,-78.6,-163.1,-78.2,-161.2,-78.4,-159.2,-79.5],[-45.2,-78,-43.9,-78.5,-43.3,-80,-50.5,-81,-54.2,-80.6,-54,-80.2,-51,-79.6,-48.7,-78,-45.2,-78],[-121.2,-73.5,-118.7,-73.5,-120.2,-74.1,-122.6,-73.7,-122.4,-73.3,-121.2,-73.5],[-125.6,-73.5,-124,-73.9,-127.3,-73.5,-125.6,-73.5],[-99,-71.9,-96.8,-72,-96.2,-72.5,-100.8,-72.5,-102.3,-71.9,-99,-71.9],[-68.5,-71,-68.8,-72.2,-71.1,-72.5,-72.4,-72.5,-71.9,-72.1,-74.2,-72.4,-75,-71.7,-72.1,-71.2,-71.7,-69.5,-70.3,-68.9,-68.5,-71],[-180,-84.7,-179.1,-84.1,-177.3,-84.5,-175.9,-84.1,-174.4,-84.5,-170,-83.9,-167,-84.6,-158.1,-85.4,-155.2,-85.1,-148.5,-85.6,-143.1,-85,-142.9,-84.6,-150.1,-84.3,-153.6,-83.7,-152.7,-82.5,-152.9,-82,-156.8,-81.1,-150.6,-81.3,-146.4,-80.3,-149.5,-79.4,-155.3,-79.1,-158.1,-78,-158.4,-76.9,-157,-77.3,-151.3,-77.4,-146.1,-76.5,-146.5,-75.7,-146.2,-75.4,-144.9,-75.2,-144.3,-75.5,-135.2,-74.3,-119.7,-74.5,-113.9,-73.7,-112.3,-74.7,-111.3,-74.4,-107.6,-75.2,-100.6,-75.3,-100.1,-74.9,-101.3,-74.2,-102.5,-74.1,-103.7,-72.6,-99.1,-72.9,-96.3,-73.6,-90.1,-73.3,-89.2,-72.6,-85.2,-73.5,-81.5,-73.9,-80.3,-73.1,-76.2,-74,-68.9,-73,-67.1,-72,-68.5,-69.7,-67.6,-68.5,-67.7,-67.3,-67.3,-66.9,-63,-64.6,-57.8,-63.3,-57.2,-63.5,-57.6,-63.9,-62,-64.8,-62.6,-65.5,-62.1,-66.2,-63.7,-66.5,-65.7,-68,-63.2,-69.2,-61.8,-70.7,-60.8,-73.7,-64.4,-75.3,-70.6,-76.6,-77.2,-76.7,-73.7,-77.9,-77.9,-78.4,-78,-79.2,-75.4,-80.3,-59.7,-82.4,-58.2,-83.2,-49.8,-81.7,-42.8,-82.1,-40.8,-81.4,-28.6,-80.3,-29.7,-79.3,-35.6,-79.5,-35.8,-78.3,-35.3,-78.1,-28.9,-76.7,-22.5,-76.1,-17.5,-75.1,-15.7,-74.5,-15.4,-74.1,-16.5,-73.9,-15.4,-73.1,-12.3,-72.4,-10.3,-71.3,-7.4,-71.7,-6.9,-70.9,-4.3,-71.5,-0.7,-71.2,-0.2,-71.6,7.7,-69.9,9.5,-70,10.8,-70.8,13.4,-70,15.1,-70.4,19.3,-69.9,21.5,-70.1,22.6,-70.7,27.1,-70.5,32,-69.7,33.9,-68.5,38.6,-69.8,42,-68.6,47.4,-67.7,54.5,-65.8,56.4,-66,58.7,-67.3,61.4,-68,64.1,-67.4,68.9,-67.9,69.7,-69.2,69.6,-69.7,67.8,-70.3,67.9,-70.7,69.1,-70.7,67.9,-71.9,69.9,-72.3,71,-72.1,73.9,-69.9,77.6,-69.5,79.1,-68.3,82.8,-67.2,86.8,-67.1,88,-66.2,89.7,-67.1,95.8,-67.4,99.7,-67.2,102.8,-65.6,106.2,-66.9,110.2,-66.7,113.6,-65.9,115.6,-66.7,119.8,-67.3,123.2,-66.5,128.8,-66.8,134.8,-66.2,135.1,-65.3,136.6,-66.8,137.5,-67,145.5,-66.9,146.6,-67.9,148.8,-68.4,152.5,-68.9,154.3,-68.6,159.2,-69.6,161.6,-70.6,167.3,-70.8,171.2,-71.7,169.3,-73.7,166.1,-74.4,163.6,-76.2,163.5,-77.1,164.7,-78.2,166.6,-78.3,167,-78.8,161.8,-79.2,159.8,-80.9,163.7,-82.4,168.9,-83.3,169.4,-83.8,173.2,-84.4,178.3,-84.5,-180,-84.7],[-67.8,-53.8,-65.1,-54.7,-65.5,-55.2,-67,-54.9,-68.1,-55.6,-69.2,-55.5,-72.3,-54.5,-74.7,-52.8,-71.1,-54.1,-70.3,-52.9,-69.3,-52.5,-68.6,-52.6,-67.8,-53.8],[-58.5,-51.1,-57.7,-51.5,-58,-51.9,-59.4,-52.2,-59.8,-51.8,-60.7,-52.3,-61.2,-51.8,-58.5,-51.1],[145.4,-40.8,146.4,-41.1,148.3,-40.9,147.9,-43.2,147.6,-42.9,146.9,-43.6,146,-43.5,144.7,-41.2,144.7,-40.7,145.4,-40.8],[173,-40.9,173.2,-41.3,174,-40.9,174.2,-41.3,172.7,-43.4,173.1,-43.9,171.5,-44.2,170.6,-45.9,169.3,-46.6,166.7,-46.2,167,-45.1,170.5,-43,172.1,-41,172.8,-40.5,173,-40.9],[174.6,-36.2,175.3,-37.2,175.4,-36.5,176,-37.6,176.8,-37.9,178.5,-37.7,178,-39.2,177.2,-39.1,176,-41.3,175.2,-41.7,174.7,-41.3,175.2,-40.5,174.9,-39.9,173.8,-39.5,174.6,-38.8,174.7,-37.4,172.6,-34.5,174.3,-35.3,174.6,-36.2],[167.1,-22.2,166.7,-22.4,165.5,-21.7,164,-20.1,167.1,-22.2],[-180,-16.6,178.7,-17,178.6,-16.6,179.4,-16.4,-179.8,-16,-180,-16.6],[50.1,-13.6,50.4,-15.7,49.7,-15.7,49.8,-16.9,47.1,-24.9,45.4,-25.6,44,-25,43.3,-22.1,44.4,-20.1,44,-17.4,44.4,-16.2,46.3,-15.8,47.7,-14.6,47.9,-13.7,48.3,-13.8,49.2,-12,50.1,-13.6],[143.6,-13.8,143.9,-14.5,144.6,-14.2,145.4,-15,146.4,-19,148.8,-20.4,149.7,-22.3,150.7,-22.4,150.9,-23.5,152.9,-25.3,153.1,-26.1,153.6,-28.1,153.1,-30.9,150.3,-35.7,150,-37.4,148.3,-37.8,146.3,-39,144.9,-38.4,145,-37.9,143.6,-38.8,140.6,-38,139.6,-36.1,138.1,-35.6,138.2,-34.4,137.7,-35.1,136.8,-35.3,137.9,-33.6,137.8,-32.9,136,-34.9,135.2,-34.5,134.3,-32.6,131.3,-31.5,126.1,-32.2,124.2,-33,123.7,-33.9,119.9,-34,118,-35.1,116.6,-35,115,-34.2,115,-33.6,115.7,-33.3,115.7,-31.6,113.3,-26.1,113.8,-26.5,113.4,-25.6,114.2,-26.3,113.4,-24.4,114.1,-21.8,114.2,-22.5,114.6,-21.8,116.7,-20.7,120.9,-19.7,122.2,-18.2,122.3,-17.3,123,-16.4,123.4,-17.3,123.9,-17.1,123.5,-16.6,123.8,-16.1,124.3,-16.3,124.4,-15.6,125.7,-14.2,127.1,-13.8,128.4,-14.9,129.6,-15,129.4,-14.4,130.6,-12.5,132.6,-12.1,132.6,-11.6,131.8,-11.3,132.4,-11.1,135.3,-12.2,136.5,-11.9,137,-12.4,136,-13.3,135.5,-15,140.2,-17.7,140.9,-17.4,141.7,-15,141.5,-13.7,142.1,-11,142.5,-10.7,142.8,-11.2,143.6,-13.8],[124.4,-10.1,123.5,-10.2,124,-9.3,125.1,-8.7,127.3,-8.4,125.1,-9.4,124.4,-10.1],[117.9,-8.1,119.1,-8.7,116.7,-9,117.9,-8.1],[122.9,-8.1,122.8,-8.7,119.9,-8.8,120.7,-8.2,121.3,-8.5,122.9,-8.1],[108.6,-6.8,110.5,-6.9,110.8,-6.5,115.7,-8.4,114.6,-8.8,108.3,-7.8,105.4,-6.9,106.1,-5.9,107.3,-6,108.6,-6.8],[152,-5.5,150.2,-6.3,148.3,-5.7,149.8,-5.5,150.1,-5,150.2,-5.5,150.8,-5.5,151.6,-4.8,151.5,-4.2,152.3,-4.3,152,-5.5],[130.5,-3.1,130.8,-3.9,127.9,-3.4,128.1,-2.8,130.5,-3.1],[153.1,-4.5,152.8,-4.8,152.4,-3.8,150.7,-2.7,150.9,-2.5,152.2,-3.2,153.1,-4.5],[134.1,-1.2,134.4,-2.8,135.5,-3.4,136.3,-2.3,138.3,-1.7,144.6,-3.9,146,-5.5,147.6,-6.1,147.9,-6.6,147,-6.7,147.2,-7.4,150.7,-10.6,147.9,-10.1,146,-8.1,144.7,-7.6,143.3,-8.2,143.4,-9,142.6,-9.3,141,-9.1,140.1,-8.3,139.1,-8.1,137.6,-8.4,138.7,-7.3,137.9,-5.4,133.7,-3.5,133,-4.1,132.8,-3.3,132,-2.8,133.7,-2.2,132.2,-2.2,130.5,-0.9,132.4,-0.4,134.1,-1.2],[125.2,1.4,124.4,0.4,123.7,0.2,120.2,0.2,120,-0.5,120.9,-1.4,123.3,-0.6,123.3,-1.1,122.8,-0.9,121.5,-1.9,123.2,-5.3,122.6,-5.6,122.2,-5.3,122.7,-4.5,121.5,-4.6,121.6,-4.2,120.9,-3.6,121,-2.6,120.3,-2.9,120.4,-5.5,119.4,-5.4,119.5,-3.5,118.8,-2.8,120,0.6,120.9,1.3,122.9,0.9,125.2,1.4],[128.7,1.1,128.6,0.3,128.1,0.4,128.1,-0.9,127.4,1,127.6,1.8,127.9,2.2,128.7,1.1],[105.8,-5.9,104.7,-5.9,102.6,-4.2,99.3,0.2,98.6,1.8,95.3,5.5,97.5,5.2,100.6,2.1,101.7,2.1,103.8,0.1,103.4,-0.7,104.4,-1.1,104.9,-2.3,106.1,-3.1,105.8,-5.9],[117.9,1.8,119,0.9,117.8,0.8,117.5,-0.8,116.6,-1.5,116.1,-4,116,-3.7,114.9,-4.1,114.5,-3.5,113.3,-3.1,112.1,-3.5,111.7,-3,110.2,-2.9,110.1,-1.6,109.1,-0.5,109.1,1.3,109.7,2,111.2,1.9,111.4,2.7,113,3.1,116.7,6.9,119.2,5.4,117.3,3.2,118,2.3,117.9,1.8],[126.4,8.4,126.5,7.2,126.2,6.3,125.8,7.3,125.4,6.8,125.4,5.6,124.2,6.2,124.2,7.4,123.6,7.8,122.1,6.9,121.9,7.2,122.3,8,123.5,8.7,123.8,8.2,125.5,9,125.4,9.8,126.2,9.3,126.4,8.4],[81.2,6.2,80.3,6,79.9,6.8,79.7,8.2,80.1,9.8,81.8,7.5,81.2,6.2],[124,10.3,123,9,122.4,9.7,122.9,10.9,123.5,10.9,123.3,10.3,124.1,11.2,124,10.3],[118.5,9.3,117.2,8.4,119.5,11.4,119.7,10.6,118.5,9.3],[125.5,12.2,125.8,11,125,11.3,125.3,10.4,124.8,10.1,124.3,11.5,124.9,11.4,124.9,11.8,124.3,12.6,125.5,12.2],[121.3,18.5,122.2,18.5,122.5,17.1,121.7,15.9,121.7,14.3,124,13.8,124.1,12.5,122.9,13.6,122.7,13.2,122,13.8,120.6,13.9,121,14.5,120.7,14.8,120.6,14.4,120.1,15,119.9,16.4,120.3,16,120.7,18.5,121.3,18.5],[-76.9,17.9,-78.3,18.2,-76.9,18.4,-76.2,17.9,-76.9,17.9],[-72.6,19.9,-70,19.6,-68.3,18.6,-68.7,18.2,-70.7,18.4,-71.4,17.6,-72.4,18.2,-73.9,18,-74.4,18.7,-72.3,18.7,-72.8,19.5,-73.4,19.6,-72.6,19.9],[110.3,18.7,109.5,18.2,108.7,18.5,108.6,19.4,110.8,20.1,111,19.7,110.3,18.7],[-79.7,22.8,-78.3,22.5,-75.7,20.7,-74.2,20.3,-77.8,19.9,-77.1,20.4,-78.1,20.7,-78.7,21.6,-81.8,22.2,-82.2,22.4,-81.8,22.6,-85,21.9,-82.3,23.2,-79.7,22.8],[121.2,22.8,120.7,22,120.1,23.6,121.5,25.3,122,25,121.2,22.8],[134.6,34.1,134.2,33.2,133.8,33.5,133,32.7,132.4,33,132.9,34.1,134.6,34.1],[34.6,35.7,33,34.6,32.3,35.1,34.6,35.7],[23.7,35.7,26.3,35.3,24.7,34.9,23.5,35.3,23.7,35.7],[15.5,38.2,15.1,36.6,12.4,37.6,12.6,38.1,15.5,38.2],[9.2,41.2,9.8,40.5,9.7,39.2,8.8,38.9,8.2,41,9.2,41.2],[141,37.1,140.3,35.1,137.2,34.6,135.8,33.5,135.1,33.8,135.1,34.6,131,33.9,132,33.1,131.3,31.5,130.7,31,130.2,31.4,130.4,32.3,129.4,33.3,132.6,35.4,135.7,35.5,136.7,37.3,137.4,36.8,139.4,38.2,140.3,41.2,141.4,41.4,141.9,40,141.9,39.2,141,38.2,141,37.1],[143.9,44.2,144.6,44,145.3,44.4,145.5,43.3,144.1,43,143.2,42,141.6,42.7,141.1,41.6,140,41.6,139.8,42.6,140.3,43.3,141.4,43.4,142,45.6,143.9,44.2],[-63.7,46.5,-62,46.4,-62.9,46,-64.1,46.4,-64.4,46.7,-64,47,-63.7,46.5],[-123.5,48.5,-125.7,48.8,-128.1,50,-128.4,50.8,-125.8,50.3,-123.5,48.5],[-56.1,50.7,-56.8,49.8,-56.1,50.1,-55.5,49.9,-55.8,49.6,-53.5,49.2,-53.8,48.5,-53.1,48.7,-52.6,47.5,-53.1,46.7,-54.2,46.8,-54.2,47.8,-55.4,46.9,-56,46.9,-55.3,47.4,-56.3,47.6,-59.3,47.6,-58.8,48.3,-59.2,48.5,-57.4,50.7,-55.9,51.6,-55.4,51.6,-56.1,50.7],[-132.7,54,-131.7,54.1,-132.1,53,-131.2,52.2,-133.1,53.4,-133.2,54.2,-132.7,54],[143.6,50.7,144.7,49,143.2,49.3,142.6,47.9,143.5,46.8,143.5,46.1,142.7,46.7,142.1,46,142.2,51,141.6,51.9,141.7,53.3,142.6,53.8,142.2,54.2,142.7,54.4,143.6,50.7],[-6.8,52.3,-8.6,51.7,-10,51.8,-9.2,52.9,-9.7,53.9,-6.7,55.2,-5.7,54.6,-6.8,52.3],[-153,57.1,-154,56.7,-154.7,57.5,-152.6,57.9,-152.1,57.6,-153,57.1],[-3,58.6,-4.1,57.6,-2,57.7,-3.1,56,-2.1,55.9,-1.1,54.6,-0.4,54.5,0.5,52.9,1.7,52.7,1,51.8,1.4,51.3,0.5,50.8,-3,50.7,-5.2,50,-5.8,50.2,-3.4,51.4,-5.3,52,-4.2,52.3,-4.8,52.8,-4.6,53.5,-3.1,53.4,-2.9,54,-3.6,54.6,-4.8,54.8,-5,55.8,-5.6,55.3,-6.2,56.8,-5,58.6,-3,58.6],[-81.9,62.7,-83.1,62.2,-84,62.5,-83.2,62.9,-81.9,62.7],[-171.7,63.8,-168.7,63.3,-169.5,63,-171.6,63.3,-171.7,63.8],[-85.2,65.7,-85,65.2,-80.1,63.7,-81,63.4,-83.1,64.1,-85.5,63.1,-85.9,63.6,-87.2,63.5,-86.4,64,-85.9,65.7,-85.2,65.7],[-14.5,66.5,-14.7,65.8,-13.6,65.1,-14.9,64.4,-18.7,63.5,-22.8,64,-21.8,64.4,-24,64.9,-22.2,65.4,-24.3,65.6,-23.7,66.3,-22.1,66.4,-20.6,65.7,-19.1,66.3,-17.8,66,-16.2,66.5,-14.5,66.5],[-75.9,67.1,-77,67.1,-77.2,67.6,-76.8,68.1,-75.9,68.3,-75.1,68,-75.9,67.1],[-180,69,-174.9,67.2,-175,66.6,-174.3,66.3,-174.6,67.1,-171.9,66.9,-169.9,66,-172.5,65.4,-172.6,64.5,-173,64.3,-176,64.9,-176.2,65.4,-178.4,65.4,-178.9,65.7,-178.7,66.1,-179.9,65.9,-179.4,65.4,-180,65,180,65,177.4,64.6,179.4,63,179.2,62.3,177.4,62.5,173.7,61.7,170.3,59.9,168.9,60.6,166.3,59.8,165.8,60.2,164.9,59.7,163.5,59.9,162,58.2,162.1,57.8,163.2,57.6,163.1,56.2,162.1,56.1,161.7,55.3,162.1,54.9,160.4,54.3,160,53.2,158.5,53,158.2,51.9,156.8,51,155.4,55.4,155.9,56.8,156.8,57.8,158.4,58.1,163.7,61.1,164.5,62.6,163.3,62.5,162.7,61.6,160.1,60.5,159.3,61.8,156.7,61.4,154.2,59.8,155,59.1,151.3,58.8,151.3,59.5,149.8,59.7,148.5,59.2,142.2,59,135.1,54.7,136.7,54.6,138.2,53.8,138.8,54.3,139.9,54.2,141.3,53.1,141.4,52.2,140.6,51.2,140.1,48.4,138.2,46.3,134.9,43.4,133.5,42.8,132.3,43.3,130,41.9,129.7,40.9,127.5,39.8,127.4,39.2,128.4,38.6,129.5,36.8,129.1,35.1,126.5,34.4,126.1,36.7,126.9,36.9,126.2,37.7,124.7,38.1,125.3,39.6,124.3,39.9,121.1,38.9,122.2,40.4,121.6,40.9,119,39.3,118,39.2,117.5,38.7,118.9,37.9,118.9,37.4,119.7,37.2,120.8,37.9,122.4,37.5,122.5,36.9,121.1,36.7,119.2,34.9,120.2,34.4,121.9,31.7,121.9,30.9,121.3,30.7,122.1,29.8,121.7,28.2,121.1,28.1,118.7,24.5,115.9,22.8,114.2,22.2,113.8,22.5,110.8,21.4,110.4,20.3,109.9,20.3,109.9,21.4,108.5,21.7,105.9,19.8,105.7,19.1,108.9,15.3,109.3,13.4,109.2,11.7,105.2,8.6,104.8,9.2,105.1,9.9,103.5,10.6,102.6,12.2,100.8,12.6,101,13.4,100.1,13.4,99.2,9.2,99.9,9.2,100.5,7.4,103,5.5,104.2,1.3,103.5,1.2,101.4,2.8,100.1,6.5,98.5,8.4,98.3,7.8,98.8,11.4,97.2,16.9,95.4,15.7,94.2,16,94.3,18.2,93.7,19.7,92.4,20.7,91.4,22.8,90.5,22.8,90.3,21.8,89,22.1,88.9,21.7,87,21.5,87,20.7,86.5,20.2,85.1,19.5,82.2,17,82.2,16.6,80.3,15.9,79.9,10.4,79.3,10.3,78.9,9.5,79.2,9.2,78.3,8.9,77.5,8,76.6,8.9,73.5,16,72.6,21.4,70.5,20.9,69.2,22.1,69.6,22.5,69.3,22.8,67.4,23.9,66.4,25.4,61.5,25.1,57.4,25.7,57,27,56.5,27.1,54.7,26.5,51.5,27.9,50.1,30.1,48,30,48.8,27.7,50.2,26.7,50.8,24.8,51,26,51.6,25.8,51.4,24.6,51.8,24,54,24.1,56.4,26.4,56.8,24.2,58.7,23.6,59.8,22.3,58.5,20.4,57.8,20.2,57.7,18.9,55.3,17.6,55.3,17.2,52.4,16.4,52.2,15.6,48.7,14,45.6,13.3,45,12.7,43.5,12.6,42.6,15.2,42.7,16.8,40.9,19.5,39.1,21.3,38.5,23.7,37.5,24.3,35.1,28.1,34.6,28.1,34.9,29.5,33.9,27.6,32.4,29.9,34.1,26.1,35.7,23.9,35.5,23.1,36.9,22,37.5,18.6,38.4,18,39.3,15.9,43.3,12.4,42.7,11.7,44.6,10.4,51.1,12,51,10.6,49.5,6.8,47.7,4.2,40.3,-2.6,39.2,-4.7,38.8,-6.5,39.4,-6.8,39.2,-8.5,40.5,-10.8,40.8,-14.7,39.5,-16.7,37.4,-17.6,34.8,-19.8,34.7,-20.5,35.6,-22.1,35.5,-24.1,32.6,-25.7,32.9,-26.2,32.2,-28.8,28.2,-32.8,25.8,-33.9,22.6,-33.9,19.6,-34.8,18.2,-33.9,17.9,-32.6,18.2,-31.7,15.2,-27.1,14.3,-22.1,11.8,-18.1,11.8,-15.8,12.5,-13.5,13.6,-12,13.7,-10.7,12.9,-9.2,13.2,-8.6,11.9,-5,8.8,-1.1,9.8,3.1,9.4,3.7,8.5,4.8,5.9,4.3,4.3,6.3,1.9,6.1,-2,4.7,-4.6,5.2,-7.5,4.3,-9,4.8,-12.4,7.3,-14.8,10.9,-16.6,12.2,-16.7,13.6,-17.6,14.7,-16.5,16.1,-16.1,18.1,-17,21.9,-15.1,24.5,-14.4,26.3,-12.6,28,-11.7,28.1,-9.6,29.9,-9.8,31.2,-9.3,32.6,-6.9,34.1,-5.9,35.8,-2.2,35.2,1.5,36.6,8.4,36.9,9.5,37.4,10.2,37.2,10.2,36.7,11.1,36.9,10.6,36.4,10.9,35.7,10.8,34.8,10.2,34.3,10.3,33.8,15.2,32.3,15.7,31.4,19.1,30.3,20.1,31,20.1,32.2,21.5,32.8,28.9,30.9,31,31.6,32,30.9,32.2,31.3,33.8,31,34.6,31.5,36,34.6,36.1,35.8,35.8,36.3,36.2,36.7,34.7,36.8,34,36.2,32.5,36.1,31.7,36.6,29.7,36.1,27.6,36.7,26.3,38.2,26.8,39,26.2,39.5,27.3,40.4,28.8,40.5,29.2,41.2,31.1,41.1,33.5,42,35.2,42,38.3,40.9,40.4,41,41.7,42,41.5,42.6,36.7,45.2,38.2,46.2,37.7,46.6,39.1,47.3,35,46.3,35,45.7,36.5,45.5,36.3,45.1,33.9,44.4,33.3,44.6,33.5,45,32.5,45.3,33.6,45.9,33.3,46.1,31.7,46.3,31.7,46.7,30.7,46.6,29.6,45,28.8,44.9,27.7,42.6,28.8,41.1,27.6,41,26.4,40.2,26.1,40.8,24.9,40.9,23.7,40.7,24.4,40.1,23.9,40,22.6,40.3,23.4,39.2,23,39,24,38.2,24,37.7,23.1,37.9,23.4,37.4,22.8,37.3,23.2,36.4,22.5,36.4,21.7,36.8,21.1,38.3,19.4,40.3,19.5,41.7,16,43.5,14.9,45.1,14.3,45.2,14,44.8,13.9,45.6,13.1,45.7,12.3,45.4,12.6,44.1,15.1,42,15.9,42,15.9,41.5,18.5,40.2,18.3,39.8,16.9,40.4,16.5,39.8,17.2,39.4,17.1,38.9,16.1,38,15.7,37.9,16.1,39,15.4,40,12.1,41.7,10.5,42.9,10.2,43.9,8.9,44.4,6.5,43.1,4.6,43.4,3.1,43.1,3,41.9,0.8,41,-0.3,39.3,0.1,38.7,-2.1,36.7,-4.4,36.7,-5.4,35.9,-6.5,36.9,-8.9,36.9,-8.8,38.3,-9.5,38.7,-8.8,40.8,-9.4,43,-8,43.7,-1.9,43.4,-1.4,44,-1.2,46,-3,47.6,-4.5,48,-4.6,48.7,-1.6,48.6,-1.9,49.8,-1,49.3,1.3,50.1,1.6,50.9,3.8,51.6,4.7,53.1,8.1,53.5,8.8,54,8.1,55.5,8.5,57.1,10.6,57.7,10.3,56.9,10.9,56.5,9.6,55.5,9.9,54.6,10.9,54.4,10.9,54,12.5,54.5,14.1,53.8,17.6,54.9,19.7,54.4,19.9,54.9,21.3,55.2,21.1,56.8,21.6,57.4,22.5,57.8,23.3,57,24.1,57,24.4,58.4,23.4,58.6,23.3,59.2,28,59.5,29.1,60,28.1,60.5,22.9,59.8,21.3,60.7,21.5,61.7,21.1,62.6,21.5,63.2,25.4,65.1,25.3,65.5,23.9,66,22.2,65.7,21.2,65,21.4,64.4,17.8,62.7,17.1,61.3,18.8,60.1,17.9,59,16.8,58.7,15.9,56.1,14.7,56.2,14.1,55.4,12.9,55.4,10.4,59.5,8.4,58.3,7.1,58.1,5.7,58.6,5,62,5.9,62.6,10.5,64.5,14.8,67.8,19.2,69.8,23,70.2,24.5,71,28.2,71.2,31.3,70.5,30,70.2,31.1,69.6,32.1,69.9,40.3,67.9,41.1,67.5,41.1,66.8,40,66.3,38.4,66,33.2,66.6,34.8,65.9,34.9,64.4,37,63.9,37.1,64.3,36.5,64.8,37.2,65.1,39.6,64.5,40.4,64.8,39.8,65.5,42.1,66.5,44,66.1,44.5,66.8,43.7,67.4,44.2,68,43.5,68.6,46.3,68.2,46.8,67.7,45.6,67.6,45.6,67,46.3,66.7,47.9,66.9,48.1,67.5,53.7,68.9,54.5,68.8,53.5,68.2,58.8,68.9,59.9,68.3,61.1,68.9,60,69.5,60.6,69.9,63.5,69.5,68.5,68.1,69.2,68.6,68.1,69.4,66.9,69.5,67.3,69.9,66.7,71,68.5,71.9,69.2,72.8,72.6,72.8,72.8,72.2,71.8,71.4,72.8,70.4,72.6,69,73.7,68.4,71.3,66.3,72.4,66.2,75.1,67.8,74.5,68.3,74.9,69,73.8,69.1,73.6,69.6,74.4,70.6,73.1,71.4,74.9,72.1,74.7,72.8,75.7,72.3,75.3,71.3,76.4,71.2,75.9,71.9,77.6,72.3,79.7,72.3,81.5,71.7,80.6,72.6,80.5,73.6,86.8,73.9,86,74.5,87.2,75.1,93.2,76,96.7,75.9,100.8,76.4,102,77.3,104.4,77.7,106.1,77.4,104.7,77.1,107,77,107.2,76.5,111.1,76.7,114.1,75.8,113.9,75.3,109.4,74.2,113,74,113.5,73.3,115.6,73.8,123.2,73,123.3,73.7,127,73.6,128.6,73,129.1,72.4,128.5,72,131.3,70.8,132.3,71.8,133.9,71.4,139.9,71.5,139.1,72.4,140.5,72.8,149.5,72.2,153,70.8,159,70.9,159.8,70.5,159.7,69.7,160.9,69.4,167.8,69.6,169.6,68.7,170.8,69,170,69.7,170.5,70.1,178.6,69.4,-180,69],[-95.6,69.1,-96.3,68.8,-99.8,69.4,-98.2,70.1,-95.6,69.1],[-180,71.5,-177.6,71.3,-180,70.8,-180,71.5],[-90.5,69.5,-90.5,68.5,-89.2,69.3,-88,68.6,-88.3,67.9,-87.3,67.2,-85.6,68.8,-85.5,69.9,-82.6,69.7,-81.3,69.2,-81.2,68.7,-82,68.1,-81.3,67.6,-81.4,67.1,-83.3,66.4,-85.8,66.6,-87.3,64.8,-88.5,64.1,-89.9,64,-90.7,63.6,-90.8,63,-91.9,62.8,-93.2,62,-94.2,60.9,-94.7,58.9,-93.2,58.8,-92.3,57.1,-90.9,57.3,-85,55.3,-82.3,55.1,-82.1,53.3,-81.4,52.2,-79.9,51.2,-79.1,51.5,-78.6,52.6,-79.1,54.1,-79.8,54.7,-78.2,55.1,-76.5,56.5,-77.3,58.1,-78.5,58.8,-77.3,59.9,-78.1,62.3,-73.8,62.4,-71.4,61.1,-69.6,61.1,-69.3,59,-67.7,58.2,-66.2,58.8,-64.6,60.3,-61.4,57,-61.8,56.3,-57.3,54.6,-56.9,53.8,-55.8,53.3,-55.7,52.1,-60,50.2,-66.4,50.2,-71.1,46.8,-68.7,48.3,-65.1,49.2,-64.2,48.7,-65.1,48.1,-64.5,46.2,-63.2,45.7,-61.5,45.9,-60.5,47,-60.5,46.3,-59.8,45.9,-65.4,43.5,-66.1,43.6,-66.2,44.5,-64.4,45.3,-67.1,45.1,-67,44.8,-70.1,43.7,-70.7,43,-70.8,42.3,-70,41.6,-73.7,40.9,-71.9,40.9,-74,40.8,-74.9,38.9,-75.5,39.5,-75.1,38.4,-75.9,37.2,-75.7,37.9,-76.4,39.1,-76.3,38.1,-77,38.2,-76.3,37.9,-75.7,35.6,-79.1,33.5,-81.3,31.4,-81.3,30,-80.1,26.9,-80.4,25.2,-81.2,25.2,-81.7,25.9,-82.9,27.9,-82.9,29.1,-84.1,30.1,-85.1,29.6,-86.4,30.4,-89.2,30.3,-89.6,30.2,-89.2,29.3,-90.2,29.1,-91.6,29.7,-93.8,29.7,-96.6,28.3,-97.4,27.4,-97.1,25.9,-97.9,22.4,-96.3,19.3,-94.4,18.1,-92,18.7,-90.8,19.3,-90.3,21,-87.1,21.5,-86.8,20.8,-87.8,18.3,-88.3,18.5,-88.4,16.5,-88.9,15.9,-85,16,-83.4,15.3,-83.2,14.3,-83.8,11.1,-82.2,9,-81.4,8.8,-79.6,9.6,-76.8,8.6,-75.7,9.4,-75.5,10.6,-74.9,11.1,-73.4,11.2,-71.8,12.4,-71.1,12.1,-71.9,11.4,-71.7,9.1,-71,9.9,-71.4,11,-70.2,11.4,-69.9,12.2,-68.2,10.6,-66.2,10.6,-64.9,10.1,-64.3,10.6,-61.9,10.7,-62.7,10.4,-62.4,9.9,-60.8,9.4,-60.7,8.6,-59.1,8,-58.5,6.8,-57.1,6,-54,5.8,-51.3,4.2,-50.5,1.9,-50,1.7,-49.9,1,-50.7,0.2,-50.4,-0.1,-48.6,-0.2,-48.6,-1.2,-47.8,-0.6,-44.9,-1.6,-44.4,-2.1,-44.6,-2.7,-43.4,-2.4,-40,-2.9,-37.2,-4.8,-35.6,-5.1,-34.7,-7.3,-35.1,-9,-38.7,-13.1,-39.3,-17.9,-40.9,-21.9,-42,-23,-44.6,-23.4,-47.6,-24.9,-48.5,-25.9,-48.9,-28.7,-53.8,-34.4,-54.9,-35,-56.2,-34.9,-58.4,-33.9,-58.5,-34.4,-57.2,-35.3,-57.4,-36,-56.7,-36.4,-56.8,-36.9,-57.7,-38.2,-59.2,-38.7,-62.3,-38.8,-62.1,-40.7,-62.7,-41,-65.1,-41.1,-65,-42.1,-64.3,-42.4,-63.8,-42,-63.5,-42.6,-65.2,-43.5,-65.6,-45,-67.3,-45.6,-67.6,-46.3,-65.6,-47.2,-66,-48.1,-67.2,-48.7,-67.8,-49.9,-69.1,-50.7,-68.2,-52.4,-69.5,-52.3,-70.8,-52.9,-71,-53.8,-74.9,-52.3,-75.6,-48.7,-74.1,-46.9,-75.6,-46.6,-74.7,-45.8,-74.4,-44.1,-73.2,-44.5,-72.7,-42.4,-73.4,-42.1,-73.7,-43.4,-74.3,-43.2,-73.2,-39.3,-73.6,-37.2,-73.2,-37.1,-71.4,-32.4,-71.5,-28.9,-70.9,-27.6,-70.2,-19.8,-70.4,-18.3,-71.5,-17.4,-76,-14.6,-79.8,-7.2,-81.3,-6.1,-80.9,-5.7,-81.4,-4.7,-79.8,-2.7,-80,-2.2,-80.4,-2.7,-81,-2.2,-80.9,-1.1,-80.1,0.8,-78.9,1.4,-78.4,2.6,-77.1,3.8,-77.5,4.1,-77.5,6.7,-78.2,7.5,-78.2,8.3,-79.6,8.9,-80.5,8.1,-80,7.5,-80.9,7.2,-81.1,7.8,-83.5,8.4,-83.6,9.1,-85,10.1,-85.1,9.6,-85.7,9.9,-85.7,11.1,-87.7,12.9,-87.5,13.3,-91.2,13.9,-94.7,16.2,-96.6,15.7,-103.5,18.3,-105.5,19.9,-105.7,20.4,-105.3,21.4,-106,22.8,-109.3,25.6,-109.3,26.4,-112.2,29,-113.1,31.2,-113.9,31.6,-114.8,31.8,-114.7,30.2,-111.6,26.7,-110.7,24.3,-109.4,23.4,-110,22.8,-112.2,24.7,-112.3,26,-115.1,27.7,-114.6,27.7,-114.2,28.6,-115.5,29.6,-117.3,33,-118.5,34,-120.6,34.6,-124.4,40.3,-124.5,42.8,-123.9,45.5,-124.7,48.2,-123.1,48,-122.6,47.1,-122.8,49,-127.4,50.8,-128,51.7,-127.8,52.3,-129.1,52.8,-129.3,53.6,-132,55.5,-132.2,56.4,-133.5,57.2,-134.1,58.1,-136.6,58.2,-139.9,59.5,-147.1,60.9,-148.2,60.7,-148,60,-151.7,59.2,-151.4,60.7,-150.3,61,-150.6,61.3,-154,59.4,-153.3,58.9,-154.2,58.1,-156.3,57.4,-158.4,56,-164.8,54.4,-157.7,57.6,-157,58.9,-159.1,58.4,-160.4,59.1,-162,58.7,-161.9,59.6,-163.8,59.8,-165.3,60.5,-165.4,61.1,-166.1,61.5,-164.6,63.1,-163.1,63.1,-160.8,63.8,-161.5,64.4,-160.8,64.8,-165,64.4,-166.4,64.7,-168.1,65.7,-164.5,66.6,-163.7,66.6,-163.8,66.1,-161.7,66.1,-166.8,68.4,-166.2,68.9,-163.2,69.4,-161.9,70.3,-156.6,71.4,-154.3,70.7,-143.6,70.2,-136.5,68.9,-134.4,69.6,-132.9,69.5,-129.8,70.2,-129.1,69.8,-128.1,70.5,-125.8,69.5,-124.4,70.2,-124.3,69.4,-121.5,69.8,-115.2,68.9,-113.9,68.4,-115.3,67.9,-109.9,68,-108.9,67.4,-107.8,67.9,-108.8,68.3,-108.2,68.7,-106.1,68.8,-104.3,68,-101.5,67.6,-98.4,67.8,-98.6,68.4,-97.7,68.6,-96.1,68.2,-96.1,67.3,-95.5,68.1,-94.7,68.1,-94.2,69.1,-96.5,70.1,-96.4,71.2,-95.2,71.9,-92.9,71.3,-91.5,70.2,-92.4,69.7,-90.5,69.5],[-114.2,73.1,-114.7,72.7,-112.4,73,-111.1,72.5,-109.9,73,-108.2,71.7,-107.7,72.1,-108.4,73.1,-106.5,73.1,-105.4,72.7,-104.5,71,-101,70,-101.1,69.6,-102.7,69.5,-102.1,69.1,-102.4,68.8,-106,69.2,-113.3,68.5,-113.9,69,-116.1,69.2,-117.3,70,-112.4,70.4,-117.9,70.5,-118.4,70.9,-116.1,71.3,-119.4,71.6,-117.9,72.7,-115.2,73.3,-114.2,73.1],[-104.5,73.4,-105.4,72.8,-106.9,73.5,-104.5,73.4],[-76.3,73.1,-79.5,72.7,-80.9,73.3,-80.4,73.8,-78.1,73.7,-76.3,73.1],[-86.6,73.2,-85.8,72.5,-84.9,73.3,-82.3,73.8,-80.6,72.7,-80.8,72.1,-77.8,72.8,-74.2,71.8,-74.1,71.3,-72.2,71.6,-67.9,70.1,-67,69.2,-68.8,68.7,-64.9,67.8,-63.4,66.9,-61.9,66.9,-62.2,66.2,-63.9,65,-66.7,66.4,-68,66.3,-68.1,65.7,-65.3,64.4,-64.7,63.4,-65,62.7,-68.8,63.7,-66.2,61.9,-71,62.9,-72.2,63.4,-71.9,63.7,-74.8,64.7,-77.7,64.2,-78.6,64.6,-77.9,65.3,-74,65.5,-74.3,65.8,-72.7,67.3,-72.9,67.7,-76.9,68.9,-76.2,69.1,-79,70.2,-81.3,69.7,-88.7,70.4,-89.5,70.8,-88.5,71.2,-89.9,71.2,-90.2,72.2,-88.4,73.5,-85.8,73.8,-86.6,73.2],[-100.4,73.8,-97.4,73.8,-97.1,73.5,-98.1,73,-96.5,72.6,-96.7,71.7,-99.3,71.4,-102.5,72.5,-102.5,72.8,-100.4,72.7,-101.5,73.4,-100.4,73.8],[143.6,73.2,139.9,73.4,142.1,73.9,143.6,73.2],[-93.2,72.8,-94.3,72,-95.4,72.1,-96,73.4,-94.5,74.1,-90.5,73.9,-93.2,72.8],[-120.5,71.4,-123.1,70.9,-125.9,71.9,-123.9,73.7,-124.9,74.3,-117.6,74.2,-115.5,73.5,-119.2,72.5,-120.5,71.8,-120.5,71.4],[150.7,75.1,149.6,74.7,146.1,75.2,146.4,75.5,150.7,75.1],[-93.6,75,-94.2,74.6,-96.8,74.9,-94.9,75.6,-93.6,75],[145.1,75.6,144.3,74.8,139,74.6,137,75.3,137.5,75.9,138.8,76.1,145.1,75.6],[-98.5,76.7,-97.7,76.3,-98.2,75,-99.8,74.9,-100.9,75.1,-100.9,75.6,-102.5,75.6,-102.6,76.3,-98.5,76.7],[-108.2,76.2,-107.8,75.8,-105.9,76,-105.7,75.5,-106.3,75,-113.7,74.4,-113.9,74.7,-111.8,75.2,-117.7,75.2,-115.4,76.5,-109.1,75.5,-110.5,76.4,-109.6,76.8,-108.6,76.7,-108.2,76.2],[57.5,70.7,53.7,70.8,53.4,71.2,51.6,71.5,51.5,72,52.5,72.2,52.4,72.8,54.4,73.6,53.5,73.8,55.9,74.6,55.6,75.1,66.2,76.8,68.2,76.9,68.9,76.5,58.5,74.3,55.4,72.4,55.6,71.5,57.5,70.7],[-94.7,77.1,-91.6,76.8,-90.7,76.5,-91,76.1,-89.2,75.6,-81.1,75.7,-79.8,74.9,-81.9,74.4,-88.1,74.4,-92.4,74.8,-92.9,75.9,-93.9,76.3,-97.1,76.8,-96.7,77.2,-94.7,77.1],[-116.2,77.6,-116.3,76.9,-117.1,76.5,-121.5,75.9,-122.9,76.1,-119.1,77.5,-116.2,77.6],[-110.2,77.7,-112.1,77.4,-113.5,77.7,-111.3,78.2,-109.9,78,-110.2,77.7],[24.7,77.9,22.5,77.4,20.7,77.7,21.4,77.9,20.8,78.3,22.9,78.5,24.7,77.9],[-109.7,78.6,-112.5,78.4,-111.5,78.9,-109.7,78.6],[-95.8,78.1,-98.1,78.1,-98.6,78.9,-95.6,78.4,-95.8,78.1],[-100.1,78.3,-99.7,77.9,-105.2,78.4,-104.2,78.7,-105.4,78.9,-105.5,79.3,-100.8,78.8,-100.1,78.3],[105.1,78.3,99.4,77.9,102.1,79.3,105.4,78.7,105.1,78.3],[18.3,79.7,21.5,79,19,78.6,17.1,76.8,15.9,76.8,13.8,77.4,14.7,77.7,11.2,78.9,10.4,79.7,17,80.1,18.3,79.7],[25.4,80.4,27.4,80.1,25.9,79.5,23,79.4,20.1,79.6,17.4,80.3,25.4,80.4],[51.1,80.5,47.6,80,46.5,80.2,47.1,80.6,44.8,80.6,48.5,80.5,50,80.9,51.1,80.5],[99.9,78.9,95,79,91.2,80.3,95.9,81.3,100.2,79.8,99.9,78.9],[-87,79.7,-85.8,79.3,-89,78.3,-90.8,78.2,-92.9,78.3,-94,78.8,-93.1,79.4,-95,79.4,-96.7,80.2,-94.3,81,-94.7,81.2,-92.4,81.3,-87.8,80.3,-87,79.7],[-68.5,83.1,-63.7,82.9,-61.9,82.4,-67.7,81.5,-65.5,81.5,-71.2,79.8,-76.9,79.3,-75.5,79.2,-76.2,79,-75.4,78.5,-79.8,77.2,-77.9,76.8,-80.6,76.2,-89.5,76.5,-89.6,77,-87.8,77.2,-88.3,77.9,-85,77.5,-88,78.4,-85.1,79.3,-86.9,80.3,-81.8,80.5,-87.6,80.5,-91.6,81.9,-85.5,82.7,-83.2,82.3,-82.4,82.9,-79.3,83.1,-68.5,83.1],[-27.1,83.5,-20.8,82.7,-31.4,82,-22.9,82.1,-22.1,81.7,-23.2,81.2,-15.8,81.9,-12.8,81.7,-12.2,81.3,-20,80.2,-17.7,80.1,-19.7,78.8,-19.7,77.6,-18.5,77,-21.7,76.6,-19.8,76.1,-19.6,75.2,-20.7,75.2,-19.4,74.3,-21.6,74.2,-20.4,73.8,-20.8,73.5,-23.6,73.3,-22.3,72.6,-22.3,72.2,-24.8,72.3,-22.1,71.5,-21.8,70.7,-23.5,70.5,-25.5,71.4,-25.2,70.8,-26.4,70.2,-22.3,70.1,-27.7,68.5,-31.8,68.1,-34.2,66.7,-39.8,65.5,-40.7,64.8,-41.2,63.5,-42.8,62.7,-42.4,61.9,-43.4,60.1,-44.8,60,-46.3,60.9,-48.3,60.9,-51.6,63.6,-52.3,65.2,-53.7,66.1,-53.3,66.8,-54,67.2,-53,68.4,-51.5,68.7,-50.9,69.9,-53.5,69.3,-54.7,69.6,-54.4,70.8,-51.4,70.6,-54,71.5,-55.8,71.7,-54.7,72.6,-57.3,74.7,-58.6,75.1,-58.6,75.5,-61.3,76.1,-68.5,76.1,-71.4,77,-66.8,77.4,-73.3,78,-73.2,78.4,-65.7,79.4,-65.3,79.8,-68,80.1,-62.2,81.3,-62.6,81.8,-57.2,82.2,-53,81.9,-50.4,82.4,-44.5,81.7,-46.9,82.2,-46.8,82.6,-43.4,83.2,-27.1,83.5]];
+const GEO = -103;                                     // долгота на экране: так к зрителю повёрнуты Россия и Индия
+const LAND_FILL = "rgba(118,168,138,.24)", LAND_LINE = "rgba(168,212,178,.55)";
+// 3D: суша на шаре. Видимая часть материка = передние куски его контура, сшитые дугами по краю диска (как отсечение в d3-geo).
+// Раньше точки обратной стороны прижимались к краю и соединялись прямыми: когда материк проходил за центром шара,
+// заливка накрывала почти весь диск («зелёная простыня»).
+// LANDO: все контуры обходятся так, что суша слева, если смотреть снаружи шара (восток вправо, север вверх).
+const LANDO = LAND.map(L => {
+  const u = [L[0]];
+  for (let i = 2; i < L.length; i += 2) { let d = L[i] - L[i - 2]; d -= 360 * Math.round(d / 360); u.push(u[u.length - 1] + d); }
+  const net = u[u.length - 1] - u[0]; let A = 0, lat = 0;
+  for (let i = 0; i + 1 < u.length; i++) { A += u[i] * L[2 * i + 3] - u[i + 1] * L[2 * i + 1]; lat += L[2 * i + 1]; }
+  const left = Math.abs(net) > 180 ? (lat < 0 ? net < 0 : net > 0) : A > 0;   // контур вокруг полюса: суша слева, если идти на запад вокруг южного
+  if (left) return L;
+  const r = []; for (let i = L.length - 2; i >= 0; i -= 2) r.push(L[i], L[i + 1]); return r;
+});
+const LAND3 = LANDO.map(L => {           // рёбра не длиннее 1°, чтобы место выхода на край диска было точным
+  const o = [L[0], L[1]];
+  for (let i = 2; i < L.length; i += 2) {
+    const x0 = L[i - 2], y0 = L[i - 1], x1 = L[i], y1 = L[i + 1], n = Math.abs(x1 - x0) > 180 ? 1 : Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0)));
+    for (let k = 1; k <= n; k++) o.push(x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n);
+  }
+  return o;
+});
+function drawLand(c, g, spin, k, list = LAND3) {
+  c.save(); c.lineJoin = "round"; c.lineWidth = .9;
+  const TAU = 2 * Math.PI, ang = v => Math.atan2(v[2], v[0]), X = v => g.cx + v[0] * g.sc, Y = v => g.cy - v[2] * g.sc;
+  const cross = (a, b) => { const t = a[1] / (a[1] - b[1]); return [a[0] + (b[0] - a[0]) * t, 0, a[2] + (b[2] - a[2]) * t]; };
+  for (const L of list) {
+    const V = [];
+    for (let i = 0; i < L.length; i += 2) {
+      const la = L[i + 1] * RAD, a = (L[i] + GEO) * RAD + spin;
+      V.push([...view(Math.cos(la) * Math.cos(a), Math.cos(la) * Math.sin(a), Math.sin(la) * k), Math.abs(L[i]) > 179.8]);
+    }
+    const N = V.length - 1, fr = V.map(v => v[1] < 0);
+    if (!fr.slice(0, N).some(Boolean)) continue;                       // материк целиком за шаром
+    c.beginPath();
+    if (fr.slice(0, N).every(Boolean)) { V.forEach((v, i) => i ? c.lineTo(X(v), Y(v)) : c.moveTo(X(v), Y(v))); c.closePath(); }
+    else {
+      // куски контура на видимой стороне: вход с края диска, точки, выход на край
+      let s0 = 0; while (fr[s0] || !fr[(s0 + 1) % N]) s0++;
+      const F = []; let cur = null;
+      for (let j = 0; j < N; j++) {
+        const i = (s0 + j) % N, i1 = (i + 1) % N, a = V[i], b = V[i1];
+        if (!fr[i] && fr[i1]) { const q = cross(a, b); cur = { tin: ang(q), pts: [q, b] }; }
+        else if (fr[i] && fr[i1]) cur.pts.push(b);
+        else if (fr[i]) { const q = cross(a, b); cur.pts.push(q); cur.tout = ang(q); F.push(cur); cur = null; }
+      }
+      // сшивка: суша слева, значит от выхода край диска идёт против часовой до ближайшего входа
+      const used = F.map(() => false);
+      for (let s = 0; s < F.length; s++) {
+        if (used[s]) continue;
+        let m = s; c.moveTo(X(F[s].pts[0]), Y(F[s].pts[0]));
+        for (let guard = 0; guard <= F.length; guard++) {
+          const f = F[m]; used[m] = true; for (const p of f.pts.slice(1)) c.lineTo(X(p), Y(p));
+          let best = s, bd = Infinity;
+          for (let q = 0; q < F.length; q++) { if (used[q] && q !== s) continue; const d = ((F[q].tin - f.tout) % TAU + TAU) % TAU; if (d < bd) { bd = d; best = q; } }
+          c.arc(g.cx, g.cy, g.sc, -f.tout, -(f.tout + bd), true);
+          if (best === s) break; m = best;
+        }
+        c.closePath();
+      }
+    }
+    c.fillStyle = LAND_FILL; c.fill();
+    c.beginPath(); for (let i = 1; i < V.length; i++) { const a = V[i - 1], b = V[i]; if (a[1] < 0 && b[1] < 0 && !(a[2] && b[2])) { c.moveTo(X(a), Y(a)); c.lineTo(X(b), Y(b)); } }
+    c.strokeStyle = LAND_LINE; c.stroke();
+  }
+  c.restore();
+}
+// вид с северного полюса: край диска — экватор, южнее экватора суша срезается по краю; off — поворот картинки в градусах
+function drawLandTop(c, cx, cy, R, off, alpha = 1) {
+  c.save(); c.globalAlpha = alpha; c.lineJoin = "round"; c.lineWidth = .9;
+  for (const L of LAND) {
+    const P = [];
+    for (let i = 0; i < L.length; i += 2) {
+      const la = L[i + 1], a = (L[i] + off) * RAD, r = R * Math.cos(Math.max(0, la) * RAD);
+      P.push([cx + r * Math.cos(a), cy - r * Math.sin(a), la >= 0, Math.abs(L[i]) > 179.8]);
+    }
+    if (!P.some(q => q[2])) continue;
+    c.beginPath(); P.forEach((q, i) => i ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1])); c.closePath(); c.fillStyle = LAND_FILL; c.fill();
+    c.beginPath(); for (let i = 1; i < P.length; i++) { const a = P[i - 1], b = P[i]; if (a[2] && b[2] && !(a[3] && b[3])) { c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); } }
+    c.strokeStyle = LAND_LINE; c.stroke();
+  }
+  c.restore();
+}
+
+// ---------- прибор: глобус ----------
+const G = canvasOf("#globe");
+function geom(o) { const sc = Math.min(o.W, o.H) / (2 * rOf(Math.max(1100, P ? P.h : 0))) * .94; return { cx: o.W * .5, cy: o.H * .5, sc }; }
+function drawNodes(c, g, omT, leftDeg) {
   const r = 1.06, node = om => scr(g, view(r * Math.cos(om), r * Math.sin(om), 0));
   if (Math.abs(omT) > 1e-3) {
-    ctx.save(); ctx.strokeStyle = css("--accent2"); ctx.lineWidth = 2.5; ctx.beginPath();
-    for (let k = 0; k <= 40; k++) { const [px, py] = node(omT * k / 40); k ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
-    ctx.stroke(); ctx.restore();
+    c.save(); c.strokeStyle = css("--accent2"); c.lineWidth = 2.5; c.beginPath();
+    for (let k = 0; k <= 40; k++) { const [px, py] = node(omT * k / 40); k ? c.lineTo(px, py) : c.moveTo(px, py); }
+    c.stroke(); c.restore();
   }
-  for (const [om, col] of [[0, css("--client")], [omT, css("--accent")]]) {
-    const [px, py] = node(om); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(px, py, 4, 0, 7); ctx.fill();
-  }
+  for (const [om, col] of [[0, css("--client")], [omT, css("--accent")]]) { const [px, py] = node(om); c.fillStyle = col; c.beginPath(); c.arc(px, py, 4, 0, 7); c.fill(); }
   const [lx, ly] = node(omT / 2);
-  ctx.font = "600 13px 'JetBrains Mono', monospace"; ctx.fillStyle = css("--ink"); ctx.textAlign = "left";
-  ctx.fillText("ΔΩ " + num(Math.abs(omT * 180 / Math.PI), 1) + "°", lx + 10, ly + 18);
+  c.font = "600 13px 'JetBrains Mono', monospace"; c.fillStyle = css("--ink"); c.textAlign = "left";
+  if (leftDeg > .05) c.fillText(`${num(leftDeg, 1)}°`, lx + 10, ly + 18);
 }
 const trail = [];
 let spin = 0, uT = 0, last = performance.now();
-function frame(now) {
-  const dt = Math.min(.05, (now - last) / 1000); last = now;
-  spin += dt * .12; uT += dt * 2.2;
-  if (st.playing && P) {
-    st.t = Math.min(1, st.t + dt / 9);
-    if (st.t >= 1) { st.playing = false; syncPlay(); }
-    hud();
-  }
-  draw();
-  requestAnimationFrame(frame);
-}
-function draw() {
-  if (!W) return;
-  ctx.clearRect(0, 0, W, H);
-  const g = geom(), d = P ? st.t * P.days : 0;
+function drawGlobe() {
+  const { c, W, H } = G; if (!W) return;
+  CAM = CAM0;
+  c.clearRect(0, 0, W, H);
+  const g = geom(G), d = P ? st.t * P.days : 0;
   const left = P ? (1 - closed(d)) : 1, omT = -st.dO * left * Math.PI / 180;
-  const rT = rOf(P ? hAt(P, d) : S.h), rC = rOf(S.h);
-  const tug = ringPt(rT, omT, uT);
-  drawRing(g, rC, 0, css("--client"), [5, 6], 1.6, false);
-  drawRing(g, rT, omT, css("--accent"), [], 2.2, false);
-  drawEarth(g, spin);
-  drawNodes(g, omT);
-  drawRing(g, rC, 0, css("--client"), [5, 6], 1.6, true);
-  drawRing(g, rT, omT, css("--accent"), [], 2.6, true);
+  const rT = rOf(P ? hAt(P, d) : S.h), rC = rOf(S.h), tug = ringPt(rT, omT, uT);
+  drawRing(c, g, rC, 0, css("--client"), [5, 6], 1.6, false);
+  drawRing(c, g, rT, omT, css("--accent"), [], 2.2, false);
+  drawEarth(c, g, spin, 0);
+  drawNodes(c, g, omT, Math.abs(st.dO) * left);
+  drawRing(c, g, rC, 0, css("--client"), [5, 6], 1.6, true);
+  drawRing(c, g, rT, omT, css("--accent"), [], 2.6, true);
   trail.push(scr(g, tug)); if (trail.length > 22) trail.shift();
-  for (let k = 1; k < trail.length; k++) { ctx.strokeStyle = `rgba(255,138,76,${k / trail.length * .7})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(...trail[k - 1]); ctx.lineTo(...trail[k]); ctx.stroke(); }
+  for (let k = 1; k < trail.length; k++) { c.strokeStyle = `rgba(255,138,76,${k / trail.length * .7})`; c.lineWidth = 3; c.beginPath(); c.moveTo(...trail[k - 1]); c.lineTo(...trail[k]); c.stroke(); }
   const [tx, ty] = scr(g, tug), hidden = tug[1] > 0 && Math.hypot(tug[0], tug[2]) < 1;
-  if (!hidden) {
-    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(tx, ty, 4.5, 0, 7); ctx.fill();
-    ctx.strokeStyle = css("--accent"); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(tx, ty, 9, 0, 7); ctx.stroke();
-  }
+  if (!hidden) { c.fillStyle = "#fff"; c.beginPath(); c.arc(tx, ty, 4.5, 0, 7); c.fill(); c.strokeStyle = css("--accent"); c.lineWidth = 2; c.beginPath(); c.arc(tx, ty, 9, 0, 7); c.stroke(); }
 }
 
 // ---------- шкала времени ----------
 const track = $("#track");
+function mk(t, a, p) { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; }
 function drawTrack() {
   track.innerHTML = "";
   if (!P) return;
@@ -419,50 +674,49 @@ function drawTrack() {
   const T = Math.max(st.dl, P.days), x = d => 4 + d / T * (w - 8), lo = Math.min(S.h, P.h), hi = Math.max(S.h, P.h);
   const y = v => hi === lo ? 24 : 34 - (v - lo) / (hi - lo) * 22;
   const pts = []; for (let k = 0; k <= 120; k++) { const d = P.days * k / 120; pts.push(`${x(d).toFixed(1)},${y(hAt(P, d)).toFixed(1)}`); }
-  const mk = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); (p || svg).appendChild(e); return e; };
-  mk("polyline", { points: pts.join(" "), fill: "none", stroke: css("--line2"), "stroke-width": 2 });
-  const cp = mk("clipPath", { id: "prog" }); track._clip = mk("rect", { x: 0, y: 0, width: 0, height: h }, cp);
-  mk("polyline", { points: pts.join(" "), fill: "none", stroke: css("--accent"), "stroke-width": 2.5, "clip-path": "url(#prog)" });
-  mk("line", { x1: x(st.dl), x2: x(st.dl), y1: 4, y2: 40, stroke: css("--ink2"), "stroke-width": 1, "stroke-dasharray": "3 3" });
-  mk("text", { x: x(st.dl) - 4, y: 10, "text-anchor": "end", fill: css("--muted"), "font-size": 10.5, "font-family": "JetBrains Mono, monospace" }).textContent = "срок " + st.dl;
-  track._head = mk("circle", { r: 5, fill: "#fff", stroke: css("--accent"), "stroke-width": 2 });
-  track._x = x; track._y = y;
+  mk("polyline", { points: pts.join(" "), fill: "none", stroke: css("--line2"), "stroke-width": 2 }, svg);
+  const cp = mk("clipPath", { id: "prog" }, svg); track._clip = mk("rect", { x: 0, y: 0, width: 0, height: h }, cp);
+  mk("polyline", { points: pts.join(" "), fill: "none", stroke: css("--accent"), "stroke-width": 2.5, "clip-path": "url(#prog)" }, svg);
+  mk("line", { x1: x(st.dl), x2: x(st.dl), y1: 4, y2: 40, stroke: css("--ink2"), "stroke-width": 1, "stroke-dasharray": "3 3" }, svg);
+  mk("text", { x: x(st.dl) - 4, y: 10, "text-anchor": "end", fill: css("--muted"), "font-size": 10.5, "font-family": "JetBrains Mono, monospace" }, svg).textContent = "срок " + st.dl;
+  track._head = mk("circle", { r: 5, fill: "#fff", stroke: css("--accent"), "stroke-width": 2 }, svg);
+  track._y = y;
 }
 function seek(e) { if (!P) return; const r = track.getBoundingClientRect(), T = Math.max(st.dl, P.days);
-  const d = Math.max(0, Math.min(P.days, (e.clientX - r.left - 4) / (r.width - 8) * T));
-  st.t = d / P.days; st.playing = false; syncPlay(); hud(); }
+  st.t = Math.max(0, Math.min(P.days, (e.clientX - r.left - 4) / (r.width - 8) * T)) / P.days; st.playing = false; syncPlay(); hud(); }
 let dragging = false;
 track.addEventListener("pointerdown", e => { dragging = true; track.setPointerCapture(e.pointerId); seek(e); });
 track.addEventListener("pointermove", e => { if (dragging) seek(e); });
 track.addEventListener("pointerup", () => dragging = false);
 
+const ICON_PLAY = '<svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 1.5v11l9.5-5.5z" fill="currentColor"/></svg>';
+const ICON_PAUSE = '<svg width="14" height="14" viewBox="0 0 14 14"><rect x="2" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg>';
 const playBtn = $("#play");
-function syncPlay() { playBtn.innerHTML = st.playing
-  ? '<svg width="14" height="14" viewBox="0 0 14 14"><rect x="2" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg>'
-  : '<svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 1.5v11l9.5-5.5z" fill="currentColor"/></svg>';
-  playBtn.setAttribute("aria-label", st.playing ? "Пауза" : "Пуск"); }
+function syncPlay() { playBtn.innerHTML = st.playing ? ICON_PAUSE : ICON_PLAY; playBtn.setAttribute("aria-label", st.playing ? "Пауза" : "Пуск"); }
 playBtn.addEventListener("click", () => { if (!P) return; if (st.t >= 1) st.t = 0; st.playing = !st.playing; syncPlay(); });
 
 // ---------- показания ----------
-const KIND = { "дрейф": "чистый дрейф", "гибрид": "дрейф и доворот двигателем", "прямо": "поворот только двигателем" };
+const KIND = { "дрейф": "поворот только ожиданием", "гибрид": "ожидание и доворот двигателем", "прямо": "поворот только двигателем" };
 function hud() {
   const ph = $("#phase").children;
   if (!P) {
-    $("#gap").textContent = sgn(st.dO).replace("+", "").replace("−", "");
+    $("#gap").textContent = `${Math.abs(st.dO)}°`;
+    $("#clockline").innerHTML = `за ${st.dl} суток решения нет`;
     for (const s of ph) s.className = "";
     $("#t-day").textContent = "—"; $("#t-h").innerHTML = `${S.h} <small>км</small>`; $("#t-xe").innerHTML = `— <small>кг</small>`;
     $("#corner").textContent = "решения не нашли";
     return;
   }
-  const d = st.t * P.days, { t1, t2 } = phases(P), left = Math.abs(st.dO) * (1 - closed(d));
-  $("#gap").textContent = num(left, 1) + "°";
+  const d = st.t * P.days, { t1, t2 } = phases(P), rest = st.dO * (1 - closed(d));
+  $("#gap").textContent = Math.abs(rest) < .05 ? "на месте" : `${num(Math.abs(rest), 1)}°`;
+  $("#clockline").innerHTML = `повернули <b>${num(Math.abs(st.dO) - Math.abs(rest), 1)}°</b> из <b>${Math.abs(st.dO)}°</b>`;
   const k = st.t >= 1 ? 3 : d < t1 ? 0 : d < t2 ? 1 : 2;
   [...ph].forEach((s, i) => s.className = i === k ? "on" : i < k ? "done" : "");
   $("#t-day").innerHTML = `${num(d, 0)} <small>/ ${num(P.days, 0)}</small>`;
   $("#t-h").innerHTML = `${num(hAt(P, d), 0)} <small>км</small>`;
   $("#t-xe").innerHTML = `${num(xeAt(d), 1)} <small>/ ${num(P.xe, 1)} кг</small>`;
-  $("#corner").textContent = `день ${num(d, 0)} · угол ${num(left, 1)}°`;
-  if (track._clip) { const T = Math.max(st.dl, P.days), w = track.clientWidth; const px = 4 + d / T * (w - 8);
+  $("#corner").textContent = `день ${num(d, 0)} · осталось ${num(Math.abs(rest), 1)}°`;
+  if (track._clip) { const T = Math.max(st.dl, P.days), w = track.clientWidth, px = 4 + d / T * (w - 8);
     track._clip.setAttribute("width", px); track._head.setAttribute("cx", px); track._head.setAttribute("cy", track._y(hAt(P, d))); }
 }
 function planText() {
@@ -470,15 +724,15 @@ function planText() {
   if (!P) {
     const i = D.grid[String(st.dO)].findIndex(q => q), f = D.grid[String(st.dO)][i];
     el.className = "plan no";
-    el.innerHTML = `<b>Решения не нашли за ${st.dl} суток.</b> Ни один рассмотренный план не успевает с ${num(S.xe_tank)} кг ксенона, если на каждом витке есть тень. ` +
-      (f ? `Самый короткий срок, который получился для ${sgn(st.dO)}: <b>${D.deadlines[i]} суток, ${num(f.xe)} кг</b>.` : "");
+    el.innerHTML = `<b>За ${st.dl} суток не успеть.</b> Ни один из примерно 10 тысяч планов не укладывается в ${num(S.xe_tank)} кг ксенона, если на каждом витке есть тень. ` +
+      (f ? `Самый короткий срок для поворота ${shiftWord(st.dO)}: <b>${D.deadlines[i]} суток, ${num(f.xe)} кг</b>.` : "");
     return;
   }
   const up = P.h - S.h;
   el.className = "plan";
   el.innerHTML = `<b>${num(P.xe)} кг ксенона из ${num(S.xe_tank)}</b> · ${num(P.days, 0)} из ${st.dl} суток · ${KIND[P.kind]}. ` +
-    (P.kind === "прямо" ? `Буксир остаётся на ${S.h} км и поворачивает плоскость двигателем.` :
-    `${up > 0 ? "Подъём" : "Спуск"} до ${P.h} км, ожидание ${num(P.wait + P.turn, 0)} суток${P.part > 0 ? `, ${num(P.part)}° доворачиваем двигателем` : ""}, возврат на ${S.h} км.`);
+    (P.kind === "прямо" ? `Буксир остаётся на ${S.h} км и поворачивает орбиту двигателем.` :
+    `${up > 0 ? "Подъём" : "Спуск"} до ${P.h} км, ожидание ${num(P.wait + P.turn, 0)} суток${P.part > 0 ? `, ${num(P.part, 1)}° доворачиваем двигателем` : ""}, возврат на ${S.h} км.`);
 }
 
 // ---------- управление ----------
@@ -487,11 +741,11 @@ const PRESETS = [[-15, 180], [-15, 90], [-15, 60], [15, 180], [-30, 365], [-5, 6
 function presets() {
   const box = $("#presets"); box.innerHTML = "";
   for (const [dO, dl] of PRESETS) { const b = document.createElement("button"); b.type = "button"; b.className = "chip";
-    b.textContent = `${sgn(dO)} за ${dl} сут`; b.setAttribute("aria-pressed", st.dO === dO && st.dl === dl);
+    b.textContent = `${sgn(dO)} · ${dl} сут`; b.setAttribute("aria-pressed", st.dO === dO && st.dl === dl);
     b.onclick = () => { st.dO = dO; st.dl = dl; update(true); }; box.appendChild(b); }
 }
 let prev = st.dO;
-inS.addEventListener("input", () => { let v = +inS.value; if (v === 0) { v = prev < 0 ? 1 : -1; } prev = st.dO = v; update(false); });
+inS.addEventListener("input", () => { let v = +inS.value; if (v === 0) v = prev < 0 ? 1 : -1; prev = st.dO = v; update(false); });
 inD.addEventListener("input", () => { st.dl = +inD.value; update(false); });
 inS.addEventListener("change", () => replay()); inD.addEventListener("change", () => replay());
 function replay() { if (P && !reduce) { st.t = 0; st.playing = true; syncPlay(); } }
@@ -499,16 +753,342 @@ function update(play) {
   inS.value = st.dO; inD.value = st.dl; prev = st.dO;
   $("#o-shift").textContent = sgn(st.dO); $("#o-dl").textContent = st.dl + " сут";
   P = get(st.dO, st.dl); CUM = P ? buildCum(P) : null;
+  trail.length = 0;                                   // новый план — старый след спутника не тянем
+  // поворот «вперёд» (плюс) буксир набирает ниже 550 км: сначала спуск, потом подъём
+  const ph = $("#phase").children, down = P && P.h < S.h;
+  ph[0].textContent = `1 · ${down ? "спуск" : "подъём"}`; ph[2].textContent = `3 · ${down ? "подъём" : "спуск"}`;
   st.t = 0; st.playing = false;
   if (play) replay();
   syncPlay(); planText(); drawTrack(); hud(); presets(); urgency();
 }
 
-// ---------- графики ----------
+// ---------- 01: кольцо орбиты и экватор ----------
+const RG = canvasOf("#ring"), CAMR = { el: 24 * RAD, yaw: -35 * RAD };
+const ring = { inc: 60, om: 40, many: false, u: 0, spin: 0 };
+// другие орбиты для режима «много орбит»: наклон и поворот, градусы
+const MANY = [[20, 120], [50, 200], [75, 300], [98, 15], [120, 250], [140, 80], [35, 330], [88, 160], [160, 60]];
+function ringAt(r, inc, om, u) {
+  const I = inc * RAD, O = om * RAD, x0 = r * Math.cos(u), y0 = r * Math.sin(u) * Math.cos(I), z = r * Math.sin(u) * Math.sin(I);
+  return view(x0 * Math.cos(O) - y0 * Math.sin(O), x0 * Math.sin(O) + y0 * Math.cos(O), z);
+}
+function ringStroke(c, g, r, inc, om, col, w, front, dash) {
+  c.save(); c.strokeStyle = col; c.lineWidth = w; c.setLineDash(dash || []); c.globalAlpha = front ? 1 : .3; c.beginPath(); let pen = false;
+  for (let k = 0; k <= 180; k++) { const v = ringAt(r, inc, om, k / 180 * 2 * Math.PI), [px, py] = scr(g, v);
+    if ((v[1] < 0) === front) { pen ? c.lineTo(px, py) : c.moveTo(px, py); pen = true; } else pen = false; }
+  c.stroke(); c.restore();
+}
+function discFill(c, g, f, fill) { c.beginPath(); for (let k = 0; k <= 96; k++) { const [px, py] = scr(g, f(k / 96 * 2 * Math.PI)); k ? c.lineTo(px, py) : c.moveTo(px, py); } c.fillStyle = fill; c.fill(); }
+function ringDraw() {
+  const { c, W, H } = RG; if (!W) return;
+  c.clearRect(0, 0, W, H); c.textBaseline = "alphabetic"; CAM = CAMR;
+  const r = 1.62, g = { cx: W * .5, cy: H * .52, sc: Math.min(W, H) / (2 * r) * (W < 520 ? .7 : .84) };
+  const eqAt = (rr, a) => view(rr * Math.cos(a), rr * Math.sin(a), 0);
+  // плоскость экватора и плоскость орбиты — прозрачные диски через центр Земли
+  discFill(c, g, a => eqAt(r * 1.12, a), "rgba(255,200,97,.07)");
+  if (ring.inc % 180) discFill(c, g, u => ringAt(r, ring.inc, ring.om, u), "rgba(226,97,31,.10)");
+  c.save(); c.setLineDash([3, 5]); c.strokeStyle = "rgba(255,200,97,.45)"; c.lineWidth = 1; c.beginPath();
+  for (let k = 0; k <= 96; k++) { const [px, py] = scr(g, eqAt(r * 1.12, k / 96 * 2 * Math.PI)); k ? c.lineTo(px, py) : c.moveTo(px, py); } c.stroke(); c.restore();
+  if (ring.many) for (const [i, o] of MANY) ringStroke(c, g, r, i, o, "rgba(183,191,202,.55)", 1.2, false);
+  ringStroke(c, g, r, ring.inc, ring.om, css("--accent"), 2.4, false);
+  // точки над экватором и дуга поворота: дальнее рисуем до Земли, чтобы она его закрыла
+  const O = ring.om * RAD, tilt = ring.inc % 180, nodes = [];
+  if (ring.many) for (const [, o] of MANY) for (const a of [o, o + 180]) nodes.push({ a: a * RAD, many: true });
+  if (tilt) nodes.push({ a: O, main: true }, { a: O + Math.PI, main: true });
+  const far = q => eqAt(r, q.a)[1] > 0;
+  const dot = q => { const [px, py] = scr(g, eqAt(r, q.a)); c.fillStyle = q.many ? "rgba(255,200,97,.9)" : css("--sun");
+    c.beginPath(); c.arc(px, py, q.many ? 3 : 5.5, 0, 7); c.fill(); if (q.main) { c.strokeStyle = css("--bg"); c.lineWidth = 2; c.stroke(); } };
+  const arc = front => { c.save(); c.strokeStyle = css("--sun"); c.lineWidth = 2; c.globalAlpha = front ? 1 : .5; c.beginPath(); let pen = false;
+    for (let k = 0; k <= 40; k++) { const v = eqAt(r * 1.12, O * k / 40), [px, py] = scr(g, v);
+      if ((v[1] <= 0) === front) { pen ? c.lineTo(px, py) : c.moveTo(px, py); pen = true; } else pen = false; }
+    c.stroke(); c.restore(); };
+  arc(false); nodes.filter(far).forEach(dot);
+  c.save(); c.globalAlpha = .84; drawEarth(c, g, ring.spin, 0); c.restore();
+  // линия, по которой плоскость орбиты режет плоскость экватора
+  const n1 = scr(g, eqAt(r, O)), n2 = scr(g, eqAt(r, O + Math.PI));
+  if (tilt) { c.save(); c.setLineDash([4, 4]); c.strokeStyle = "rgba(255,138,76,.75)"; c.lineWidth = 1.4; c.beginPath(); c.moveTo(...n1); c.lineTo(...n2); c.stroke(); c.restore(); }
+  if (ring.many) for (const [i, o] of MANY) ringStroke(c, g, r, i, o, "rgba(183,191,202,.7)", 1.2, true);
+  nodes.filter(q => q.many && !far(q)).forEach(dot);
+  ringStroke(c, g, r, ring.inc, ring.om, css("--accent"), 2.8, true);
+  // дуга поворота от направления отсчёта до точки над экватором
+  const ref = scr(g, eqAt(r * 1.12, 0));
+  c.fillStyle = css("--muted"); c.font = "500 11px 'JetBrains Mono', monospace"; c.textAlign = "center"; c.fillText("0°", ref[0], ref[1] + 16);
+  arc(true); nodes.filter(q => q.main && !far(q)).forEach(dot);
+  if (tilt) for (const [p, a] of [[n1, O], [n2, O + Math.PI]]) {
+    // подпись к центру кадра, чтобы на узком экране не уйти за край. Бледнее только когда точку закрывает Земля
+    const right = p[0] > W * .5, out = W >= 520, v = eqAt(r, a);
+    c.save(); c.globalAlpha = v[1] > 0 && Math.hypot(v[0], v[2]) < 1 ? .55 : 1;
+    c.font = "500 12px Onest, sans-serif"; c.fillStyle = css("--sun"); c.textAlign = right === out ? "left" : "right";
+    c.fillText("над экватором", p[0] + (right === out ? 10 : -10), p[1] - 10); c.restore();
+  }
+  // спутник на кольце
+  const s = ringAt(r, ring.inc, ring.om, ring.u), [sx, sy] = scr(g, s), hidden = s[1] > 0 && Math.hypot(s[0], s[2]) < 1;
+  if (!hidden) { c.fillStyle = "#fff"; c.beginPath(); c.arc(sx, sy, 4.5, 0, 7); c.fill(); }
+  c.textAlign = "left"; c.font = "500 12px Onest, sans-serif"; c.fillStyle = css("--sun"); c.fillText("плоскость экватора", 14, 22);
+  c.fillStyle = css("--accent2"); c.fillText("плоскость орбиты", 14, 40);
+}
+function ringRead() {
+  $("#r-inco").textContent = `${ring.inc}°`; $("#r-omo").textContent = `${ring.om}°`;
+  $("#r-say").innerHTML = !(ring.inc % 180)
+    ? `При наклоне ${ring.inc}° кольцо лежит прямо в плоскости экватора. Это единственный случай без двух отдельных точек.`
+    : ring.many
+    ? `Орбит бесконечно много, с любым наклоном и поворотом. Но плоскость каждой проходит через центр Земли, поэтому каждое кольцо дважды пролетает над экватором. Жёлтые точки — эти места: у каждой орбиты свои два, друг напротив друга.`
+    : `Плоскость кольца проходит через центр Земли, плоскость экватора тоже. Поэтому кольцо всегда дважды пролетает над экватором, в двух противоположных местах. <b>Повернуть плоскость</b> — сдвинуть эти места вдоль экватора, наклон при этом тот же. Подвигайте второй ползунок.<br><br>Буксиру нужен только он. Наклон попутный спутник обычно получает от ракеты уже нужный, а поворот без топлива делает сама Земля, если выбрать высоту. Как — в разделе 04.`;
+}
+$("#r-inc").addEventListener("input", e => { ring.inc = +e.target.value; ringRead(); });
+$("#r-om").addEventListener("input", e => { ring.om = +e.target.value; ringRead(); });
+$("#r-many").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; ring.many = b.dataset.m === "1";
+  for (const x of $("#r-many").children) x.setAttribute("aria-pressed", x === b); ringRead(); });
+
+// ---------- 02: мини-кейс, вид с севера ----------
+// Схема поворачивается вместе с кольцами на 550 км: они стоят, а кольцо буксира на другой высоте
+// уходит со скоростью rateI(h) − rateI(550). При наклоне 97,6° вместе с ними поворачивается и направление на Солнце.
+const NV = canvasOf("#needcv");
+const rateI = (h, inc) => { const a = 6378.137 + h, n = Math.sqrt(398600.4418 / a ** 3); return -1.5 * n * 1.08262668e-3 * (6378.137 / a) ** 2 * Math.cos(inc * RAD) * 86400 / RAD; };
+const vc = h => Math.sqrt(398600.4418 / (6378.137 + h));
+const ACC = S.thrust_mN / 1000 / S.m0 * S.duty;                  // м/с², средняя тяга с учётом тени
+const moveDays = (a, b) => Math.abs(vc(a) - vc(b)) * 1000 / ACC / 86400;
+const moveKg = (a, b) => S.m0 * (1 - Math.exp(-Math.abs(vc(a) - vc(b)) * 1000 / (S.isp * 9.80665)));
+// углы плоскостей — от плоскости ракеты, градусы, плюс против часовой, то есть на восток
+const NEED = {
+  shot: { base: 172.5, sun: true, planes: [-15], labs: ["клиенту: 10:30"], rocket: "ракета: 11:30", steps: [["turn", -15], ["drop", 0]] },
+  net: { base: 150, planes: [0, -15, -30], labs: ["", "спутник 2", "спутник 3"], rocket: "ракета, спутник 1", steps: [["drop", 0], ["turn", -15], ["drop", 1], ["turn", -15], ["drop", 2]] },
+  junk: { base: 140, planes: [], labs: [], junk: 10, rocket: "старт буксира", steps: [["turn", 10], ["dock"], ["move", 350], ["release"], ["move", S.h]] },
+  next: { base: 150, planes: [-15, 10], labs: ["клиент 1", "клиент 2"], rocket: "ракета", steps: [["turn", -15], ["drop", 0], ["turn", 25], ["drop", 1]] }
+};
+const TOP_OFF = 97.5;                                // вид с севера: Солнце слева, местный полдень над Индией (06:30 по Гринвичу)
+const NEED_DAYS = {};                                // длительность сценария при 97,6°, для сравнения в тексте
+const ns = { mode: "shot", inc: S.inc, t: 0, u: 0, segs: [], total: 0, days: 0, bad: 0, rel: () => 0 };
+function omIn(q, tau) {                               // сколько повернулось кольцо буксира за tau суток этапа
+  if (q.kind === "wait") return ns.rel(q.h0) * tau;
+  let s = 0; for (let k = 0; k < 24; k++) s += ns.rel(q.h0 + (q.h1 - q.h0) * (k + .5) / 24 * tau / q.T) * tau / 24;
+  return s;
+}
+function needPlan() {
+  const M = NEED[ns.mode], inc = ns.inc, rel = h => rateI(h, inc) - rateI(S.h, inc), segs = [];
+  ns.rel = rel; let h = S.h, bad = 0;
+  const move = (b, txt) => { segs.push({ kind: "move", T: moveDays(h, b), h0: h, h1: b, xe: moveKg(h, b), txt }); h = b; };
+  const drift = (a, b) => { const T = moveDays(a, b); let s = 0; for (let k = 0; k < 40; k++) s += rel(a + (b - a) * (k + .5) / 40) * T / 40; return s; };
+  for (const [kind, arg] of M.steps) {
+    if (kind === "turn") {
+      // ждать там, где кольцо уходит в нужную сторону: при наклоне больше 90° выше — минус, при меньше 90° выше — плюс
+      const hw = Math.sign(rel(740)) === Math.sign(arg) ? 740 : 380, w = (arg - drift(S.h, hw) - drift(hw, S.h)) / rel(hw);
+      if (!(w > 0 && w < 5 * 365)) { bad = Math.abs(rel(hw)) > 1e-9 ? Math.abs(arg / rel(hw)) : Infinity; break; }
+      move(hw, hw > S.h ? `подъём до ${hw} км` : `спуск до ${hw} км`);
+      segs.push({ kind: "wait", T: w, h0: hw, h1: hw, xe: 0, txt: `ждёт: кольцо ${arg < 0 ? "отстаёт" : "обгоняет"}` });
+      move(S.h, `возврат на ${S.h} км`);
+    } else if (kind === "move") move(arg, arg < h ? `увод вниз до ${arg} км` : `возврат на ${arg} км`);
+    else segs.push({ kind, T: 0, h0: h, h1: h, xe: 0, i: arg,
+      txt: kind === "drop" ? "высадка: клиент на месте" : kind === "dock" ? "стыковка с мёртвым спутником" : "отпустил: дальше его затормозит воздух" });
+  }
+  if (bad) segs.length = 0;
+  const days = segs.reduce((s, q) => s + q.T, 0), speed = Math.max(30, days / 10);   // суток в секунду анимации
+  let t = 0, d = 0, om = 0, xe = 0;
+  for (const q of segs) { q.t0 = t; q.sec = q.T ? q.T / speed : .9; q.d0 = d; q.om0 = om; q.xe0 = xe; t += q.sec; d += q.T; om += q.T ? omIn(q, q.T) : 0; xe += q.xe; }
+  Object.assign(ns, { segs, total: t, days: d, bad, t: reduce ? t : 0 });
+  if (Math.abs(inc - S.inc) < 1e-9) NEED_DAYS[ns.mode] = d;
+}
+function needState() {
+  const z = { day: 0, h: S.h, om: 0, xe: 0, txt: "", drop: new Set(), dock: false, rel: 0, gone: false };
+  for (const q of ns.segs) {
+    if (ns.t < q.t0) break;
+    const f = Math.min(1, (ns.t - q.t0) / q.sec);
+    z.day = q.d0 + q.T * f; z.h = q.h0 + (q.h1 - q.h0) * f; z.om = q.om0 + (q.T ? omIn(q, q.T * f) : 0); z.xe = q.xe0 + q.xe * f; z.txt = q.txt;
+    if (q.kind === "drop") z.drop.add(q.i);
+    if (q.kind === "dock") z.dock = true;
+    if (q.kind === "release") { z.rel = f; if (f >= 1) z.gone = true; }
+  }
+  if (ns.segs.length && ns.t >= ns.total) z.txt = `готово за ${num(ns.days, 0)} суток`;
+  return z;
+}
+function needDraw() {
+  const { c, W, H } = NV; if (!W) return;
+  c.clearRect(0, 0, W, H); c.textBaseline = "middle";
+  const M = NEED[ns.mode], narrow = W < 520, sso = Math.abs(ns.inc - S.inc) < .3, sun = M.sun && sso, z = needState();
+  const cx = W * (sun && !narrow ? .57 : .5), cy = H * (narrow ? .56 : .53), sc = Math.min(W, H) * .5 / 1.9, flip = M.sun ? 180 : 0;
+  const P2 = (deg, r) => [cx + r * sc * Math.cos(deg * RAD), cy - r * sc * Math.sin(deg * RAD)];
+  // точка кольца радиуса r (в радиусах Земли) с восходящим узлом в направлении om, u — угол по кольцу от узла
+  const pt = (r, om, u) => { const O = om * RAD, I = ns.inc * RAD, x0 = r * Math.cos(u), y0 = r * Math.sin(u) * Math.cos(I);
+    const X = x0 * Math.cos(O) - y0 * Math.sin(O), Y = x0 * Math.sin(O) + y0 * Math.cos(O);
+    return [cx + sc * X, cy - sc * Y, Math.sin(u) * Math.sin(I), Math.hypot(X, Y)]; };
+  const hid = p => p[2] < 0 && p[3] < 1;               // южная половина за диском Земли
+  const r0 = rOf(S.h), rings = [{ r: r0, a: 0, col: "rgba(183,191,202,.75)", w: 1.6, dash: [6, 5] }];
+  M.planes.forEach(d => { if (d) rings.push({ r: r0, a: d, col: css("--client"), w: 1.5, dash: [3, 4] }); });
+  if (M.junk && !z.dock) rings.push({ r: r0, a: M.junk, col: "rgba(255,138,76,.6)", w: 1.5, dash: [3, 4] });
+  rings.push({ r: rOf(z.h), a: z.om, col: css("--accent"), w: 2.4, dash: [], tug: true });
+  const ring = (q, front) => { c.save(); c.strokeStyle = q.col; c.lineWidth = q.w; c.setLineDash(q.dash); if (!front) c.globalAlpha = .3;
+    c.beginPath(); let pen = false;
+    for (let k = 0; k <= 144; k++) { const p = pt(q.r, M.base + q.a + flip, k / 144 * 2 * Math.PI);
+      if ((p[2] >= 0) === front) { pen ? c.lineTo(p[0], p[1]) : c.moveTo(p[0], p[1]); pen = true; } else pen = false; }
+    c.stroke(); c.restore(); };
+  if (sun) { const sx = narrow ? 34 : 44, sy = narrow ? H - 44 : cy;
+    const sg = c.createRadialGradient(sx, sy, 0, sx, sy, 46); sg.addColorStop(0, "rgba(255,210,120,.95)"); sg.addColorStop(.35, "rgba(255,180,80,.45)"); sg.addColorStop(1, "rgba(255,160,60,0)");
+    c.fillStyle = sg; c.beginPath(); c.arc(sx, sy, 46, 0, 7); c.fill(); c.fillStyle = css("--sun"); c.beginPath(); c.arc(sx, sy, 11, 0, 7); c.fill();
+    c.font = "500 11px Onest, sans-serif"; c.textAlign = "center"; c.fillText("Солнце", sx, sy + 28); }
+  rings.forEach(q => ring(q, false));
+  const body = c.createRadialGradient(cx - sc * .3, cy - sc * .3, sc * .1, cx, cy, sc);
+  body.addColorStop(0, "#2b5d9c"); body.addColorStop(.6, "#143057"); body.addColorStop(1, "#0a1628");
+  c.fillStyle = body; c.beginPath(); c.arc(cx, cy, sc, 0, 7); c.fill();
+  drawLandTop(c, cx, cy, sc, TOP_OFF);
+  c.strokeStyle = "rgba(255,200,97,.6)"; c.lineWidth = 1.5; c.beginPath(); c.arc(cx, cy, sc, 0, 7); c.stroke();
+  c.fillStyle = "rgba(190,215,255,.85)"; c.beginPath(); c.arc(cx, cy, 2.5, 0, 7); c.fill();
+  c.font = "500 10.5px Onest, sans-serif"; c.textAlign = "center"; c.fillText("северный полюс", cx, cy + 14);
+  c.fillStyle = css("--sun"); c.fillText("экватор", cx, cy - sc - 9);
+  rings.forEach(q => ring(q, true));
+  // подписи у концов колец со стороны дня
+  const lab = (deg, text, col) => { if (!text) return; const [lx, ly] = P2(M.base + deg, r0 + .2), cs = Math.cos((M.base + deg) * RAD);
+    c.fillStyle = col; c.font = "600 12px Onest, sans-serif"; const tw = c.measureText(text).width, al = cs > .3 ? "left" : cs < -.3 ? "right" : "center";
+    const x0 = al === "left" ? lx : al === "right" ? lx - tw : lx - tw / 2, dx = Math.max(0, 8 - x0) - Math.max(0, x0 + tw - W + 8);   // не уходить за край
+    c.textAlign = al; c.fillText(text, lx + dx, ly); };
+  lab(0, sun || !M.sun ? M.rocket : "ракета", css("--ink2"));
+  M.planes.forEach((d, i) => lab(d, sun || !M.sun ? M.labs[i] : "клиенту", css("--client")));
+  if (M.junk && !z.dock) lab(M.junk, "мёртвый спутник", css("--accent2"));
+  // дуга между концами колец: с севера конец кольца — точка, где плоскость режет экватор, поэтому угол между плоскостями виден там
+  if (Math.abs(z.om) > .3) { c.save(); c.strokeStyle = css("--sun"); c.lineWidth = 2; c.beginPath();
+    for (let k = 0; k <= 30; k++) { const [px, py] = P2(M.base + z.om * k / 30, r0 + .06); k ? c.lineTo(px, py) : c.moveTo(px, py); } c.stroke();
+    const [mx, my] = P2(M.base + z.om / 2, (1 + r0) / 2 - .02); c.fillStyle = css("--sun"); c.font = "600 12px 'JetBrains Mono', monospace"; c.textAlign = "center";
+    c.fillText(`${z.om < 0 ? "−" : "+"}${num(Math.abs(z.om), 1)}°`, mx, my); c.restore(); }
+  // спутники на кольцах, мусор и буксир
+  const dotAt = (r, a, u, fill, rad) => { const p = pt(r, M.base + a + flip, u); if (hid(p)) return null; c.fillStyle = fill; c.beginPath(); c.arc(p[0], p[1], rad, 0, 7); c.fill(); return p; };
+  M.planes.forEach((d, i) => { if (z.drop.has(i)) dotAt(r0, d, ns.u + 1.1 * (i + 1), css("--client"), 4.5); });
+  const cross = (x, y, al) => { c.save(); c.globalAlpha = al; c.strokeStyle = css("--accent2"); c.lineWidth = 2.5; c.beginPath();
+    c.moveTo(x - 6, y - 6); c.lineTo(x + 6, y + 6); c.moveTo(x + 6, y - 6); c.lineTo(x - 6, y + 6); c.stroke(); c.restore(); };
+  if (M.junk && !z.dock) { const p = pt(r0, M.base + M.junk + flip, ns.u + 2.2); if (!hid(p)) cross(p[0], p[1], 1); }
+  const tp = pt(rOf(z.h), M.base + z.om + flip, ns.u);
+  if (!hid(tp)) { c.fillStyle = "#fff"; c.beginPath(); c.arc(tp[0], tp[1], 4.5, 0, 7); c.fill(); c.strokeStyle = css("--accent"); c.lineWidth = 2; c.beginPath(); c.arc(tp[0], tp[1], 9, 0, 7); c.stroke();
+    if (z.dock && !z.gone) cross(tp[0] + 12, tp[1] - 10, 1 - z.rel); }
+  c.textAlign = "left"; c.font = "600 12px 'JetBrains Mono', monospace"; c.fillStyle = css("--ink2");
+  c.fillText(ns.bad ? "ожиданием не повернуть" : `сутки ${num(z.day, 0)} · ${num(z.h, 0)} км`, 14, 22);
+  c.font = "500 12.5px Onest, sans-serif"; c.fillStyle = css("--accent2"); c.fillText(z.txt, 14, 42);
+  $("#n-day").textContent = ns.bad ? "—" : `${num(z.day, 0)} из ${num(ns.days, 0)}`;
+  $("#n-h").innerHTML = `${num(z.h, 0)} <small>км</small>`;
+  $("#n-deg").textContent = Math.abs(z.om) < .05 ? "0°" : `${z.om < 0 ? "−" : "+"}${num(Math.abs(z.om), 1)}°`;
+  $("#n-xe").innerHTML = `${num(z.xe, 1)} <small>кг</small>`;
+  $("#n-note").textContent = narrow ? "вид с севера · высота ×4" : `вид с северного полюса · кольца на ${S.h} км стоят, Земля под ними вращается раз в сутки · высота ×4`;
+}
+function needSay() {
+  const i = ns.inc, sso = Math.abs(i - S.inc) < .3, r740 = rateI(740, i) - rateI(S.h, i), upMinus = r740 < 0;
+  const up = upMinus ? "поднимается" : "опускается", down = upMinus ? "опускается" : "поднимается";
+  const title = { shot: "Съёмка", net: "Группировка", junk: "Увод мусора", next: "Два заказа за полёт" }[ns.mode];
+  const text = {
+    shot: !sso ? `<b>Съёмка.</b> Ракета выпустила спутник в одну плоскость, клиенту нужна плоскость на 15° западнее, это −15°. Буксир ${up}, там его кольцо отстаёт от колец на ${S.h} км, и когда отстало на 15°, он возвращается.` : `<b>Съёмка.</b> Плоскость солнечно-синхронной орбиты стоит к Солнцу под постоянным углом, и он задаёт час пролёта над каждым местом: 15° — это час. Ракета летела на 11:30, клиенту нужно 10:30, это −15°. Буксир ${up}, там его кольцо отстаёт от колец на ${S.h} км, и когда отстало на 15°, он возвращается.`,
+    net: `<b>Группировка.</b> Чтобы снимать или держать связь чаще, плоскости ставят с равным шагом. Ракета выпустила три спутника в одну. Первого буксир оставляет сразу, со вторым и третьим ${up}, ждёт, пока кольцо отстанет на 15°, и высаживает второго, потом так же третьего. Тем же приёмом, только своими двигателями, разводит свои плоскости OneWeb, это видно в каталоге (раздел 06).`,
+    junk: `<b>Увод мусора.</b> Отработавший спутник висит на ${S.h} км в плоскости на 10° восточнее. Чтобы его забрать, буксир должен попасть в его плоскость. Для плюса он ${down}: там кольцо обгоняет. Догнал, вернулся на ${S.h} км, забрал и опустил до 350 км, дальше спутник затормозит воздух. Индия объявила миссии без мусора к 2030 году.`,
+    next: `<b>Два заказа за полёт.</b> Первому клиенту нужна плоскость −15°, второму +10° от плоскости ракеты. К первому буксир ${up}, ко второму ${down}, потому что на этой высоте кольцо обгоняет. Порядок и высоты для цепочки заказов — наше следующее направление, сейчас планировщик считает одну доставку.`
+  }[ns.mode];
+  let note = "";
+  const why = `Почему: утолщение на экваторе тянет кольцо лечь на экватор (раздел 04). Кольцо с наклоном меньше 90° и больше 90° ложилось бы в разные стороны, поэтому и поворачивается в разные стороны. Кольцу ровно через полюса всё равно, куда ложиться: тяги в обе стороны равны и гасят друг друга.`;
+  if (ns.bad) note = (Math.abs(i - 90) < .3 ? `<b>При наклоне 90° Земля не поворачивает плоскость ни на какой высоте.</b> Ждать бесполезно, остаётся двигатель. `
+    : `<b>При наклоне ${num(i, 1)}° ожиданием не обойтись:</b> рядом с 90° Земля поворачивает плоскость так медленно, что нужный угол набегал бы больше пяти лет. `) + why;
+  else if (!sso) note = `${ns.mode === "shot" ? "Держать один и тот же час пролёта умеют только солнечно-синхронные орбиты, на 550 км у них наклон 97,6°. При другом наклоне час сам уплывает, но плоскость буксир поворачивает так же. " : ""}` +
+    `При наклоне ${num(i, 1)}° ${i < 90 ? "всё наоборот: выше кольцо обгоняет, ниже отстаёт. " : ""}Здесь буксир ждёт на ${[...new Set(ns.segs.filter(q => q.kind === "wait").map(q => q.h0))].join(" и ")} км, и весь сценарий занимает ${num(ns.days, 0)} суток, а при 97,6° — ${num(NEED_DAYS[ns.mode], 0)}: чем дальше наклон от 90°, тем быстрее Земля поворачивает кольца. ${Math.abs(i - 90) < 15 ? why : ""}`;
+  else if (ns.mode === "shot") note = `Солнце на схеме стоит на месте: кольца солнечно-синхронной орбиты поворачиваются вслед за ним.`;
+  const tag = ns.mode === "shot" ? (sso ? " Числа те же, что у примера −15° за 180 суток в начале страницы." : "")
+    : ` Это иллюстрация по той же формуле: высоты ожидания 740 и 380 км взяты для примера${ns.mode === "next" ? "" : ", а планировщик пока считает одну доставку"}.`;
+  $("#n-say").innerHTML = ns.bad ? `<b>${title}.</b> ${note}` : text + tag + (note ? "<br><br>" + note : "");
+}
+function needSet(mode) {
+  ns.mode = mode; needPlan(); needSay(); NV.check();
+  for (const x of $("#n-mode").children) x.setAttribute("aria-pressed", x.dataset.m === mode);
+  $("#n-inco").textContent = `${num(ns.inc, 1)}°`;
+  for (const x of $("#n-incp").children) x.setAttribute("aria-pressed", Math.abs(+x.dataset.i - ns.inc) < .05);
+}
+$("#n-mode").addEventListener("click", e => { const b = e.target.closest("button"); if (b) needSet(b.dataset.m); });
+$("#n-inc").addEventListener("input", e => { ns.inc = +e.target.value; needSet(ns.mode); });
+$("#n-incp").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; ns.inc = +b.dataset.i; $("#n-inc").value = ns.inc; needSet(ns.mode); });
+
+// ---------- 03: что сколько стоит буксиру ----------
+function costChart() {
+  const box = $("#ch-cost"); box.innerHTML = "";
+  const mu = 398600.4418, v = h => Math.sqrt(mu / (6378.137 + h)), kg = dv => S.m0 * (1 - Math.exp(-dv * 1000 / (S.isp * 9.80665)));
+  const turn = Math.PI / 2 * v(S.h) * Math.sin(S.inc * RAD) * 15 * RAD, ours = get(-15, 180);
+  const W2 = box.clientWidth || 700, short = W2 < 560, up = ours ? ours.h - S.h : 150, upKg = kg(v(S.h) - v(S.h + up));
+  const rows = [
+    [`Поднять орбиту на ${up} км`, upKg, "base"],
+    [short ? "Догнать место на кольце, до 8 суток" : "Догнать нужное место на кольце: опуститься на 20 км и вернуться, до 8 суток", kg(2 * (v(S.h - 20) - v(S.h))), "base"],
+    [short ? "Повернуть на 15° двигателем" : "Повернуть плоскость на 15° двигателем", kg(turn), "bad"],
+    [short ? "Повернуть на 15° с ожиданием, 180 суток" : "Повернуть на 15° с ожиданием: наш план за 180 суток", ours ? ours.xe : 0, "ours"]];
+  const bar = 18, gap = 46, m = { l: 0, r: 70, t: 14, b: 30 }, H2 = m.t + rows.length * gap + m.b;
+  const svg = el("svg", { viewBox: `0 0 ${W2} ${H2}`, height: H2, role: "img", "aria-label": "Расход ксенона на разные части доставки" }, box);
+  const x = lin(0, 42, m.l, W2 - m.r);
+  el("line", { x1: x(S.xe_tank), x2: x(S.xe_tank), y1: m.t + 10, y2: H2 - m.b + 4, stroke: css("--ink2"), "stroke-dasharray": "4 4" }, svg);
+  el("text", { x: x(S.xe_tank), y: H2 - 8, "text-anchor": "middle", class: "lbl" }, svg, `весь бак ${num(S.xe_tank)} кг`);
+  rows.forEach(([name, val, kind], i) => {
+    const y = m.t + i * gap, col = kind === "bad" ? "#8f3b1c" : kind === "ours" ? css("--accent") : "#5d6672";
+    el("text", { x: 0, y: y + 2, class: "lbl halo", style: kind === "ours" ? "fill:var(--ink)" : "" }, svg, name);
+    const r = el("rect", { x: x(0), y: y + 8, width: Math.max(3, x(val) - x(0)), height: bar, rx: 4, fill: col }, svg);
+    el("title", {}, r, `${name}: ${num(val, 1)} кг`);
+    const inside = kind === "bad";              // длинный столбик подписываем внутри, чтобы не вылезти за край
+    const pct = Math.round(val / S.xe_tank * 100);
+    el("text", { x: inside ? x(val) - 8 : x(val) + 8, y: y + 8 + bar / 2 + 4, "text-anchor": inside ? "end" : "start", class: "lbl", style: `font-family:var(--mono);fill:${kind === "base" ? "var(--ink2)" : "var(--ink)"}` }, svg,
+      `${num(val, 1)} кг${kind === "base" ? "" : ` · ${pct} % бака`}`);
+  });
+  const sut = n => n % 10 === 1 && n % 100 !== 11 ? "сутки" : "суток", w = Math.round(ours ? ours.wait : 0);
+  $("#cost-say").innerHTML = ours ? `<b>Почему наш план стоит ${num(ours.xe)} кг.</b> Буксир поднимается на ${up} км, ждёт там ${w} ${sut(w)} и возвращается на ${S.h} км. Подъём и спуск занимают ещё по неделе, и за них тоже набегает часть поворота. ` +
+    `Ксенон уходит только на подъём и спуск, примерно по ${num(upKg)} кг. Поворот на 15° за это время набегает сам, как — в разделе 04.<br><br>` +
+    `<b>При чём тут деньги.</b> Бак буксира в полёте не дозаправить, поэтому ксенон — это его рабочий ресурс. План тратит ${Math.round(ours.xe / S.xe_tank * 100)} % бака: если все заказы такие, бака хватит на ${Math.floor(S.xe_tank / ours.xe)}. Каждый занимает полгода, поэтому выгоднее развозить нескольких клиентов за один полёт, как в сценариях «Группировка» и «Два заказа» в разделе 02. Поворот двигателем в бак не помещается вовсе: такую доставку не продать.` : "";
+}
+
+// ---------- 04: сплюснутость и две высоты ----------
+const BG = canvasOf("#bulge");
+const bul = { h: 740, day: 0, t: 0 };                // t — секунды с начала круга: первые 1,5 с показываем, куда тянет пояс
+function bulgeRead() {
+  const r0 = rate(S.h), r1 = rate(bul.h), dlt = r1 - r0;
+  $("#b-ho").textContent = `${bul.h} км`;
+  $("#b-r0").textContent = num(r0, 2) + "°";
+  $("#b-r1").textContent = num(r1, 2) + "°";
+  $("#b-m").textContent = Math.abs(dlt) < 1e-4 ? "0°" : `${num(Math.abs(dlt) * 30, 1)}°`;
+  $("#b-t").textContent = Math.abs(dlt) < 1e-4 ? "никогда" : `${num(15 / Math.abs(dlt), 0)} сут`;
+  const still = Math.abs(dlt) < 1e-4, first = dO => D.deadlines[D.grid[String(dO)].findIndex(q => q)];
+  $("#b-dir").textContent = still ? "вместе" : dlt < 0 ? "отстаёт" : "обгоняет";
+  $("#b-say").innerHTML = (still ? `На ${S.h} км кольцо буксира поворачивается вместе с кольцом, куда он вернётся, и разница не набегает.`
+    : dlt < 0 ? `Буксир с клиентом выше ${S.h} км: его кольцо поворачивается медленнее и отстаёт. Так без топлива набегает поворот со знаком минус, как у заказа −15° в шапке.`
+    : `Буксир с клиентом ниже ${S.h} км: его кольцо поворачивается быстрее и обгоняет. Так набегает поворот со знаком плюс, как у заказа +15°. Ниже 350 км не опуститься, тормозит воздух, поэтому вперёд набегает медленнее: в пределах бака +15° успеть не раньше чем за ${first(15)} суток, а −15° уже за ${first(-15)}.`) +
+    ` <b>Наклон обеих орбит 97,6° и не меняется</b>: пояс тянет кольцо лечь, как пунктир в начале анимации, но кольцо, как волчок, только поворачивается, это второй ползунок из 01. Чем дальше от ${S.h} км ждать, тем быстрее набегает поворот, но дороже путь туда и обратно. Планировщик ищет высоту, где это сходится к сроку с наименьшим ксеноном.`;
+}
+function bulgeDraw() {
+  const { c, W, H } = BG; if (!W) return;
+  c.clearRect(0, 0, W, H); c.textBaseline = "alphabetic";
+  CAM = CAMB;
+  const sc = Math.min(W / 2, H / 1.7) / rOf(1500) * .95, g = { cx: W * .5, cy: H * .54, sc };
+  // обе орбиты поворачиваются, орбита буксира медленнее
+  const omC = rate(S.h) * bul.day * RAD, lag = rate(bul.h) * bul.day * RAD;
+  const rC = rOf(S.h), rT = rOf(bul.h), FL = .12;
+  drawRing(c, g, rC, omC, css("--client"), [5, 6], 1.5, false);
+  drawRing(c, g, rT, lag, css("--accent"), [], 2.2, false);
+  // сначала пояс «тянет кольцо лечь», потом стрелки гаснут и видно, что кольцо поворачивается
+  const pull = reduce ? 0 : Math.max(0, Math.min(1, 1 - (bul.t - 1.5) / 1.2)), flat = INC > Math.PI / 2 ? 1 : -1, gi = S.inc + flat * 40, gcol = "rgba(255,200,97,.8)";
+  if (pull) { c.save(); c.globalAlpha = pull; ringStroke(c, g, rT, gi, lag / RAD, gcol, 1.6, false, [3, 4]); c.restore(); }
+  drawEarth(c, g, bul.day * .02, FL);
+  drawRing(c, g, rC, omC, css("--client"), [5, 6], 1.5, true);
+  drawRing(c, g, rT, lag, css("--accent"), [], 2.6, true);
+  // точки, где орбиты пересекают экватор: расходятся по мере отставания
+  const nodeAt = (r, om) => scr(g, view(r * Math.cos(om), r * Math.sin(om), 0));
+  if (Math.abs(lag - omC) > .002) { c.save(); c.strokeStyle = css("--accent2"); c.lineWidth = 3; c.beginPath();
+    for (let k = 0; k <= 30; k++) { const [px, py] = nodeAt(rT, omC + (lag - omC) * k / 30); k ? c.lineTo(px, py) : c.moveTo(px, py); } c.stroke(); c.restore(); }
+  for (const [r, om, col] of [[rC, omC, css("--client")], [rT, lag, css("--accent")]]) { const [px, py] = nodeAt(r, om); c.fillStyle = col; c.beginPath(); c.arc(px, py, 5, 0, 7); c.fill(); }
+  // пояс тянет кольцо лечь на экватор: пунктир — как бы оно легло, дуги — путь самой северной и самой южной точки.
+  // Сила там поперёк кольца, к плоскости экватора, но кольцо не ложится, а поворачивается
+  if (pull) { c.save(); c.globalAlpha = pull; ringStroke(c, g, rT, gi, lag / RAD, gcol, 1.6, true, [3, 4]);
+    for (const u of [Math.PI / 2, 3 * Math.PI / 2]) {
+      const pts = []; for (let k = 0; k <= 14; k++) pts.push(scr(g, ringAt(rT, S.inc + flat * 40 * k / 14, lag / RAD, u)));
+      c.strokeStyle = css("--sun"); c.fillStyle = css("--sun"); c.lineWidth = 2.2; c.setLineDash([]); c.beginPath();
+      pts.forEach(([px, py], k) => k ? c.lineTo(px, py) : c.moveTo(px, py)); c.stroke();
+      const [ax, ay] = pts[14], [bx, by] = pts[12], an = Math.atan2(ay - by, ax - bx);
+      c.beginPath(); c.moveTo(ax + 3 * Math.cos(an), ay + 3 * Math.sin(an)); c.lineTo(ax - 8 * Math.cos(an - .5), ay - 8 * Math.sin(an - .5)); c.lineTo(ax - 8 * Math.cos(an + .5), ay - 8 * Math.sin(an + .5)); c.fill();
+    } c.restore(); }
+  c.font = "500 12px Onest, sans-serif"; c.fillStyle = css("--sun"); c.textAlign = "left";
+  c.fillText(pull > .5 ? "утолщение на экваторе тянет кольцо лечь, как пунктир…" : "…но кольцо не ложится, а поворачивается, как волчок", 14, 24);
+  c.fillStyle = css("--ink2"); c.font = "600 12px 'JetBrains Mono', monospace";
+  const dd = (rate(bul.h) - rate(S.h)) * bul.day;
+  c.fillText(`сутки ${Math.round(bul.day)} · набежало ${Math.abs(dd) < .05 ? "0" : (dd < 0 ? "−" : "+") + num(Math.abs(dd), 1)}°`, 14, 44);
+}
+$("#b-h").addEventListener("input", e => { bul.h = +e.target.value; bul.day = reduce ? 180 : 0; bul.t = 0; bulgeRead(); });
+
+// ---------- 05: цена срочности и совет ----------
 function el(tag, a = {}, p, text) { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (text !== undefined) e.textContent = text; if (p) p.appendChild(e); return e; }
 const lin = (d0, d1, r0, r1) => v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
-function step(x) { const p = 10 ** Math.floor(Math.log10(x)), f = x / p; return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p; }
-function ticks(a, b, n) { const s = step((b - a) / n), t = []; for (let v = Math.ceil(a / s) * s; v <= b + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
+function stepOf(x) { const p = 10 ** Math.floor(Math.log10(x)), f = x / p; return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p; }
+function ticks(a, b, n) { const s = stepOf((b - a) / n), t = []; for (let v = Math.ceil(a / s) * s; v <= b + 1e-9; v += s) t.push(+v.toFixed(6)); return t; }
 function chartFrame(box, o) {
   box.innerHTML = "";
   const W2 = box.clientWidth || 700, H2 = o.h, m = { l: 48, r: 12, t: 22, b: 36 };
@@ -523,12 +1103,17 @@ function chartFrame(box, o) {
   return { svg, x, y, W: W2, H: H2, m, tip };
 }
 const tipAt = (f, box, px, py, html) => { const k = box.clientWidth / f.W; f.tip.innerHTML = html; f.tip.style.left = Math.min(Math.max(px * k, 100), box.clientWidth - 100) + "px"; f.tip.style.top = py * k + "px"; f.tip.classList.add("on"); };
+// г ксенона за один день срочности: сколько в среднем добавляет каждый из 30 дней, на которые срок короче dl. Сетка ступенчатая, разность за 5 суток скачет 0 ↔ 28 г.
+const dayCost = (dO, dl) => { const a = dl - 30 >= 30 ? get(dO, dl - 30) : null, b = get(dO, dl); return a && b ? (a.xe - b.xe) / 30 * 1000 : null; };
+// отметка: с этого срока и до 365 суток день срочности везде дешевле 60 г
+function knee(dO) { let k = null; for (const dl of [...D.deadlines].reverse()) { const c = dayCost(dO, dl); if (c === null || c >= 60) break; k = dl; } return k; }
 
 function urgency() {
   const box = $("#ch-urgency"), g = D.grid[String(st.dO)], pts = D.deadlines.map((dl, i) => ({ dl, p: g[i] })), ok = pts.filter(q => q.p);
-  const a = get(st.dO, 180), b = get(st.dO, 90);
-  $("#price-lede").innerHTML = `Сдвиг ${sgn(st.dO)} с орбиты 550 км. ` + (a && b ? `За 180 суток нужно ${num(a.xe)} кг ксенона, за 90 суток уже ${num(b.xe)} кг, в ${num(b.xe / a.xe)} раза больше. ` : "") +
-    `Нажмите на график, чтобы выбрать срок, и запустите миссию заново.`;
+  const a = get(st.dO, 120), b = get(st.dO, 90);
+  $("#price-lede").innerHTML = `Поворот плоскости ${shiftWord(st.dO)} с орбиты 550 км. Чем короче срок, тем дальше от 550 км приходится уходить буксиру и тем дороже путь туда и обратно. Цена дня срочности — сколько ксенона в среднем добавляет каждый день, на который срок короче, если сократить его на месяц. ` +
+    (a && b ? `Клиент требует 90 суток? Если согласится на 120, сэкономит <b>${num(b.xe - a.xe)} кг, ${num((b.xe - a.xe) / S.xe_tank * 100, 0)} % бака</b>. ` : "") +
+    `Нажмите на график, чтобы выбрать срок.`;
   const yMax = Math.max(4, ...ok.map(q => q.p.xe)) * 1.15;
   const f = chartFrame(box, { h: 300, x0: 30, x1: 365, y0: 0, y1: yMax, xt: [30, 60, 90, 180, 270, 365], yt: ticks(0, yMax, 4), fx: t => t, fy: t => num(t, t % 1 ? 1 : 0),
     xl: "срок клиента, сутки", yl: "ксенон, кг", aria: "Расход ксенона в зависимости от срока" });
@@ -538,8 +1123,12 @@ function urgency() {
     el("line", { x1: 0, y1: 0, x2: 0, y2: 7, stroke: "rgba(255,255,255,.10)", "stroke-width": 2.5 }, pat);
     const xe = x(Math.min(first - 2.5, 365));
     el("rect", { x: x(30), y: m.t, width: xe - x(30), height: H2 - m.b - m.t, fill: "url(#hatch)" }, svg);
-    if (xe - x(30) > 60) el("text", { x: (x(30) + xe) / 2, y: m.t + 18, "text-anchor": "middle", class: "lbl" }, svg, "решения не нашли");
+    if (xe - x(30) > 60) el("text", { x: (x(30) + xe) / 2, y: m.t + 18, "text-anchor": "middle", class: "lbl" }, svg, "не успеть");
   }
+  const kn = knee(st.dO);
+  if (kn) { el("rect", { x: x(kn), y: m.t, width: x(365) - x(kn), height: H2 - m.b - m.t, fill: "rgba(255,255,255,.025)" }, svg);
+    el("line", { x1: x(kn), x2: x(kn), y1: m.t, y2: H2 - m.b, stroke: css("--line2") }, svg);
+    el("text", { x: x(kn) + 8, y: m.t + 14, class: "lbl halo" }, svg, f.W < 560 ? `после ${kn} сут день дешевле 60 г` : `после ${kn} сут день срочности дешевле 60 г`); }
   if (ok.length) {
     const dPath = ok.map((q, i) => `${i ? "L" : "M"}${x(q.dl)},${y(q.p.xe)}`).join("");
     const defs = el("defs", {}, svg), gr = el("linearGradient", { id: "ga", x1: 0, x2: 0, y1: 0, y2: 1 }, defs);
@@ -550,55 +1139,134 @@ function urgency() {
   el("line", { x1: x(st.dl), x2: x(st.dl), y1: m.t, y2: H2 - m.b, stroke: css("--ink2"), "stroke-width": 1, "stroke-dasharray": "3 4" }, svg);
   const cur = get(st.dO, st.dl);
   if (cur) { el("circle", { cx: x(st.dl), cy: y(cur.xe), r: 6, fill: css("--accent"), stroke: css("--bg"), "stroke-width": 2 }, svg);
-    el("text", { x: x(st.dl) + 10, y: y(cur.xe) - 10, class: "lbl", style: "font-family:var(--mono);fill:var(--ink)" }, svg, `${st.dl} сут · ${num(cur.xe)} кг`); }
+    const rt = x(st.dl) > f.W - m.r - 130;
+    el("text", { x: x(st.dl) + (rt ? -10 : 10), y: y(cur.xe) - 10, "text-anchor": rt ? "end" : "start", class: "lbl", style: "font-family:var(--mono);fill:var(--ink)" }, svg, `${st.dl} сут · ${num(cur.xe)} кг`); }
   const hx = el("line", { y1: m.t, y2: H2 - m.b, stroke: css("--muted"), opacity: 0 }, svg);
   const hit = el("rect", { x: m.l, y: 0, width: f.W - m.l - m.r, height: H2, fill: "transparent", style: "cursor:pointer" }, svg);
   const near = e => { const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) * f.W / r.width; return Math.min(365, Math.max(30, Math.round((30 + (px - m.l) / (f.W - m.l - m.r) * 335) / 5) * 5)); };
-  hit.addEventListener("pointermove", e => { const dl = near(e), p = get(st.dO, dl); hx.setAttribute("x1", x(dl)); hx.setAttribute("x2", x(dl)); hx.setAttribute("opacity", 1);
-    tipAt(f, box, x(dl), p ? y(p.xe) : y(yMax / 2), p ? `<b>${dl} сут</b> → ${num(p.xe)} кг` : `<b>${dl} сут</b>: решения не нашли`); });
+  hit.addEventListener("pointermove", e => { const dl = near(e), p = get(st.dO, dl), dc = dayCost(st.dO, dl); hx.setAttribute("x1", x(dl)); hx.setAttribute("x2", x(dl)); hx.setAttribute("opacity", 1);
+    tipAt(f, box, x(dl), p ? y(p.xe) : y(yMax / 2), p ? `<b>${dl} сут</b> → ${num(p.xe)} кг${dc !== null ? `<br>день срочности здесь стоит ${num(dc, 0)} г` : ""}` : `<b>${dl} сут</b>: не успеть`); });
   hit.addEventListener("pointerleave", () => { hx.setAttribute("opacity", 0); f.tip.classList.remove("on"); });
   hit.addEventListener("click", e => { st.dl = near(e); update(true); document.querySelector(".instrument").scrollIntoView({ behavior: "smooth", block: "center" }); });
-  $("#tbl-urg").innerHTML = `<table><tr><th>срок, сут</th><th>ксенон, кг</th><th>высота ожидания, км</th><th>полёт, сут</th></tr>` +
-    pts.filter(q => [30, 60, 90, 120, 150, 180, 240, 300, 365].includes(q.dl)).map(q => `<tr><td>${q.dl}</td><td>${q.p ? num(q.p.xe) : "не нашли"}</td><td>${q.p ? q.p.h : ""}</td><td>${q.p ? num(q.p.days, 0) : ""}</td></tr>`).join("") + `</table>`;
+  // совет клиенту
+  const adv = $("#advice"), later = Math.min(365, st.dl + 30), earlier = st.dl - 30, cl = get(st.dO, later), ce = earlier >= 30 ? get(st.dO, earlier) : null, dc = dayCost(st.dO, st.dl);
+  const cell = (big, txt) => `<div><span class="num">${big}</span><p>${txt}</p></div>`, pct = kg => num(kg / S.xe_tank * 100, 0);
+  adv.innerHTML = !cur
+    ? cell(first <= 365 ? first + " сут" : "—", "самый короткий срок, который успевает") + cell(first <= 365 ? num(get(st.dO, first).xe) + " кг" : "—", "ксенона на этот срок") + cell(`${st.dl} сут`, "не успеть ни с одной высотой ожидания")
+    : cell(dc !== null ? `${num(dc, 0)} г` : "—", `ксенона в среднем добавляет каждый день, если срок на месяц короче ${st.dl} сут`) +
+      cell(cl && later > st.dl ? `−${num(cur.xe - cl.xe)} кг` : "—", later > st.dl ? `срок на месяц позже, ${later} сут: ${cl ? pct(cur.xe - cl.xe) : 0} % бака` : "позже срок уже не сдвинуть") +
+      cell(ce ? `+${num(ce.xe - cur.xe)} кг` : "не успеть", earlier >= 30 ? `срок на месяц раньше, ${earlier} сут${ce ? `: ${pct(ce.xe - cur.xe)} % бака` : ""}` : "раньше срок не бывает");
+  $("#tbl-urg").innerHTML = `<table><tr><th>срок, сут</th><th>ксенон, кг</th><th>день срочности, г</th><th>высота ожидания, км</th></tr>` +
+    pts.filter(q => [30, 60, 75, 90, 120, 150, 180, 240, 300, 365].includes(q.dl)).map(q => { const c = dayCost(st.dO, q.dl); return `<tr><td>${q.dl}</td><td>${q.p ? num(q.p.xe) : "не успеть"}</td><td>${c !== null ? num(c, 0) : ""}</td><td>${q.p ? q.p.h : ""}</td></tr>`; }).join("") + `</table>`;
 }
 
+// ---------- 07: группировка БРИКС, вид с севера ----------
+// Плоскость солнечно-синхронной орбиты стоит к Солнцу под постоянным углом. Дневной пролёт над экватором в час t —
+// это направление 180° + (t − 12)·15°: Солнце слева, восток против часовой, как в разделе 02.
+// Пролёт над экватором днём, местное время, CelesTrak на 25–26.10.2026 (work/probe_rssc/RESULT.md). Четвёртое поле — час по проекту.
+const RSSC = [["CBERS-4", "Бразилия и Китай", 9 + 9 / 60, 10.5], ["Gaofen-6", "Китай", 9 + 50 / 60], ["Resourcesat-2", "Индия", 10 + 4 / 60],
+  ["Resourcesat-2A", "Индия", 10 + 28 / 60], ["Ziyuan-3 02", "Китай", 10 + 31 / 60], ["Канопус-В", "Россия", 11 + 9 / 60]];
+const EX = { from: 10.5, to: 12.5 };                  // пример: ракета выпустила на 10:30, клиенту нужно 12:30
+function brics() {
+  // шкала дня: у каждого спутника свой час пролёта над экватором; группировка утром, после полудня пусто
+  const box = $("#ch-brics"); box.innerHTML = "";
+  const W2 = box.clientWidth || 700, short = W2 < 560, H2 = short ? 250 : 300, m = { l: 6, r: 6 };
+  const x = t => m.l + (t - 6) / 12 * (W2 - m.l - m.r), yA = short ? 120 : 170, yB = H2 - 72, yX = H2 - 26;
+  const svg = el("svg", { viewBox: `0 0 ${W2} ${H2}`, height: H2, role: "img", "aria-label": "Шкала местного времени пролёта над экватором: шесть спутников группировки БРИКС пролетают с 09:09 до 11:09, после полудня никого, новый спутник нужно перевести с 10:30 на 12:30, это поворот плоскости на +30°" }, box);
+  // после полудня: пусто
+  el("rect", { x: x(12), y: 26, width: x(18) - x(12), height: yX - 26, fill: "rgba(226,97,31,.08)" }, svg);
+  el("text", { x: x(15), y: short ? 52 : 62, "text-anchor": "middle", class: "lbl", style: "fill:var(--accent2)" }, svg, short ? "после полудня никого" : "после полудня никто не снимает");
+  // Солнце в полдень
+  el("line", { x1: x(12), x2: x(12), y1: 22, y2: yX, stroke: "rgba(255,200,97,.35)", "stroke-dasharray": "3 4" }, svg);
+  el("circle", { cx: x(12), cy: 12, r: 7, fill: css("--sun") }, svg);
+  el("text", { x: x(12) + 12, y: 16, class: "lbl", style: "fill:var(--sun);font-size:11.5px" }, svg, "полдень, Солнце выше всего");
+  // ось времени
+  const ax = el("g", { class: "axis" }, svg);
+  el("line", { x1: x(6), x2: x(18), y1: yX, y2: yX }, ax);
+  for (let t = 6; t <= 18; t++) { el("line", { x1: x(t), x2: x(t), y1: yX, y2: yX + (t % 3 ? 4 : 7) }, ax);
+    if (!(t % 3)) el("text", { x: x(t), y: yX + 20, "text-anchor": t === 6 ? "start" : t === 18 ? "end" : "middle" }, ax, clock(t)); }
+  // группировка: точки на дорожке, подписи лесенкой влево, в пустое утро
+  el("line", { x1: x(6), x2: x(18), y1: yA, y2: yA, stroke: "var(--line2)" }, svg);
+  const sats = [...RSSC].sort((a, b) => a[2] - b[2]);
+  if (short) {
+    el("path", { d: `M${x(sats[0][2])},${yA - 12}V${yA - 18}H${x(sats[5][2])}V${yA - 12}`, fill: "none", stroke: css("--client"), "stroke-width": 1.4 }, svg);
+    el("text", { x: (x(sats[0][2]) + x(sats[5][2])) / 2, y: yA - 26, "text-anchor": "middle", class: "lbl" }, svg, "6 спутников БРИКС");
+  } else sats.forEach(([name, who, h], k) => {
+    const yr = yA - 22 - 17 * k, xl = x(sats[0][2]) - 16;
+    el("path", { d: `M${xl + 4},${yr - 4}H${x(h)}V${yA - 6}`, fill: "none", stroke: "rgba(183,191,202,.35)" }, svg);
+    const t0 = el("text", { x: xl, y: yr, "text-anchor": "end", class: "lbl", style: "font-size:12px" }, svg, `${name} · ${who} · `);
+    el("tspan", { style: "fill:var(--muted);font-family:var(--mono)" }, t0, clock(h));
+  });
+  sats.forEach(([name, who, h]) => { const c0 = el("circle", { cx: x(h), cy: yA, r: 5, fill: css("--client"), stroke: css("--bg"), "stroke-width": 1.5 }, svg); el("title", {}, c0, `${name}, ${who}: ${clock(h)}`); });
+  // новый спутник: куда выпустила ракета и куда нужно
+  el("line", { x1: x(6), x2: x(18), y1: yB, y2: yB, stroke: "var(--line2)" }, svg);
+  const xa = x(EX.from), xb = x(EX.to);
+  el("path", { d: `M${xa + 8},${yB}H${xb - 10}`, stroke: css("--accent"), "stroke-width": 2.4 }, svg);
+  el("path", { d: `M${xb - 2},${yB}L${xb - 12},${yB - 5}L${xb - 12},${yB + 5}Z`, fill: css("--accent") }, svg);
+  el("circle", { cx: xa, cy: yB, r: 6, fill: "#b7bfca", stroke: css("--bg"), "stroke-width": 2 }, svg);
+  el("circle", { cx: xb, cy: yB, r: 6, fill: css("--accent"), stroke: css("--bg"), "stroke-width": 2 }, svg);
+  el("text", { x: (xa + xb) / 2, y: yB - 13, "text-anchor": "middle", class: "halo", style: "fill:var(--accent2);font:700 14px var(--mono)" }, svg, `${sgn((EX.to - EX.from) * 15)}`);
+  el("text", { x: xa - 12, y: yB + 4, "text-anchor": "end", class: "lbl" }, svg, short ? `ракета: ${clock(EX.from)}` : `новый спутник, ракета выпустила: ${clock(EX.from)}`);
+  el("text", { x: xb + 12, y: yB + 4, class: "lbl", style: "fill:var(--accent2)" }, svg, short ? `нужно: ${clock(EX.to)}` : `нужно клиенту: ${clock(EX.to)}`);
+  if (!short) el("text", { x: (xa + xb) / 2, y: yB + 22, "text-anchor": "middle", style: "fill:var(--muted);font-size:11.5px" }, svg, "+2 часа = поворот плоскости на +30°");
+  el("text", { x: x(6), y: yX - 8, style: "fill:var(--muted);font-size:11px" }, svg, "местное время пролёта над экватором");
+  $("#brics-keys").innerHTML = short ? `<span>${sats.map(q => q[0]).join(" · ")}</span>` : "";
+  const d = (EX.to - EX.from) * 15, slow = get(d, 365), fast = get(d, 270);
+  $("#brics-adv").innerHTML =
+    `<div><span class="num">${slow ? num(slow.xe) : "—"} кг</span><p>ксенона, чтобы повернуть плоскость нового спутника на ${sgn(d)} за год</p></div>` +
+    `<div><span class="num">${fast ? num(fast.xe) : "—"} кг</span><p>то же за 9 месяцев: ожиданием не успеть, ${fast ? num(fast.part, 0) : "—"}° доворачивает двигатель, и уходит почти весь бак в ${num(S.xe_tank)} кг</p></div>` +
+    `<div><span class="num">20°</span><p>на столько за годы работы сама ушла плоскость CBERS-4: пролёт сдвинулся с 10:30 на 09:09</p></div>`;
+}
+
+// ---------- 06: OneWeb, расчёт против каталога ----------
 function oneweb() {
-  const box = $("#ch-oneweb"), R = [...D.oneweb].sort((a, b) => a.err - b.err);
-  const f = chartFrame(box, { h: 300, x0: 0, x1: R.length + 1, y0: 0, y1: .34, xt: [1, 18, 36, 54, 72], yt: [0, .1, .2, .3], fx: t => t, fy: t => num(t, t ? 1 : 0) + "°",
-    xl: "72 спутника, по возрастанию ошибки", yl: "ошибка модели", aria: "Ошибка модели для каждого из 72 спутников" });
-  const { svg, x, y, m, W: W2 } = f;
-  el("line", { x1: m.l, x2: W2 - m.r, y1: y(.3), y2: y(.3), stroke: css("--ink2"), "stroke-dasharray": "5 4" }, svg);
-  el("text", { x: m.l + 8, y: y(.3) - 8, class: "lbl" }, svg, "0,3° — ни один спутник не выше");
-  const pts = R.map((r, i) => ({ r, cx: x(i + 1), cy: y(r.err) }));
-  for (const q of pts) el("circle", { cx: q.cx, cy: q.cy, r: 4.5, fill: q.r.launch === "LVM3-M2" ? css("--blue") : css("--accent"), stroke: css("--bg"), "stroke-width": 2 }, svg);
+  const box = $("#ch-oneweb"), R = D.oneweb.map(r => ({ r, x: Math.abs(r.pred), y: Math.abs(r.obs) }));
+  const f = chartFrame(box, { h: 320, x0: 55, x1: 130, y0: 55, y1: 130, xt: [60, 80, 100, 120], yt: [60, 80, 100, 120], fx: t => t + "°", fy: t => t + "°",
+    xl: "посчитала модель, ° на запад", yl: "по каталогу, ° на запад", aria: "Поворот плоскости 72 спутников OneWeb: расчёт модели против каталога" });
+  const { svg, x, y, W: W2 } = f;
+  el("line", { x1: x(55), y1: y(55), x2: x(130), y2: y(130), stroke: css("--ink2"), "stroke-dasharray": "5 4" }, svg);
+  el("text", { x: x(112) - 8, y: y(112) - 16, "text-anchor": "end", class: "lbl halo" }, svg, "расчёт = каталог");
+  const pts = R.map(q => ({ ...q, cx: x(q.x), cy: y(q.y) }));
+  for (const q of pts) el("circle", { cx: q.cx, cy: q.cy, r: 4.5, fill: q.r.launch === "LVM3-M2" ? css("--blue") : css("--accent"), stroke: css("--bg"), "stroke-width": 1.5 }, svg);
+  // группы: спутники одного запуска, которые встали в одну плоскость
+  const groups = {};
+  for (const q of pts) { const k = q.r.launch + Math.round(q.y / 5); (groups[k] = groups[k] || []).push(q); }
+  const sp = n => n % 10 === 1 && n % 100 !== 11 ? "спутник" : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? "спутника" : "спутников";
+  for (const g of Object.values(groups)) {
+    const m2 = g[0].r.launch === "LVM3-M2", gx = g.reduce((s, q) => s + q.cx, 0) / g.length, gy = g.reduce((s, q) => s + q.cy, 0) / g.length;
+    el("text", { x: gx + (m2 ? -12 : 12), y: gy + 4, "text-anchor": m2 ? "end" : "start", class: "lbl halo" }, svg, `${g.length} ${sp(g.length)}`);
+  }
   const ring = el("circle", { r: 9, fill: "none", stroke: css("--ink"), "stroke-width": 1.5, opacity: 0 }, svg);
-  const hit = el("rect", { x: m.l, y: 0, width: W2 - m.l - m.r, height: f.H, fill: "transparent" }, svg);
+  const hit = el("rect", { x: f.m.l, y: 0, width: W2 - f.m.l - f.m.r, height: f.H, fill: "transparent" }, svg);
   hit.addEventListener("pointermove", e => {
     const b = svg.getBoundingClientRect(), px = (e.clientX - b.left) * W2 / b.width, py = (e.clientY - b.top) * f.H / b.height;
     let best = pts[0], dm = 1e9; for (const q of pts) { const dd = (q.cx - px) ** 2 + (q.cy - py) ** 2; if (dd < dm) { dm = dd; best = q; } }
     ring.setAttribute("cx", best.cx); ring.setAttribute("cy", best.cy); ring.setAttribute("opacity", 1); const r = best.r;
-    tipAt(f, box, best.cx, best.cy, `<b>NORAD ${r.norad}</b> · ${r.launch} · ${r.days} сут<br>плоскость ушла на ${num(Math.abs(r.obs), 1)}°, модель ${num(Math.abs(r.pred), 1)}°<br>ошибка ${num(r.err, 2)}°`); });
+    tipAt(f, box, best.cx, best.cy, `<b>NORAD ${r.norad}</b> · ${r.launch} · ${r.days} сут<br>по каталогу ${num(Math.abs(r.obs), 1)}°, модель ${num(Math.abs(r.pred), 1)}°<br>расхождение ${num(r.err, 2)}°`); });
   hit.addEventListener("pointerleave", () => { ring.setAttribute("opacity", 0); f.tip.classList.remove("on"); });
-  $("#tbl-ow").innerHTML = `<table><tr><th>NORAD</th><th>запуск</th><th>сутки</th><th>по каталогу, °</th><th>модель, °</th><th>ошибка, °</th></tr>` +
+  $("#tbl-ow").innerHTML = `<table><tr><th>NORAD</th><th>запуск</th><th>сутки</th><th>по каталогу, °</th><th>модель, °</th><th>расхождение, °</th></tr>` +
     D.oneweb.map(r => `<tr><td>${r.norad}</td><td>${r.launch}</td><td>${r.days}</td><td>${num(r.obs, 2)}</td><td>${num(r.pred, 2)}</td><td>${num(r.err, 3)}</td></tr>`).join("") + `</table>`;
-}
-
-function statics() {
-  const rate = h => { const a = 6378.137 + h, n = Math.sqrt(398600.4418 / a ** 3); return -1.5 * n * 1.08262668e-3 * (6378.137 / a) ** 2 * Math.cos(S.inc * Math.PI / 180) * 86400 * 180 / Math.PI; };
-  const r0 = rate(550), r1 = rate(740);
-  $("#whatif").innerHTML = [550, 640, 740, 1030].map(h => {   // отставание за 180 суток ожидания на высоте h
-    const lag = (r0 - rate(h)) * 180;
-    return `<div class="${h === 740 ? "on" : ""}"><span class="num">${h} км${h === 550 ? ", остаться" : ""}</span><i style="width:${Math.max(1, lag / 40 * 100)}%"></i><b class="num">${num(lag, 0)}°</b></div>`;
-  }).join("");
-  $("#f-r0").textContent = num(r0, 2) + "°"; $("#f-r1").textContent = num(r1, 2) + "°"; $("#f-d").textContent = num(r0 - r1, 2) + "°";
-  $("#f-t").textContent = Math.round(15 / (r0 - r1) / 10) * 10;
   $("#proof-big").textContent = num(Math.max(...D.oneweb.map(r => r.err)), 2) + "°";
 }
 
-resize(); statics(); update(false); oneweb();
-st.t = 0; if (!reduce) { st.playing = true; } syncPlay(); hud();
+// ---------- цикл ----------
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  G.check(); RG.check(); NV.check(); BG.check();
+  spin += dt * .12; uT += dt * 2.2;
+  if (st.playing && P) { st.t = Math.min(1, st.t + dt / 9); if (st.t >= 1) { st.playing = false; syncPlay(); } hud(); }
+  if (!reduce) { bul.t += dt; if (bul.t > 1.5) bul.day += dt * 15; if (bul.day > 365) { bul.day = 0; bul.t = 0; } ring.spin += dt * .25; ring.u += dt * 1.1;
+    ns.t += dt; ns.u += dt * 1.4; if (ns.t > ns.total + 2.5) ns.t = 0; }
+  drawGlobe(); ringDraw(); needDraw(); bulgeDraw();
+  requestAnimationFrame(frame);
+}
+function resizeAll() { G.resize(); RG.resize(); NV.resize(); BG.resize(); }
+$("#brics-ex").addEventListener("toggle", e => { if (e.target.open) brics(); });   // схема в раскрывашке: строить по настоящей ширине
+resizeAll(); bulgeRead(); ringRead(); for (const m of ["net", "junk", "next", "shot"]) needSet(m); update(false); oneweb(); brics(); costChart();
+st.t = 0; if (!reduce) st.playing = true; syncPlay(); hud();
+if (reduce) bul.day = 180;
 requestAnimationFrame(frame);
-let rt; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(() => { resize(); drawTrack(); hud(); urgency(); oneweb(); }, 120); }).observe(document.body);
+let rt; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(() => { resizeAll(); drawTrack(); hud(); urgency(); oneweb(); brics(); costChart(); }, 120); }).observe(document.body);
 })();
 </script>
 </body>
